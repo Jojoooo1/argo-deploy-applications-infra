@@ -15,5 +15,5 @@ resources:
   - ../../../base/applications-infra/redpanda/console/redpanda-console-app.yaml
   - ../../../base/applications-infra/redpanda/operator/redpanda-operator-app.yaml
   - ../../../base/applications-infra/redpanda/crds/redpanda-crds-app.yaml
-  - ../../../base/applications-infra/redpanda/console/redpanda-cluster-app.yaml
+  - ../../../base/applications-infra/redpanda/cluster/redpanda-cluster-app.yaml
 
