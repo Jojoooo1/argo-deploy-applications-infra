@@ -16,10 +16,10 @@ spec:
     repoURL: https://charts.redpanda.com
     targetRevision: 0.3.11
     helm:
-      values: |
-        image:
-          repository: docker.redpanda.com/redpandadata/redpanda-operator
-          tag: v23.2.4
+      # https://github.com/redpanda-data/helm-charts/tree/main/charts/operator
+      parameters:
+        - name: image.tag
+          value: "v23.2.4"
 
   destination:
     server: "https://kubernetes.default.svc"

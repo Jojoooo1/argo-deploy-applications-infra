@@ -6,7 +6,7 @@ spec:
   chartRef: {}
   clusterSpec:
     external:
-      domain: customredpandadomain.local
+      domain: redpanda.local
     statefulset:
       initContainers:
         setDataDirOwnership:
