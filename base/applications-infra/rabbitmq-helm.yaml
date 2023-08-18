@@ -117,13 +117,13 @@ spec:
         - name: ingress.ingressClassName
           value: "nginx"
         - name: ingress.hostname
-          value: "rabbitmq-local.jonathan.com.br"
+          value: "rabbitmq.local.com.br"
         - name: ingress.tls
           value: "true"
         - name: ingress.extraTls[0].secretName
           value: rabbitmq-tls
         - name: ingress.extraTls[0].hosts[0]
-          value: "rabbitmq-local.jonathan.com.br"
+          value: "rabbitmq.local.com.br"
 
   destination:
     server: "https://kubernetes.default.svc"

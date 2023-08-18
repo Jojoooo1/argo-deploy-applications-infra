@@ -110,13 +110,13 @@ spec:
         - name: ingress.ingressClassName
           value: "nginx"
         - name: ingress.hostname
-          value: "identity-local.jonathan.com.br"
+          value: "identity.local.com.br"
         - name: ingress.tls
           value: "true"
         - name: ingress.extraTls[0].secretName
           value: keycloak-tls
         - name: ingress.extraTls[0].hosts[0]
-          value: "identity-local.jonathan.com.br"
+          value: "identity.local.com.br"
 
         ## Plugins ##   
         - name: initContainers

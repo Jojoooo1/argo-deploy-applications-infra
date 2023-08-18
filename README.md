@@ -4,9 +4,9 @@
 
 Available Applications:
 
-- keycloak: <http://identity-local.jonathan.com.br/admin/master/console>
+- keycloak: <http://identity.local.com.br/admin/master/console>
   - username: 'admin', password: 'password'
-- rabbitmq: <http://rabbitmq-local.jonathan.com.br>
+- rabbitmq: <http://rabbitmq.local.com.br>
   - username: 'user', password: 'bitnami'
 
 ## ArgoCD Folders organization

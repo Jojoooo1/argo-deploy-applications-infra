@@ -176,7 +176,7 @@ spec:
             enabled: true
             ingressClassName: "nginx"
             hosts:
-              - argo-local.jonathan.com.br
+              - argo.local.com.br
 
   destination:
     server: "https://kubernetes.default.svc"
