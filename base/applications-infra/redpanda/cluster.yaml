@@ -8,6 +8,6 @@ spec:
     external:
       domain: redpanda.local
     statefulset:
-      initContainers:
+      initContainers: 
         setDataDirOwnership:
           enabled: true
