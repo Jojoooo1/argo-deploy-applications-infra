@@ -8,4 +8,5 @@ resources:
   - ../../../base/applications-infra/ingress-nginx-helm.yaml
   - ../../../base/applications-infra/keycloak-helm.yaml
   - ../../../base/applications-infra/rabbitmq-helm.yaml
+  - ../../../base/applications-infra/strimzi-helm.yaml
 
