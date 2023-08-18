@@ -21,29 +21,35 @@ spec:
     - chart: operator
       repoURL: https://charts.redpanda.com
       targetRevision: 0.3.11
-
+      helm:
+        values: |
+          image:
+            repository: docker.redpanda.com/redpandadata/redpanda-operator
+            tag: v23.2.6
+            
     # https://github.com/redpanda-data/helm-charts/blob/main/charts/console/Chart.yaml
     - chart: console
       repoURL: https://charts.redpanda.com
       targetRevision: 0.6.9
-      values: |
-        console:
-          config:
+      helm:
+        values: |
+          console:
+            config:
+              kafka:
+                brokers:
+                  - redpanda-0.redpanda.svc.cluster.local:9092 
+                clientId: redpanda-console
+                sasl:
+                  enabled: true
+                  mechanism: SCRAM-SHA-256
+                  username: console
+                  # password: set via Helm secret / Env variable
+                tls:
+                  enabled: false
+          secret:
+            create: true
             kafka:
-              brokers:
-                - redpanda-0.redpanda.svc.cluster.local:9092 
-              clientId: redpanda-console
-              sasl:
-                enabled: true
-                mechanism: SCRAM-SHA-256
-                username: console
-                # password: set via Helm secret / Env variable
-              tls:
-                enabled: false
-        secret:
-          create: true
-          kafka:
-            saslPassword: "redacted"
+              saslPassword: "redacted"
 
   destination:
     server: "https://kubernetes.default.svc"
