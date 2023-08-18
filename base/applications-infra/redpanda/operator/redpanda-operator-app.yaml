@@ -14,7 +14,7 @@ spec:
   source:
     chart: operator
     repoURL: https://charts.redpanda.com
-    targetRevision: 0.3.11
+    targetRevision: 0.3.10
 
   destination:
     server: "https://kubernetes.default.svc"
