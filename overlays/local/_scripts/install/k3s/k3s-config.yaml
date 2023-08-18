@@ -1,0 +1,10 @@
+# https://github.com/k3s-io/k3s/issues/3619#issuecomment-878501106
+# Necessary or won't be able to connect with k8s node
+
+kube-controller-manager-arg:
+  - "bind-address=0.0.0.0"
+kube-proxy-arg:
+  - "metrics-bind-address=0.0.0.0"
+kube-scheduler-arg:
+  - "bind-address=0.0.0.0"
+etcd-expose-metrics: true

@@ -1,0 +1,185 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: keycloak
+  namespace: argocd
+
+  # Add this finalizer ONLY if you want these to cascade delete (A cascade delete, deletes both the app and its resources, rather than only the app.)
+  # finalizers:
+  #   - resources-finalizer.argocd.argoproj.io
+  
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      
+  source:
+    chart: keycloak
+    repoURL: "https://charts.bitnami.com/bitnami"
+    targetRevision: 16.0.4
+    helm:
+      parameters:
+        # Warning: does not change resources order list. Resources are being updated in overlays. It will break kustomize patch.
+        ## Resources ##
+        - name: resources.requests.cpu
+          value: "512m"
+        - name: resources.requests.memory
+          value: "3Gi"
+        - name: resources.limits.memory
+          value: "3Gi"
+        # Warning: does not change resources order list. Resources are being updated in overlays. It will break kustomize patch.
+
+        ## Configuration ##
+        - name: extraEnvVars[0].name
+          value: "JAVA_OPTS"
+        # Update default JAVA_OPTS from 22.0.1: https://github.com/keycloak/keycloak/blob/b99eb52cee6b0da081b7a1ba9c562deae55b5da0/quarkus/dist/src/main/content/bin/kc.sh#L90
+        # to use MinRAMPercentage/MaxRAMPercentage instead of Xms/Xmx
+        - name: extraEnvVars[0].value
+          value: "-XX:MinRAMPercentage=60.0 -XX:MaxRAMPercentage=75.0 -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m -Djava.net.preferIPv4Stack=true -Dfile.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -Dsun.err.encoding=UTF-8 -Dstdout.encoding=UTF-8 -Dstderr.encoding=UTF-8 -XX:+ExitOnOutOfMemoryError -Djava.security.egd=file:/dev/urandom -XX:+UseParallelGC -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90"
+        
+        ## Mode ##
+        - name: production
+          value: "true"
+        - name: proxy
+          value: "edge"
+        
+         ## Autoscaling/Replica ##
+        - name: autoscaling.enabled
+          value: "true"
+        - name: autoscaling.minReplicas
+          value: "1"
+        - name: autoscaling.maxReplicas
+          value: "2"
+        - name: autoscaling.targetMemory
+          value: "85"
+        - name: pdb.create
+          value: "true"
+
+        # Monitoring
+        - name: metrics.enabled
+          value: "true"
+        - name: metrics.serviceMonitor.enabled
+          value: "false"
+        - name: metrics.serviceMonitor.namespace
+          value: "keycloak"
+        - name: metrics.serviceMonitor.labels.release # in new version it is called labels
+          value: "observability-kube-prometheus"
+        - name: metrics.serviceMonitor.endpoints[0].path
+          value: "/metrics"
+        - name: metrics.serviceMonitor.endpoints[1].path
+          value: "/realms/master/metrics"
+
+        ## Credentials ##
+        - name: auth.adminUser
+          value: "admin"
+        - name: auth.existingSecret
+          value: "keycloak-secrets"
+        - name: extraEnvVarsSecret
+          value: "keycloak-secrets"
+
+        - name: extraDeploy[0]
+          forceString: false # mandatory for being able to use array as name
+          value: |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: keycloak-secrets
+              namespace: keycloak
+            stringData:
+              admin-password: password              
+
+        ## Database ##
+        - name: postgresql.image.tag
+          value: "15.4.0-debian-11-r5"
+        - name: postgresql.auth.username
+          value: "jonathan"
+        - name: postgresql.auth.password
+          value: "password"
+        - name: postgresql.auth.database
+          value: "keycloak"
+        - name: postgresql.auth.postgresPassword
+          value: "password"
+
+        ## Network ##
+        - name: service.type
+          value: "ClusterIP"
+        - name: ingress.enabled
+          value: "true"
+        - name: ingress.ingressClassName
+          value: "nginx"
+        - name: ingress.hostname
+          value: "identity-local.jonathan.com.br"
+        - name: ingress.tls
+          value: "true"
+        - name: ingress.extraTls[0].secretName
+          value: keycloak-tls
+        - name: ingress.extraTls[0].hosts[0]
+          value: "identity-local.jonathan.com.br"
+
+        ## Plugins ##   
+        - name: initContainers
+          value: |
+            - name: download-kc-plugins
+              image: alpine:3.18.3
+              command:
+                - sh
+              args:
+                - -c
+                - |
+                  wget https://github.com/aerogear/keycloak-metrics-spi/releases/download/4.0.0/keycloak-metrics-spi-4.0.0.jar -O /providers/keycloak-metrics-spi.jar
+                  chmod +x /providers/keycloak-metrics-spi.jar
+                  touch /providers/keycloak-metrics-spi.jar.dodeploy
+
+              volumeMounts:
+                - name: providers
+                  mountPath: /providers
+
+        - name: extraVolumeMounts
+          value: |
+            - name: providers
+              mountPath: /opt/bitnami/keycloak/providers
+
+        - name: extraVolumes
+          value: |
+            - name: providers
+              emptyDir: {}
+
+
+      values: |
+        # serviceAccount:
+        #   annotations: 
+        #     iam.gke.io/gcp-service-account: postgres-client@${ARGOCD_ENV_PROJECT}.iam.gserviceaccount.com
+        metrics:
+          serviceMonitor:
+            # used for keycloak grafana dashboard.
+            relabelings:
+              - sourceLabels: [__meta_kubernetes_pod_container_name]
+                targetLabel: job
+        ingress:
+          annotations:
+            nginx.ingress.kubernetes.io/proxy-buffer-size: "128k" # A common issue with Keycloak and nginx is that the proxy buffer may be too small for what Keycloak is trying to send. This will result in a Bad Gateway (502) error.
+            nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+            nginx.ingress.kubernetes.io/server-snippet: |
+              # Restrict Index
+              location = "/" {
+                deny all;
+                return 404;
+              }
+
+              # Restrict Metrics API
+              location /metrics {
+                  return 403;
+              }
+
+              # Restrict Admin console
+              # location /admin {
+              #   deny all;
+              #   return 403;
+              # }
+
+
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: keycloak

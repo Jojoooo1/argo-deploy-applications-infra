@@ -1,0 +1,50 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-image-updater
+  namespace: argocd
+
+  # Add this finalizer ONLY if you want these to cascade delete (A cascade delete, deletes both the app and its resources, rather than only the app.)
+  # finalizers:
+  #   - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+
+  source:
+    chart: argocd-image-updater
+    repoURL: https://argoproj.github.io/argo-helm
+    targetRevision: 0.9.1
+    helm:
+      values: |
+        resources:
+          requests:
+            cpu: 175m
+            memory: 128Mi
+          limits:
+            cpu: 175m
+            memory: 128Mi
+
+        # config:
+        #   registries:
+        #     - name: Google Container Registry
+        #       api_url: https://gcr.io
+        #       ping: no
+        #       prefix: gcr.io
+        #       credentials: pullsecret:argocd/gcr-creds-secrets
+              
+        #     - name: Google Artifact Registry
+        #       api_url: https://us-docker.pkg.dev
+        #       ping: no
+        #       prefix: us-docker.pkg.dev
+        #       credentials: pullsecret:argocd/gcr-creds-secrets
+
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: argocd
+
+

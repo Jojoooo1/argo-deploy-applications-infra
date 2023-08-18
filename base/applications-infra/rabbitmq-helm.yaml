@@ -1,0 +1,130 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rabbitmq
+  namespace: argocd
+
+  # Add this finalizer ONLY if you want these to cascade delete (A cascade delete, deletes both the app and its resources, rather than only the app.)
+  # finalizers:
+  #   - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+
+  source:
+    chart: rabbitmq
+    repoURL: "https://charts.bitnami.com/bitnami"
+    targetRevision: 12.0.10
+    helm:
+      parameters:
+        # Warning: does not change resources order list. Resources are being updated in overlays. It will break kustomize patch.
+        ## Resources ##
+        - name: resources.requests.memory
+          value: "1Gi"
+        - name: resources.limits.memory
+          value: "1Gi"
+        - name: resources.requests.cpu
+          value: "650m"
+        # Warning: does not change resources order list. Resources are being updated in overlays. It will break kustomize patch.
+
+        ## Replica ##
+        - name: replicaCount
+          value: "1"
+        - name: pdb.create
+          value: "true"
+        - name: pdb.minAvailable
+          value: "1"
+
+        ## Clustering ##
+        - name: clustering.rebalance
+          value: "true"
+
+        ## Persistence ##
+        # - name: persistence.storageClass
+        #   value: "standard-rwo"
+        - name: persistence.size
+          value: "10Gi"
+
+        ## Auth ##
+        - name: auth.existingPasswordSecret # rabbitmq-password
+          value: "rabbitmq-secrets"
+        - name: auth.existingErlangSecret # rabbitmq-erlang-cookie
+          value: "rabbitmq-secrets"
+
+        ## Configuration ##
+        - name: communityPlugins
+          value: "https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases/download/v3.12.0/rabbitmq_delayed_message_exchange-3.12.0.ez"
+        - name: extraPlugins
+          value: "rabbitmq_delayed_message_exchange"
+        - name: loadDefinition.enabled
+          value: "true"
+        - name: loadDefinition.existingSecret
+          value: "rabbitmq-load-definition"
+
+        - name: extraConfiguration
+          value: |
+            # Warning: recommended th at the RabbitMQ node is allocated AT LEAST 3 times the memory of the default WAL file size limit.
+            # Flush current WAL file to a segment file on disk once it reaches 64 MiB in size
+            raft.wal_max_size_bytes = 64000000 
+            load_definitions = /app/load_definition.json
+
+        ## Metrics ##
+        - name: metrics.enabled
+          value: "true"
+
+        - name: metrics.serviceMonitor.enabled
+          value: "false"
+        - name: metrics.serviceMonitor.namespace
+          value: "messaging"
+        - name: metrics.serviceMonitor.labels.release
+          value: "observability-kube-prometheus"
+
+        - name: metrics.prometheusRule.enabled
+          value: "false"
+        - name: metrics.prometheusRule.namespace
+          value: "messaging"
+        - name: metrics.prometheusRule.additionalLabels.release
+          value: "observability-kube-prometheus"
+
+        - name: extraDeploy[0]
+          value: |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: rabbitmq-load-definition
+              namespace: rabbitmq
+            data:
+              load_definition.json: ewogICJyYWJiaXRfdmVyc2lvbiI6ICIzLjEyLjIiLAogICJyYWJiaXRtcV92ZXJzaW9uIjogIjMuMTIuMiIsCiAgInByb2R1Y3RfbmFtZSI6ICJSYWJiaXRNUSIsCiAgInByb2R1Y3RfdmVyc2lvbiI6ICIzLjEyLjIiLAogICJ1c2VycyI6IFsKICAgIHsKICAgICAgIm5hbWUiOiAidXNlciIsCiAgICAgICJwYXNzd29yZF9oYXNoIjogInErNjlkMlhhc1lEL1ZMTVR2Q05NSVE5d1dKSEU2U3k0RWRVbWR6ZGwrR28zcFp0dSIsCiAgICAgICJoYXNoaW5nX2FsZ29yaXRobSI6ICJyYWJiaXRfcGFzc3dvcmRfaGFzaGluZ19zaGEyNTYiLAogICAgICAidGFncyI6IFsKICAgICAgICAiYWRtaW5pc3RyYXRvciIKICAgICAgXSwKICAgICAgImxpbWl0cyI6IHt9CiAgICB9CiAgXSwKICAidmhvc3RzIjogWwogICAgewogICAgICAibmFtZSI6ICIvIgogICAgfQogIF0sCiAgInBlcm1pc3Npb25zIjogWwogICAgewogICAgICAidXNlciI6ICJ1c2VyIiwKICAgICAgInZob3N0IjogIi8iLAogICAgICAiY29uZmlndXJlIjogIi4qIiwKICAgICAgIndyaXRlIjogIi4qIiwKICAgICAgInJlYWQiOiAiLioiCiAgICB9CiAgXSwKICAidG9waWNfcGVybWlzc2lvbnMiOiBbXSwKICAicGFyYW1ldGVycyI6IFtdLAogICJnbG9iYWxfcGFyYW1ldGVycyI6IFsKICAgIHsKICAgICAgIm5hbWUiOiAiaW50ZXJuYWxfY2x1c3Rlcl9pZCIsCiAgICAgICJ2YWx1ZSI6ICJyYWJiaXRtcS1jbHVzdGVyLWlkLTdSSzRBUW0yNmEydERFMk5GaDJ6ZHciCiAgICB9CiAgXSwKICAicG9saWNpZXMiOiBbXSwKICAicXVldWVzIjogWwogICAgewogICAgICAibmFtZSI6ICJ3ZWJob29rX3F1ZXVlIiwKICAgICAgInZob3N0IjogIi8iLAogICAgICAiZHVyYWJsZSI6IHRydWUsCiAgICAgICJhdXRvX2RlbGV0ZSI6IGZhbHNlLAogICAgICAiYXJndW1lbnRzIjogewogICAgICAgICJ4LW1heC1sZW5ndGgiOiAxMDAwMDAsCiAgICAgICAgIngtb3ZlcmZsb3ciOiAicmVqZWN0LXB1Ymxpc2giLAogICAgICAgICJ4LXF1ZXVlLXR5cGUiOiAicXVvcnVtIgogICAgICB9CiAgICB9CiAgXSwKICAiZXhjaGFuZ2VzIjogWwogICAgewogICAgICAibmFtZSI6ICJ3ZWJob29rIiwKICAgICAgInZob3N0IjogIi8iLAogICAgICAidHlwZSI6ICJ4LWRlbGF5ZWQtbWVzc2FnZSIsCiAgICAgICJkdXJhYmxlIjogdHJ1ZSwKICAgICAgImF1dG9fZGVsZXRlIjogZmFsc2UsCiAgICAgICJpbnRlcm5hbCI6IGZhbHNlLAogICAgICAiYXJndW1lbnRzIjogewogICAgICAgICJ4LWRlbGF5ZWQtdHlwZSI6ICJkaXJlY3QiCiAgICAgIH0KICAgIH0KICBdLAogICJiaW5kaW5ncyI6IFsKICAgIHsKICAgICAgInNvdXJjZSI6ICJ3ZWJob29rIiwKICAgICAgInZob3N0IjogIi8iLAogICAgICAiZGVzdGluYXRpb24iOiAid2ViaG9va19xdWV1ZSIsCiAgICAgICJkZXN0aW5hdGlvbl90eXBlIjogInF1ZXVlIiwKICAgICAgInJvdXRpbmdfa2V5IjogIndlYmhvb2tfZXh0ZXJuYWxfYXBpIiwKICAgICAgImFyZ3VtZW50cyI6IHt9CiAgICB9CiAgXQp9
+
+        - name: extraDeploy[1]
+          value: |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: rabbitmq-secrets
+              namespace: rabbitmq
+            data:
+              rabbitmq-password: Yml0bmFtaQ==
+              rabbitmq-erlang-cookie: SUhCVlhUSUZKSklBWFBJRVVCVkQ=
+
+        ## Network ##
+        - name: ingress.enabled
+          value: "true"
+        - name: ingress.ingressClassName
+          value: "nginx"
+        - name: ingress.hostname
+          value: "rabbitmq-local.jonathan.com.br"
+        - name: ingress.tls
+          value: "true"
+        - name: ingress.extraTls[0].secretName
+          value: rabbitmq-tls
+        - name: ingress.extraTls[0].hosts[0]
+          value: "rabbitmq-local.jonathan.com.br"
+
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: rabbitmq

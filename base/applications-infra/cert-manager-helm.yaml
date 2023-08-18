@@ -1,0 +1,55 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+  namespace: argocd
+
+  # Add this finalizer ONLY if you want these to cascade delete (A cascade delete, deletes both the app and its resources, rather than only the app.)
+  # finalizers:
+  #   - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+  source:
+    chart: cert-manager
+    repoURL: https://charts.jetstack.io
+    targetRevision: v1.12.3
+    helm:
+      parameters:
+        - name: installCRDs
+          value: "true"
+
+        - name: resources.requests.memory
+          value: "200Mi"
+        - name: resources.limits.memory
+          value: "200Mi"
+        - name: resources.requests.cpu
+          value: "75m"
+        - name: resources.limits.cpu
+          value: "75m"
+
+        - name: prometheus.servicemonitor.enabled
+          value: "false"
+        - name: prometheus.servicemonitor.labels.release
+          value: "observability-kube-prometheus"
+
+        - name: extraArgs[0]
+          value: "--logging-format=json"
+        - name: webhook.extraArgs[0]
+          value: "--logging-format=json"
+        - name: cainjector.extraArgs[0]
+          value: "--logging-format=json"
+
+        - name: podDisruptionBudget.enabled
+          value: "true"
+
+
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: cert-manager
+
+

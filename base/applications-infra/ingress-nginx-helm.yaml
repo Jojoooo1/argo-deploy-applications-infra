@@ -1,0 +1,112 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ingress-nginx
+  namespace: argocd
+
+  # Add this finalizer ONLY if you want these to cascade delete (A cascade delete, deletes both the app and its resources, rather than only the app.)
+  # finalizers:
+  #   - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      
+  source:
+    chart: ingress-nginx
+    repoURL: "https://kubernetes.github.io/ingress-nginx"
+    targetRevision: 4.7.1
+    helm:
+      # https://github.com/kubernetes/ingress-nginx/blob/main/charts/ingress-nginx/values.yaml
+      parameters:
+        # Warning: does not change resources order list. Resources are being updated in overlays. It will break kustomize patch.
+        ## Resources ##
+        - name: controller.resources.requests.memory
+          value: "650Mi"
+        - name: controller.resources.limits.memory
+          value: "650Mi"
+        - name: controller.resources.requests.cpu
+          value: "250m"
+        ## Replica ##
+        - name: controller.autoscaling.enabled
+          value: "true"
+        - name: controller.autoscaling.minReplicas
+          value: "2"
+        - name: controller.autoscaling.maxReplicas
+          value: "6"
+        # Warning: does not change resources order list. Resources are being updated in overlays. It will break kustomize patch.
+        
+        ## Monitoring ##
+        - name: controller.metrics.enabled
+          value: "true"
+        - name: controller.metrics.serviceMonitor.enabled
+          value: "false"
+        - name: controller.metrics.serviceMonitor.namespace
+          value: "ingress-nginx"
+        - name: controller.metrics.serviceMonitor.namespaceSelector.matchNames[0]
+          value: "ingress-nginx"
+        - name: controller.metrics.serviceMonitor.additionalLabels.release
+          value: "observability-kube-prometheus"
+
+        ## Alerting ##
+        - name: controller.metrics.prometheusRule.enabled
+          value: "false"
+        - name: controller.metrics.prometheusRule.namespace
+          value: "ingress-nginx"
+        - name: controller.metrics.prometheusRule.additionalLabels.release
+          value: "observability-kube-prometheus"
+
+        # Preserve source IP -> allow to whitelist
+        - name: controller.service.externalTrafficPolicy
+          value: "Local"
+
+      values: |
+        controller:
+          extraEnvs:
+            - name: TZ
+              value: America/Sao_Paulo
+          config:
+            # https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/log-format/
+            log-format-escape-json: "true"
+            log-format-upstream: '{"@timestamp":"$time_iso8601","request_id":"$req_id","service_name":"$service_name","status":"$status","duration":"$request_time","method":"$request_method","host":"$host","path":"$uri","request_query":"$args","request_length":"$request_length","bytes_sent":"$bytes_sent","http_version":"$server_protocol","http_referrer":"$http_referer","http_user_agent":"$http_user_agent","remote_addr":"$proxy_protocol_addr","remote_user":"$remote_user","x_forwarded_for":"$proxy_add_x_forwarded_for"}'            
+          metrics:
+            prometheusRule:
+              rules: 
+                - alert: NginxHighHttp5xxErrorRate
+                  expr: sum by(ingress, exported_service) (rate(nginx_ingress_controller_requests{status=~"^5.."}[5m])) / sum by(ingress, exported_service) (rate(nginx_ingress_controller_requests[5m])) * 100 > 5
+                  for: 1m
+                  labels:
+                    severity: critical
+                  annotations:
+                    summary: "Nginx high HTTP 5xx error rate"
+                    description: "Too many HTTP requests with status 5xx (> 5%) for ingress '{{ $labels.ingress }}'"
+
+                - alert: NginxLatencyHigh
+                  expr: histogram_quantile(0.99, sum(rate(nginx_ingress_controller_request_duration_seconds_bucket[2m])) by (host, instance)) > 3
+                  for: 2m
+                  labels:
+                    severity: warning
+                  annotations:
+                    summary: "Nginx latency high"
+                    description: "Nginx p99 latency is higher than 3 seconds"
+
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ingress-nginx
+
+  ignoreDifferences:
+    - kind: Service
+      name: ingress-nginx-controller
+      namespace: ingress-nginx
+      jsonPointers:
+        - /spec/ipFamilies
+        - /spec/ipFamilyPolicy
+        
+    # https://github.com/argoproj/argo-cd/issues/1079
+    - group: autoscaling
+      kind: HorizontalPodAutoscaler
+      jqPathExpressions:
+        - .spec.metrics[].resource.name | select((. == "cpu") or (. == "memory"))
