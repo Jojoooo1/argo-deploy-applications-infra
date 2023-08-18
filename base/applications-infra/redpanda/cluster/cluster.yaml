@@ -1,3 +1,5 @@
+# https://docs.redpanda.com/docs/reference/crd/#redpanda
+
 apiVersion: cluster.redpanda.com/v1alpha1
 kind: Redpanda
 metadata:
