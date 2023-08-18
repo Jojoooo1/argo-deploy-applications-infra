@@ -17,7 +17,6 @@ spec:
     targetRevision: 0.3.11
     helm:
       values: |
-        fullnameOverride: redpanda-controller
         image:
           repository: docker.redpanda.com/redpandadata/redpanda-operator
           tag: v23.2.4
