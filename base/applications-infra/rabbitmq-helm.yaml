@@ -79,14 +79,14 @@ spec:
         - name: metrics.serviceMonitor.enabled
           value: "true"
         - name: metrics.serviceMonitor.namespace
-          value: "messaging"
+          value: "rabbitmq"
         - name: metrics.serviceMonitor.labels.release
           value: "observability-kube-prometheus"
 
         - name: metrics.prometheusRule.enabled
           value: "true"
         - name: metrics.prometheusRule.namespace
-          value: "messaging"
+          value: "rabbitmq"
         - name: metrics.prometheusRule.additionalLabels.release
           value: "observability-kube-prometheus"
 
