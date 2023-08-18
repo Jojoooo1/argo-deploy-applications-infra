@@ -18,7 +18,7 @@ spec:
   source:
     chart: rabbitmq
     repoURL: "https://charts.bitnami.com/bitnami"
-    targetRevision: 12.0.4 # 12.0.12
+    targetRevision: 12.0.12 # 12.0.4
     helm:
       parameters:
         # Warning: does not change resources order list. Resources are being updated in overlays. It will break kustomize patch.
