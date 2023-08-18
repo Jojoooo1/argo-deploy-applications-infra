@@ -21,7 +21,11 @@ spec:
     - chart: operator
       repoURL: https://charts.redpanda.com
       targetRevision: 0.3.11
-
+      values: |
+        image:
+          repository: docker.redpanda.com/redpandadata/redpanda-operator
+          tag: v23.2.6
+          
     # https://github.com/redpanda-data/helm-charts/blob/main/charts/console/Chart.yaml
     - chart: console
       repoURL: https://charts.redpanda.com
