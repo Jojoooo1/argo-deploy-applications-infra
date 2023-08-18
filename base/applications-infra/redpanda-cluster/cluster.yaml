@@ -4,11 +4,6 @@ metadata:
   name: redpanda-cluster
   namespace: redpanda
 spec:
-  chartRef: {}
   clusterSpec:
     external:
       domain: redpanda.local
-    statefulset:
-      initContainers: 
-        setDataDirOwnership:
-          enabled: true
