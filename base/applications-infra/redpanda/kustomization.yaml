@@ -3,4 +3,3 @@ kind: Kustomization
 
 resources:
   - https://github.com/redpanda-data/redpanda//src/go/k8s/config/crd?ref=v23.2.6
-  - cluster.yaml

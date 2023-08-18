@@ -13,4 +13,5 @@ resources:
 
   # kustomization
   - ../../../base/applications-infra/redpanda/redpanda-app.yaml
+  - ../../../base/applications-infra/redpanda-cluster/redpanda-app.yaml
 
