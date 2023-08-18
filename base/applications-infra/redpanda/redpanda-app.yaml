@@ -23,10 +23,11 @@ spec:
       targetRevision: 0.3.11
       helm:
         values: |
+          fullnameOverride: redpanda-controller
           image:
             repository: docker.redpanda.com/redpandadata/redpanda-operator
             tag: v23.2.6
-            
+
     # https://github.com/redpanda-data/helm-charts/blob/main/charts/console/Chart.yaml
     - chart: console
       repoURL: https://charts.redpanda.com
