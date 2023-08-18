@@ -11,10 +11,10 @@ spec:
       - CreateNamespace=true
       - PrunePropagationPolicy=foreground
 
-  sources:
-    - repoURL: https://github.com/Jojoooo1/argo-deploy-applications-infra.git
-      targetRevision: main
-      path: overlays/local/applications-infra/redpanda-cluster
+  source:
+    repoURL: https://github.com/Jojoooo1/argo-deploy-applications-infra.git
+    targetRevision: main
+    path: overlays/local/applications-infra/redpanda-cluster
     
   destination:
     server: "https://kubernetes.default.svc"

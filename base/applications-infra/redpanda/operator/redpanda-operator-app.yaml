@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: redpanda-controller
+  namespace: argocd
+
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+
+  source:
+    chart: operator
+    repoURL: https://charts.redpanda.com
+    targetRevision: 0.3.11
+    helm:
+      values: |
+        fullnameOverride: redpanda-controller
+        image:
+          repository: docker.redpanda.com/redpandadata/redpanda-operator
+          tag: v23.2.4
+
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: redpanda
