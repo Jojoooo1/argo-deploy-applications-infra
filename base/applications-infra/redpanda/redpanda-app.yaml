@@ -12,19 +12,38 @@ spec:
       - PrunePropagationPolicy=foreground
 
   sources:
-    # Redpanda CRDs operator
+    # Redpanda CRDs operator and cluster
     - repoURL: https://github.com/Jojoooo1/argo-deploy-applications-infra.git
       targetRevision: main
       path: overlays/local/applications-infra/redpanda
-      
+    
+    # https://github.com/redpanda-data/helm-charts/tree/main/charts/operator
     - chart: operator
       repoURL: https://charts.redpanda.com
       targetRevision: 0.3.11
-  
+
+    # https://github.com/redpanda-data/helm-charts/blob/main/charts/console/Chart.yaml
     - chart: console
       repoURL: https://charts.redpanda.com
       targetRevision: 0.6.9
-
+      values: |
+        console:
+          config:
+            kafka:
+              brokers:
+                - redpanda-0.redpanda.svc.cluster.local:9092 
+              clientId: redpanda-console
+              sasl:
+                enabled: true
+                mechanism: SCRAM-SHA-256
+                username: console
+                # password: set via Helm secret / Env variable
+              tls:
+                enabled: false
+        secret:
+          create: true
+          kafka:
+            saslPassword: "redacted"
 
   destination:
     server: "https://kubernetes.default.svc"
