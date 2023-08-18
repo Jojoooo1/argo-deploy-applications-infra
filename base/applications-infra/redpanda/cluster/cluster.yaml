@@ -8,7 +8,7 @@ metadata:
 spec:
   chartRef:
     chartName: redpanda
-    chartVersion: latest
+    chartVersion: ">5.0.0"
   clusterSpec:
     external:
       domain: redpanda.local
