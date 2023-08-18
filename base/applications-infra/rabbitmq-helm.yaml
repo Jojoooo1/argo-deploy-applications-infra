@@ -124,7 +124,31 @@ spec:
           value: rabbitmq-tls
         - name: ingress.extraTls[0].hosts[0]
           value: "rabbitmq.local.com.br"
-
+  
+      values: |
+        # Prevent HIGH CPU usage on idle cluster
+        customLivenessProbe:
+          exec:
+            command:
+              - sh
+              - -ec
+              - curl -f --user user:$RABBITMQ_PASSWORD 127.0.0.1:15672/api/health/checks/virtual-hosts
+          failureThreshold: 6
+          initialDelaySeconds: 120
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 20
+        customReadinessProbe:
+          exec:
+            command:
+              - sh
+              - -ec
+              - curl -f --user user:$RABBITMQ_PASSWORD 127.0.0.1:15672/api/health/checks/local-alarms
+          failureThreshold: 3
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 20
   destination:
     server: "https://kubernetes.default.svc"
     namespace: rabbitmq
