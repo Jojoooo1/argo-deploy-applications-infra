@@ -12,11 +12,14 @@ spec:
       - PrunePropagationPolicy=foreground
 
   source:
-    chart: operator
+    chart: redpanda/operator
     repoURL: https://charts.redpanda.com
     targetRevision: 0.3.11
-    # https://github.com/redpanda-data/helm-charts/tree/main/charts/operator
-
+    helm:
+      # https://github.com/redpanda-data/helm-charts/tree/main/charts/operator
+      parameters:
+        - name: scope
+          value: "Cluster"
 
   destination:
     server: "https://kubernetes.default.svc"
