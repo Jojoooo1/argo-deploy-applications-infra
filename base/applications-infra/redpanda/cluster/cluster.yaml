@@ -6,7 +6,9 @@ metadata:
   name: redpanda
   namespace: redpanda
 spec:
-  chartRef: {}
+  chartRef:
+    chartName: redpanda
+    chartVersion: v23.2.5
   clusterSpec:
     external:
       domain: redpanda.local
