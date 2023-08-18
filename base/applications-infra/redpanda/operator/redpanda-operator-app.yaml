@@ -12,7 +12,7 @@ spec:
       - PrunePropagationPolicy=foreground
 
   source:
-    chart: redpanda/operator
+    chart: operator
     repoURL: https://charts.redpanda.com
     targetRevision: 0.3.11
     helm:
