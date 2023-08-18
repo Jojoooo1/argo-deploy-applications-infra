@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: redpanda-operator
+  namespace: argocd
+
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+
+  source:
+    # https://github.com/redpanda-data/helm-charts/tree/main/charts/operator
+    chart: operator
+    repoURL: https://charts.redpanda.com
+    targetRevision: 0.3.11
+    values: |
+      image:
+        repository: docker.redpanda.com/redpandadata/redpanda-operator
+        tag: v23.2.6
+
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: redpanda

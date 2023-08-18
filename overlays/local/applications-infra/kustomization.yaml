@@ -12,5 +12,7 @@ resources:
   - ../../../base/applications-infra/strimzi-helm.yaml
 
   # kustomization
-  - ../../../base/applications-infra/redpanda/redpanda-app.yaml
+  - ../../../base/applications-infra/redpanda/redpanda-console-app.yaml
+  - ../../../base/applications-infra/redpanda/redpanda-crds-app.yaml
+  - ../../../base/applications-infra/redpanda/redpanda-operator-app.yaml
 

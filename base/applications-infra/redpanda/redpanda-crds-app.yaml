@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: redpanda-crds
+  namespace: argocd
+
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+
+  source:
+    repoURL: https://github.com/Jojoooo1/argo-deploy-applications-infra.git
+    targetRevision: main
+    path: overlays/local/applications-infra/redpanda
+    
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: redpanda

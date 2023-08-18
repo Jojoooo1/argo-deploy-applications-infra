@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: redpanda-console
+  namespace: argocd
+
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+
+  source:  
+    # https://github.com/redpanda-data/helm-charts/blob/main/charts/console/Chart.yaml
+    chart: console
+    repoURL: https://charts.redpanda.com
+    targetRevision: 0.6.9
+    values: |
+      console:
+        config:
+          kafka:
+            brokers:
+              - redpanda-0.redpanda.svc.cluster.local:9092 
+            clientId: redpanda-console
+            sasl:
+              enabled: true
+              mechanism: SCRAM-SHA-256
+              username: console
+              # password: set via Helm secret / Env variable
+            tls:
+              enabled: false
+      secret:
+        create: true
+        kafka:
+          saslPassword: "redacted"
+
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: redpanda
