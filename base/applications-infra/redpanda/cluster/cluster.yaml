@@ -10,7 +10,6 @@ spec:
     timeout: 1m0s
   
   clusterSpec:
-    replica: 1
     external:
       domain: redpanda.local
     statefulset:
