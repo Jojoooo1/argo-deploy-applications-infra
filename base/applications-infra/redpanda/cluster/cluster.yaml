@@ -7,7 +7,7 @@ metadata:
   namespace: redpanda
 spec:
   chartRef:
-    timeout: 60
+    timeout: 1m0s
   clusterSpec:
     external:
       domain: redpanda.local
