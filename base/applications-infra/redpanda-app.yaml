@@ -21,7 +21,7 @@ spec:
           console:
             enabled: true
             configmap:
-              create: true
+              create: false
           statefulset:
             replicas: 1
           # auth:
