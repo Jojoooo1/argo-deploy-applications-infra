@@ -59,19 +59,19 @@ spec:
                   enabled: true
                   mechanism: SCRAM-SHA-256
                   username: admin
-                  password: password
+                  # password: password
                 tls:
                   enabled: false
-                schemaRegistry:
-                  enabled: true
-                  tls:
-                   enabled: false
-                  urls:
-                    - http://redpanda-0.redpanda.redpanda.svc.cluster.local.:8081
-          # secret:
-          #   create: true
-          #   kafka:
-          #     saslPassword: "password"
+                # schemaRegistry:
+                #   enabled: true
+                #   tls:
+                #    enabled: false
+                #   urls:
+                #     - http://redpanda-0.redpanda.redpanda.svc.cluster.local.:8081
+          secret:
+            create: true
+            kafka:
+              saslPassword: "password"
 
   ignoreDifferences:
     - group: cert-manager.io
