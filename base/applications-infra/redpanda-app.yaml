@@ -65,6 +65,7 @@ spec:
                   enabled: true
                   mechanism: SCRAM-SHA-256
                   username: console
+                  password: password
                 tls:
                   enabled: false
                 schemaRegistry:
@@ -73,10 +74,10 @@ spec:
                    enabled: false
                   urls:
                     - https://redpanda-0.redpanda.redpanda.svc.cluster.local.:8081
-          secret:
-            create: true
-            kafka:
-              saslPassword: "change-me"
+          # secret:
+          #   create: true
+          #   kafka:
+          #     saslPassword: "password"
 
   ignoreDifferences:
     - group: cert-manager.io
