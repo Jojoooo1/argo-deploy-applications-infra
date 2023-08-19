@@ -37,7 +37,13 @@ spec:
       kind: Certificate
       namespace: redpanda
       name: redpanda-default-cert
-
+      jsonPointers:
+        - /spec/duration
+        - /spec/isCA
+    - group: cert-manager.io
+      kind: Certificate
+      namespace: redpanda
+      name: redpanda-external-cert
       jsonPointers:
         - /spec/duration
         - /spec/isCA
