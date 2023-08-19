@@ -22,7 +22,7 @@ spec:
           configmap:
             create: true
           secret:
-            create: true
+            create: false
           deployment:
             create: true
         statefulset:
