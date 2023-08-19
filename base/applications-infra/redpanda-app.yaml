@@ -120,10 +120,6 @@ spec:
           - name: REDPANDA_ADMINAPI_URLS
             value: 'https://redpanda.redpanda.svc.cluster.local.:9644'
 
-
-
-
-
   ignoreDifferences:
     - group: cert-manager.io
       kind: Certificate
