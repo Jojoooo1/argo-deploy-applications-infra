@@ -19,7 +19,7 @@ spec:
       helm:
         values: |
           console:
-            enabled: false
+            enabled: true
           statefulset:
             replicas: 1
           auth:
@@ -30,48 +30,48 @@ spec:
                 password: password
                 mechanism: SCRAM-SHA-512
 
-    - chart: console
-      repoURL: https://charts.redpanda.com
-      targetRevision: 0.6.9
-      helm:
-        values: |
-          ingress:
-            enabled: true
-            className: "nginx"
-            hosts:
-              - host: redpanda.local
-                paths:
-                  - path: /
-                    pathType: ImplementationSpecific
-                tls:
-                  - secretName: redpanda-tls
-                    hosts:
-                      - redpanda.local.com.br
+    # - chart: console
+    #   repoURL: https://charts.redpanda.com
+    #   targetRevision: 0.6.9
+    #   helm:
+    #     values: |
+    #       ingress:
+    #         enabled: true
+    #         className: "nginx"
+    #         hosts:
+    #           - host: redpanda.local
+    #             paths:
+    #               - path: /
+    #                 pathType: ImplementationSpecific
+    #             tls:
+    #               - secretName: redpanda-tls
+    #                 hosts:
+    #                   - redpanda.local.com.br
                     
-          console:
-            # https://docs.redpanda.com/docs/reference/console/config/
-            config:
-              kafka:
-                brokers:
-                  - redpanda-0.redpanda.redpanda.svc.cluster.local:9092 
-                clientId: redpanda-console
-                sasl:
-                  enabled: true
-                  mechanism: SCRAM-SHA-256
-                  username: admin
-                  # password: password
-                tls:
-                  enabled: false
-                # schemaRegistry:
-                #   enabled: true
-                #   tls:
-                #    enabled: false
-                #   urls:
-                #     - http://redpanda-0.redpanda.redpanda.svc.cluster.local.:8081
-          secret:
-            create: true
-            kafka:
-              saslPassword: "password"
+    #       console:
+    #         # https://docs.redpanda.com/docs/reference/console/config/
+    #         config:
+    #           kafka:
+    #             brokers:
+    #               - redpanda-0.redpanda.redpanda.svc.cluster.local:9092 
+    #             clientId: redpanda-console
+    #             sasl:
+    #               enabled: true
+    #               mechanism: SCRAM-SHA-256
+    #               username: admin
+    #               # password: password
+    #             tls:
+    #               enabled: false
+    #             # schemaRegistry:
+    #             #   enabled: true
+    #             #   tls:
+    #             #    enabled: false
+    #             #   urls:
+    #             #     - http://redpanda-0.redpanda.redpanda.svc.cluster.local.:8081
+    #       secret:
+    #         create: true
+    #         kafka:
+    #           saslPassword: "password"
 
   ignoreDifferences:
     - group: cert-manager.io
