@@ -9,11 +9,5 @@ resources:
   - ../../../base/applications-infra/ingress-nginx-helm.yaml
   - ../../../base/applications-infra/keycloak-helm.yaml
   - ../../../base/applications-infra/rabbitmq-helm.yaml
-  - ../../../base/applications-infra/strimzi-helm.yaml
-
-  # kustomization
   - ../../../base/applications-infra/redpanda/redpanda/redpanda-app.yaml
-  - ../../../base/applications-infra/redpanda/console/redpanda-console-app.yaml
-  # - ../../../base/applications-infra/redpanda/operator/redpanda-operator-app.yaml
-  # - ../../../base/applications-infra/redpanda/cluster/redpanda-cluster-app.yaml
-
+  - ../../../base/applications-infra/strimzi-helm.yaml
