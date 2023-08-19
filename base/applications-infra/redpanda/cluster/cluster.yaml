@@ -8,11 +8,14 @@ metadata:
 spec:
   chartRef:
     timeout: 1m0s
+  
   clusterSpec:
+    replica: 1
     external:
       domain: redpanda.local
     statefulset:
+      PodAntiAffinity:
+        rule: ""
       initContainers:
         setDataDirOwnership:
           enabled: true
-    replica: 1
