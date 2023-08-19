@@ -22,6 +22,13 @@ spec:
             enabled: false
           statefulset:
             replicas: 1
+          auth:
+            sasl:
+              enabled: true
+              users:
+              - name: admin
+                password: password
+                mechanism: SCRAM-SHA-512
 
     - chart: console
       repoURL: https://charts.redpanda.com
@@ -48,6 +55,7 @@ spec:
                       - redpanda.local.com.br
                     
           console:
+            # https://docs.redpanda.com/docs/reference/console/config/
             config:
               kafka:
                 brokers:
@@ -59,10 +67,16 @@ spec:
                   username: console
                 tls:
                   enabled: false
+                schemaRegistry:
+                  enabled: true
+                  tls:
+                   enabled: false
+                  urls:
+                    - https://redpanda-0.redpanda.redpanda.svc.cluster.local.:8081
           secret:
             create: true
             kafka:
-              saslPassword: "redacted"
+              saslPassword: "change-me"
 
   ignoreDifferences:
     - group: cert-manager.io
