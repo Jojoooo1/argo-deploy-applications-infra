@@ -24,7 +24,7 @@ spec:
             replicas: 1
           auth:
             sasl:
-              enabled: false
+              enabled: true
               users:
               - name: admin
                 password: password
