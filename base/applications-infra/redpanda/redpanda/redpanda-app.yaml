@@ -34,19 +34,11 @@ spec:
 
   ignoreDifferences:
     - kind: Certificate
-      name: redpanda-default-cert
-      namespace: redpanda
-      jsonPointers:
-        - /spec/duration
-        - /spec/isCA
-    - kind: Certificate
-      name: redpanda-external-cert
       namespace: redpanda
       jsonPointers:
         - /spec/duration
         - /spec/isCA
         
-
   destination:
     server: "https://kubernetes.default.svc"
     namespace: redpanda
