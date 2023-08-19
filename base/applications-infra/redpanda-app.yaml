@@ -40,7 +40,7 @@ spec:
             enabled: true
             className: "nginx"
             hosts:
-            - host: redpanda.local
+            - host: redpanda.local.com.br
               paths:
                 - path: /
                   pathType: ImplementationSpecific
