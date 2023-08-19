@@ -15,7 +15,9 @@ spec:
       domain: redpanda.local
     statefulset:
       PodAntiAffinity:
-        rule: ""
+        type: custom
+        custom:
+          rule: ""
       initContainers:
         setDataDirOwnership:
           enabled: true
