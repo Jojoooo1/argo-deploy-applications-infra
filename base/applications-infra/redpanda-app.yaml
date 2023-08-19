@@ -67,7 +67,7 @@ spec:
                   tls:
                    enabled: true
                   urls:
-                    - http://redpanda-0.redpanda.redpanda.svc.cluster.local.:8081
+                    - https://redpanda-0.redpanda.redpanda.svc.cluster.local.:8081
 
   ignoreDifferences:
     - group: cert-manager.io
