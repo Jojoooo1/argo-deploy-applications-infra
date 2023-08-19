@@ -22,13 +22,13 @@ spec:
             enabled: true
           statefulset:
             replicas: 1
-          # auth:
-          #   sasl:
-          #     enabled: true
-          #     users:
-          #       - name: admin
-          #         password: password
-          #         mechanism: SCRAM-SHA-512
+          auth:
+            sasl:
+              enabled: false
+              users:
+                - name: admin
+                  password: password
+                  mechanism: SCRAM-SHA-512
 
     - chart: console
       repoURL: https://charts.redpanda.com
