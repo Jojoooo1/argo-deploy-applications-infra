@@ -19,7 +19,7 @@ spec:
       helm:
         values: |
           console:
-            enabled: true
+            enabled: false
           statefulset:
             replicas: 1
           auth:
