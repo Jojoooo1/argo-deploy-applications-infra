@@ -139,6 +139,12 @@ spec:
       jsonPointers:
         - /spec/duration
         - /spec/isCA
+
+    - kind: Secret
+      namespace: redpanda
+      name: redpanda-console
+      jsonPointers:
+        - /data/login-jwt-secret
         
   destination:
     server: "https://kubernetes.default.svc"
