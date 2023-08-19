@@ -15,10 +15,11 @@ spec:
     chart: redpanda
     repoURL: https://charts.redpanda.com
     targetRevision: 5.1.3
+    # https://github.com/redpanda-data/helm-charts/tree/main/charts/redpanda
     helm:
       values: |
         statefulset:
-          replica: 1
+          replicas: 1
   destination:
     server: "https://kubernetes.default.svc"
     namespace: redpanda
