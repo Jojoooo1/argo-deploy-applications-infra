@@ -22,6 +22,8 @@ spec:
       # https://github.com/redpanda-data/helm-charts/tree/main/charts/redpanda
       helm:
         values: |
+          console:
+            enabled: false
           statefulset:
             replicas: 1
 
