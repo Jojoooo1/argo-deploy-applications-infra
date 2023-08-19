@@ -19,6 +19,9 @@ spec:
     chart: strimzi-kafka-operator
     repoURL: https://strimzi.io/charts
     targetRevision: 0.36.1
+    helm:
+      values: |
+        watchAnyNamespace: true
 
   destination:
     server: "https://kubernetes.default.svc"
