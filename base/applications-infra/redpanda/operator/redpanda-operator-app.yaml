@@ -11,10 +11,15 @@ spec:
       - CreateNamespace=true
       - PrunePropagationPolicy=foreground
 
-  source:
-    chart: operator
-    repoURL: https://charts.redpanda.com
-    targetRevision: 0.3.11
+  sources:
+    - chart: operator
+      repoURL: https://charts.redpanda.com
+      targetRevision: 0.3.11
+
+    # https://docs.redpanda.com/docs/reference/redpanda-operator/crd/
+    - repoURL: https://github.com/Jojoooo1/kustomization-crds.git # v23.2.5
+      targetRevision: main
+      path: redpanda
 
   destination:
     server: "https://kubernetes.default.svc"
