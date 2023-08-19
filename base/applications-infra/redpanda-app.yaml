@@ -53,7 +53,7 @@ spec:
             config:
               kafka:
                 brokers:
-                  - redpanda-0.redpanda.svc.cluster.local:9092 
+                  - redpanda-0.redpanda.redpanda.svc.cluster.local:9092 
                 clientId: redpanda-console
                 sasl:
                   enabled: true
