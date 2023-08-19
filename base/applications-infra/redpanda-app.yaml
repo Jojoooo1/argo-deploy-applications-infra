@@ -20,10 +20,6 @@ spec:
         values: |
           console:
             enabled: true
-            configmap:
-              create: true
-            deployment:
-              create: true
           statefulset:
             replicas: 1
           # auth:
