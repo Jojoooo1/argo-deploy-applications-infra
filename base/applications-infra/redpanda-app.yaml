@@ -40,15 +40,14 @@ spec:
             className: "nginx"
             hosts:
               - host: redpanda.local.com.br
-                http:
-                  paths:
-                    - path: /
-                      pathType: ImplementationSpecific
-                      backend:
-                        service:
-                          name: redpanda-console
-                          port:
-                            name: http
+                paths:
+                  - path: /
+                    pathType: ImplementationSpecific
+                    backend:
+                      service:
+                        name: redpanda-console
+                        port:
+                          name: http
                 tls:
                   - secretName: redpanda-tls
                     hosts:
