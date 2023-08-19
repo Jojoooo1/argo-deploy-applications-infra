@@ -24,7 +24,7 @@ spec:
           secret:
             create: false
           deployment:
-            create: true
+            create: false
         statefulset:
           replicas: 1
   destination:
