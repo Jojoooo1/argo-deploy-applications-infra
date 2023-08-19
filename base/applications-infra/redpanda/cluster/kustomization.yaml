@@ -5,3 +5,4 @@ namespace: redpanda
 
 resources:
   - cluster.yaml
+  - cluster-role.yaml
