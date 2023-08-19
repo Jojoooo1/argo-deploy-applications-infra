@@ -33,8 +33,11 @@ spec:
             replicas: 1
 
   ignoreDifferences:
-    - kind: Certificate
+    - group: cert-manager.io
+      kind: Certificate
       namespace: redpanda
+      name: redpanda-default-cert
+
       jsonPointers:
         - /spec/duration
         - /spec/isCA
