@@ -14,7 +14,9 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - PrunePropagationPolicy=foreground
-
+    automated:
+      prune: true
+      selfHeal: true
   source:
     chart: strimzi-kafka-operator
     repoURL: https://strimzi.io/charts
