@@ -14,6 +14,10 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - PrunePropagationPolicy=foreground
+    automated:
+      prune: true
+      selfHeal: true
+
   source:
     chart: cert-manager
     repoURL: https://charts.jetstack.io
