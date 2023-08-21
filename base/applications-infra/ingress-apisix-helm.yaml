@@ -1,0 +1,57 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: apisix
+  namespace: argocd
+
+  # By default, deleting an application will not perform a cascade delete, thereby deleting its resources.
+  # You must add the finalizer if you want this behaviour
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+
+  syncPolicy:
+    syncOptions:
+      # allows skipping syncing resources that are already in the desired state
+      - ApplyOutOfSyncOnly=true
+      # allows using background deletion during syncing
+      - PrunePropagationPolicy=background
+        # Create namespace at application creation
+      - CreateNamespace=true
+
+  source:
+    chart: apisix
+    repoURL: registry-1.docker.io/bitnamicharts
+    targetRevision: 2.0.10
+    helm:
+      values: |
+        dataPlane:
+          # resources:
+          #   requests:
+          #     memory: "2.5Gi"
+          #     cpu: "1"
+          #   limits:
+          #     memory: "2.5Gi"
+          #     cpu: "1"
+        controlPlane:
+           replicaCount: 1
+          # resources:
+          #   requests:
+          #     memory: "2.5Gi"
+          #     cpu: "1"
+          #   limits:
+          #     memory: "2.5Gi"
+          #     cpu: "1"
+        ingressController:
+           replicaCount: 1
+          # resources:
+          #   requests:
+          #     memory: "2.5Gi"
+          #     cpu: "1"
+          #   limits:
+          #     memory: "2.5Gi"
+          #     cpu: "1"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: apisix
