@@ -3,7 +3,9 @@ kind: Application
 metadata:
   name: redpanda
   namespace: argocd
-
+  # Add this finalizer ONLY if you want these to cascade delete (A cascade delete, deletes both the app and its resources, rather than only the app.)
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   syncPolicy:
