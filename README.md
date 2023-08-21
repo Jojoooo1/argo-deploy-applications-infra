@@ -13,7 +13,7 @@ Available Applications:
 | [CertManager](https://www.rabbitmq.com) | | | |
 | [External Secret Operator](https://external-secrets.io/latest) | | | |
 | [Redpanda](https://redpanda.com) | <http://redpanda.local.com.br> | admin | password |
-| [Strimzi](https://strimzi.io/) | <http://redpanda.local.com.br> | admin | password |
+| [Strimzi](https://strimzi.io/) | | admin | password |
 
 ## ArgoCD Folders organization
 
