@@ -56,16 +56,16 @@ spec:
                 brokers:
                   - redpanda-0.redpanda.redpanda.svc.cluster.local.:9093
                 tls:
-                  enabled: true
-                sasl:
                   enabled: false
+                sasl:
+                  enabled: true
                   mechanism: SCRAM-SHA-256
                   username: user
                   password: password
                 schemaRegistry:
                   enabled: true
                   tls:
-                    enabled: true
+                    enabled: false
                   urls:
                   - https://redpanda-0.redpanda.redpanda.svc.cluster.local.:8081
               redpanda:
@@ -76,55 +76,55 @@ spec:
                   username: user
                   password: password
 
-          extraVolumeMounts:
-          - mountPath: /mnt/cert/kafka/default
-            name: kafka-default-cert
-            readOnly: true
-          - mountPath: /mnt/cert/schemaregistry/default
-            name: schemaregistry-default-cert
-            readOnly: true
-          - mountPath: /mnt/cert/adminapi/default
-            name: adminapi-default-cert
-            readOnly: true
+          # extraVolumeMounts:
+          # - mountPath: /mnt/cert/kafka/default
+          #   name: kafka-default-cert
+          #   readOnly: true
+          # - mountPath: /mnt/cert/schemaregistry/default
+          #   name: schemaregistry-default-cert
+          #   readOnly: true
+          # - mountPath: /mnt/cert/adminapi/default
+          #   name: adminapi-default-cert
+          #   readOnly: true
 
-          extraVolumes:
-          - name: kafka-default-cert
-            secret:
-              defaultMode: 420
-              secretName: redpanda-console
-              defaultMode: 272
-              items:
-                - key: ca.crt
-                  path: ca.crt
-              secretName: redpanda-default-cert
-          - name: schemaregistry-default-cert
-            secret:
-              defaultMode: 272
-              items:
-                - key: ca.crt
-                  path: ca.crt
-              secretName: redpanda-default-cert
-          - name: adminapi-default-cert
-            secret:
-              defaultMode: 272
-              items:
-                - key: ca.crt
-                  path: ca.crt
-              secretName: redpanda-default-cert
+          # extraVolumes:
+          # - name: kafka-default-cert
+          #   secret:
+          #     defaultMode: 420
+          #     secretName: redpanda-console
+          #     defaultMode: 272
+          #     items:
+          #       - key: ca.crt
+          #         path: ca.crt
+          #     secretName: redpanda-default-cert
+          # - name: schemaregistry-default-cert
+          #   secret:
+          #     defaultMode: 272
+          #     items:
+          #       - key: ca.crt
+          #         path: ca.crt
+          #     secretName: redpanda-default-cert
+          # - name: adminapi-default-cert
+          #   secret:
+          #     defaultMode: 272
+          #     items:
+          #       - key: ca.crt
+          #         path: ca.crt
+          #     secretName: redpanda-default-cert
 
-          extraEnv:
-          - name: KAFKA_TLS_CAFILEPATH
-            value: /mnt/cert/kafka/default/ca.crt
-          - name: KAFKA_SCHEMAREGISTRY_TLS_CAFILEPATH
-            value: /mnt/cert/schemaregistry/default/ca.crt
-          - name: REDPANDA_ADMINAPI_TLS_ENABLED
-            value: 'true'
-          - name: REDPANDA_ADMINAPI_TLS_CAFILEPATH
-            value: /mnt/cert/adminapi/default/ca.crt
-          - name: REDPANDA_ADMINAPI_ENABLED
-            value: 'true'
-          - name: REDPANDA_ADMINAPI_URLS
-            value: 'https://redpanda.redpanda.svc.cluster.local.:9644'
+          # extraEnv:
+          # - name: KAFKA_TLS_CAFILEPATH
+          #   value: /mnt/cert/kafka/default/ca.crt
+          # - name: KAFKA_SCHEMAREGISTRY_TLS_CAFILEPATH
+          #   value: /mnt/cert/schemaregistry/default/ca.crt
+          # - name: REDPANDA_ADMINAPI_TLS_ENABLED
+          #   value: 'true'
+          # - name: REDPANDA_ADMINAPI_TLS_CAFILEPATH
+          #   value: /mnt/cert/adminapi/default/ca.crt
+          # - name: REDPANDA_ADMINAPI_ENABLED
+          #   value: 'true'
+          # - name: REDPANDA_ADMINAPI_URLS
+          #   value: 'https://redpanda.redpanda.svc.cluster.local.:9644'
 
   ignoreDifferences:
     - group: cert-manager.io
