@@ -24,9 +24,11 @@ spec:
             enabled: false
           statefulset:
             replicas: 1
+          tls:
+            enabled: false
+          external:
+            enabled: false
           auth:
-            tls:
-              enabled: false
             sasl:
               enabled: true
               users:
