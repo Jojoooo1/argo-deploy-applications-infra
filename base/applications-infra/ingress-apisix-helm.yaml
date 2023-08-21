@@ -39,6 +39,7 @@ spec:
               role_traditional:
                 config_provider: etcd
           service:
+            type: ClusterIP
             extraPorts:
               - name: http
                 port: 80
@@ -63,6 +64,26 @@ spec:
           #   limits:
           #     memory: "2.5Gi"
           #     cpu: "1"
+
+        dashboard:
+          replicaCount: 1
+          username: admin
+          password: password
+          service:
+            type: ClusterIP
+          ingress:
+            enabled: true
+            hostname: apisix.local.com.br
+            ingressClassName: nginx
+
+          # resources:
+          #   requests:
+          #     memory: "2.5Gi"
+          #     cpu: "1"
+          #   limits:
+          #     memory: "2.5Gi"
+          #     cpu: "1"
+
   destination:
     server: https://kubernetes.default.svc
     namespace: apisix
