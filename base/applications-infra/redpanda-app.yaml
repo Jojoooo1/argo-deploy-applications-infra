@@ -28,7 +28,7 @@ spec:
               users:
                 - name: user
                   password: password
-                  mechanism: SCRAM-SHA-512
+                  mechanism: SCRAM-SHA-256
 
     - chart: console
       repoURL: https://charts.redpanda.com
