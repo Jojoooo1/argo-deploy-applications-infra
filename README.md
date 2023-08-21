@@ -4,10 +4,16 @@
 
 Available Applications:
 
-- keycloak: <http://identity.local.com.br/admin/master/console>
-  - username: 'admin', password: 'password'
-- rabbitmq: <http://rabbitmq.local.com.br>
-  - username: 'user', password: 'bitnami'
+| Applications  | Urls | Username  | Password |
+| ------------- | ------------- | ------------- | ------------- |
+| [Nginx-ingress](https://kubernetes.github.io/ingress-nginx) | | | |
+| [ArgoCD](https://argo-cd.readthedocs.io/en/stable)  | <http://argo.local.com.br>  | admin  | get password at k3s start script |
+| [Keycloak](https://www.keycloak.org)  | <http://identity.local.com.br/admin/master/console>  | admin  | password |
+| [RabbitMQ](https://www.rabbitmq.com)  | <http://rabbitmq.local.com.br>  | user  | bitnami |
+| [CertManager](https://www.rabbitmq.com) | | | |
+| [External Secret Operator](https://external-secrets.io/latest) | | | |
+| [Redpanda](https://redpanda.com) | <http://redpanda.local.com.br> | admin | password |
+| [Strimzi](https://strimzi.io/) | <http://redpanda.local.com.br> | admin | password |
 
 ## ArgoCD Folders organization
 
