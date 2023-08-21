@@ -10,7 +10,7 @@ Available Applications:
 | [ArgoCD](https://argo-cd.readthedocs.io/en/stable)  | <http://argo.local.com.br>  | admin  | get password at k3s start script |
 | [Keycloak](https://www.keycloak.org)  | <http://identity.local.com.br/admin/master/console>  | admin  | password |
 | [RabbitMQ](https://www.rabbitmq.com)  | <http://rabbitmq.local.com.br>  | user  | bitnami |
-| [CertManager](https://www.rabbitmq.com) | | | |
+| [CertManager](https://cert-manager.io/) | | | |
 | [External Secret Operator](https://external-secrets.io/latest) | | | |
 | [Redpanda](https://redpanda.com) | <http://redpanda.local.com.br> | admin | password |
 | [Strimzi](https://strimzi.io/) | | admin | password |
