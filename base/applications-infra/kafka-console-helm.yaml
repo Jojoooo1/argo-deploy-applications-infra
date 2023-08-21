@@ -56,8 +56,8 @@ spec:
 
   ignoreDifferences:
     - kind: Secret
-      namespace: redpanda
-      name: redpanda-console
+      namespace: kafka
+      name: kafka-console
       jsonPointers:
         - /data/login-jwt-secret
 
