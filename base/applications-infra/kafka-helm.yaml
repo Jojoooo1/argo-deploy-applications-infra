@@ -23,6 +23,12 @@ spec:
     helm:
       values: |
         sasl:
+          interbroker:
+            user: inter_broker_user
+            password: password
+          controller:
+            user: controller_user
+            password: password
           client:
             users:
               - user
