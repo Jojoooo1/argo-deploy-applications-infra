@@ -64,7 +64,7 @@ spec:
             config:
               kafka:
                 brokers:
-                  - 10.42.0.93:9092
+                  - redpanda-0.redpanda.redpanda.svc.cluster.local.:9093
                 tls:
                   enabled: false
                 sasl:
@@ -78,10 +78,10 @@ spec:
                 #     enabled: false
                 #   urls:
                 #   - http://redpanda-0.redpanda.redpanda.svc.cluster.local.:8081
-              # redpanda:
-              #   adminApi:
-              #     username: user1
-              #     password: password
+              redpanda:
+                adminApi:
+                  username: user1
+                  password: password
 
           # extraVolumeMounts:
           # - mountPath: /mnt/cert/kafka/default
