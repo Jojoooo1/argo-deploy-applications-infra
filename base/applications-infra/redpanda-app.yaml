@@ -28,7 +28,7 @@ spec:
             sasl:
               enabled: true
               users:
-                - name: user
+                - name: admin
                   password: password
                   mechanism: SCRAM-SHA-256
 
@@ -62,7 +62,7 @@ spec:
                 sasl:
                   enabled: true
                   mechanism: SCRAM-SHA-256
-                  username: user
+                  username: admin
                   password: password
                 # schemaRegistry:
                 #   enabled: true
@@ -75,7 +75,7 @@ spec:
                   enabled: true
                   urls:
                     - http://redpanda-0.redpanda.redpanda.svc.cluster.local.:9093
-                  username: user
+                  username: admin
                   password: password
 
           # extraVolumeMounts:
