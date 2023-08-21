@@ -30,7 +30,9 @@ spec:
         # We use traditional mode. #https://github.com/bitnami/charts/tree/main/bitnami/apisix#deployment-modes
         dataPlane:
           enabled: false
+
         controlPlane:
+          replicaCount: 1
           extraConfig:
             deployment:
               role: traditional
@@ -44,7 +46,6 @@ spec:
               - name: https
                 port: 443
                 targetPort: 9443
-           replicaCount: 1
           # resources:
           #   requests:
           #     memory: "2.5Gi"
@@ -52,8 +53,9 @@ spec:
           #   limits:
           #     memory: "2.5Gi"
           #     cpu: "1"
+
         ingressController:
-           replicaCount: 1
+          replicaCount: 1
           # resources:
           #   requests:
           #     memory: "2.5Gi"
