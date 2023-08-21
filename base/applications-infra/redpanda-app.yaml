@@ -54,9 +54,9 @@ spec:
                     - redpanda.local.com.br
 
           secret:
-            create:
-              kafka: 
-                saslPassword: password
+            create: true
+            kafka: 
+              saslPassword: password
           console:
             # https://docs.redpanda.com/docs/reference/console/config/
             config:
