@@ -60,7 +60,7 @@ spec:
                 sasl:
                   enabled: false
                   mechanism: SCRAM-SHA-256
-                  username: admin
+                  username: user
                   password: password
                 schemaRegistry:
                   enabled: true
