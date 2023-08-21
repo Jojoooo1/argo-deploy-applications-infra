@@ -8,6 +8,8 @@ resources:
   - ../../../base/applications-infra/external-secrets-op-helm.yaml
   - ../../../base/applications-infra/ingress-nginx-helm.yaml
   - ../../../base/applications-infra/kafka-helm.yaml
+  # - ../../../base/applications-infra/kafka-conduktor.yaml
+  - ../../../base/applications-infra/kafka-console.yaml
   - ../../../base/applications-infra/keycloak-helm.yaml
   - ../../../base/applications-infra/rabbitmq-helm.yaml
   - ../../../base/applications-infra/redpanda-app.yaml
