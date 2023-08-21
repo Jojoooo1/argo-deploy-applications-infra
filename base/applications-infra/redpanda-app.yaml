@@ -67,7 +67,7 @@ spec:
                   tls:
                     enabled: false
                   urls:
-                  - https://redpanda-0.redpanda.redpanda.svc.cluster.local.:8081
+                  - http://redpanda-0.redpanda.redpanda.svc.cluster.local.:8081
               redpanda:
                 adminApi:
                   enabled: true
