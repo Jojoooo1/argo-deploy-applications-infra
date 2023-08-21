@@ -24,17 +24,26 @@ spec:
     chart: apisix
     repoURL: registry-1.docker.io/bitnamicharts
     targetRevision: 2.0.10
+    # https://github.com/bitnami/charts/tree/main/bitnami/apisix
     helm:
       values: |
+        # We use traditional mode. #https://github.com/bitnami/charts/tree/main/bitnami/apisix#deployment-modes
         dataPlane:
-          # resources:
-          #   requests:
-          #     memory: "2.5Gi"
-          #     cpu: "1"
-          #   limits:
-          #     memory: "2.5Gi"
-          #     cpu: "1"
+          enabled: false
         controlPlane:
+          extraConfig:
+            deployment:
+              role: traditional
+              role_traditional:
+                config_provider: etcd
+          service:
+            extraPorts:
+              - name: http
+                port: 80
+                targetPort: 9080
+              - name: https
+                port: 443
+                targetPort: 9443
            replicaCount: 1
           # resources:
           #   requests:
