@@ -52,7 +52,11 @@ spec:
                 - secretName: redpanda-tls
                   hosts:
                     - redpanda.local.com.br
-                    
+
+          secret:
+            create:
+              kafka: 
+                saslPassword: password
           console:
             # https://docs.redpanda.com/docs/reference/console/config/
             config:
@@ -74,9 +78,6 @@ spec:
                 #   - http://redpanda-0.redpanda.redpanda.svc.cluster.local.:8081
               redpanda:
                 adminApi:
-                  enabled: true
-                  urls:
-                    - http://redpanda-0.redpanda.redpanda.svc.cluster.local.:9093
                   username: admin
                   password: password
 
