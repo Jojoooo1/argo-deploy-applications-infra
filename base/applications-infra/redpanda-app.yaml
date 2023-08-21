@@ -54,7 +54,7 @@ spec:
             config:
               kafka:
                 brokers:
-                  - redpanda-0.redpanda.redpanda.svc.cluster.local.:9093
+                  - redpanda-0.redpanda.redpanda.svc.cluster.local.:8082
                 tls:
                   enabled: false
                 sasl:
