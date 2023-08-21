@@ -1,0 +1,60 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rabbitmq
+  namespace: argocd
+
+  # Add this finalizer ONLY if you want these to cascade delete (A cascade delete, deletes both the app and its resources, rather than only the app.)
+  # finalizers:
+  #   - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+
+  source:
+    chart: kafka
+    repoURL: registry-1.docker.io/bitnamicharts
+    targetRevision: 24.0.14
+    # https://github.com/bitnami/charts/tree/main/bitnami/clickhouse
+    helm:
+      values: |
+        sasl:
+          client:
+            users:
+              - user
+            passwords: 
+              - password
+        controller:
+          replicaCount: 3
+          # resources:
+          #   requests:
+          #     memory: "2.5Gi"
+          #     cpu: "1"
+          #   limits:
+          #     memory: "2.5Gi"
+          #     cpu: "1"
+        persistence:
+          # storageClass: auto-resize
+          size: 8Gi
+        metrics:
+          kafka:
+            enabled: true
+            resources:
+              requests:
+                memory: "2.5Gi"
+                cpu: "1"
+              limits:
+                memory: "2.5Gi"
+                cpu: "1"
+          # serviceMonitor:
+          #   enabled: true
+          #   labels:
+          #     release: observability-kube-prometheus
+  
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: rabbitmq
