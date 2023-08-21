@@ -6,7 +6,7 @@ resources:
   - ../../../base/applications-infra/argocd-image-updater-helm.yaml
   - ../../../base/applications-infra/cert-manager-helm.yaml
   - ../../../base/applications-infra/external-secrets-op-helm.yaml
-  - ../../../base/applications-infra/apisix-helm.yaml
+  - ../../../base/applications-infra/ingress-apisix-helm.yaml
   - ../../../base/applications-infra/ingress-nginx-helm.yaml
   - ../../../base/applications-infra/kafka-helm.yaml
   # - ../../../base/applications-infra/kafka-conduktor-helm.yaml
