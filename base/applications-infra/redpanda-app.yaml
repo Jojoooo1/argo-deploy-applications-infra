@@ -25,6 +25,8 @@ spec:
           statefulset:
             replicas: 1
           auth:
+            tls:
+              enabled: false
             sasl:
               enabled: true
               users:
