@@ -6,7 +6,7 @@ Available Applications:
 
 | Applications  | DNS | Username  | Password | Links |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
-| Nginx-ingress | | | | <https://kubernetes.github.io/ingress-nginx> |
+| Ingress-nginx | | | | <https://kubernetes.github.io/ingress-nginx> |
 | ArgoCD |  <http://argo.local.com.br> | admin  | get password at k3s start script | <https://argo-cd.readthedocs.io/en/stable>  |
 | Keycloak | <http://identity.local.com.br/admin/master/console>  | admin  | password |  <https://www.keycloak.org>  |
 | RabbitMQ  | <http://rabbitmq.local.com.br>  | admin  | password | <https://www.rabbitmq.com>  |
