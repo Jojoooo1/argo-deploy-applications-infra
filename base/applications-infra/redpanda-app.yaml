@@ -62,12 +62,12 @@ spec:
                   mechanism: SCRAM-SHA-256
                   username: user
                   password: password
-                schemaRegistry:
-                  enabled: true
-                  tls:
-                    enabled: false
-                  urls:
-                  - http://redpanda-0.redpanda.redpanda.svc.cluster.local.:8081
+                # schemaRegistry:
+                #   enabled: true
+                #   tls:
+                #     enabled: false
+                #   urls:
+                #   - http://redpanda-0.redpanda.redpanda.svc.cluster.local.:8081
               redpanda:
                 adminApi:
                   enabled: true
