@@ -23,4 +23,4 @@ Available Applications:
 
 ### Overlay
 
-Environments folders that inherit from base folder. It uses [kustomize](https://github.com/kubernetes-sigs/kustomize to allow environment based customization.
+Environments folders that inherit from base folder. It uses [kustomize](https://github.com/kubernetes-sigs/kustomize) to allow environment based customization.
