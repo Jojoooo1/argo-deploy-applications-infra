@@ -68,7 +68,13 @@ spec:
                     enabled: true
                   urls:
                   - https://redpanda-0.redpanda.redpanda.svc.cluster.local.:8081
-
+              redpanda:
+                adminApi:
+                  enabled: true
+                  urls:
+                    - http://redpanda-0.redpanda.redpanda.svc.cluster.local.:9093
+                  username: user
+                  password: password
 
           extraVolumeMounts:
           - mountPath: /mnt/cert/kafka/default
