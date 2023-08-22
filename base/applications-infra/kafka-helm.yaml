@@ -35,8 +35,8 @@ spec:
             external: 
               protocol: SASL_PLAINTEXT
           sasl:
-            interBrokerMechanism: PLAIN
-            controllerMechanism: PLAIN
+            interBrokerMechanism: SCRAM-SHA-256
+            controllerMechanism: SCRAM-SHA-256
             interbroker:
               user: inter_broker_user
               password: password
