@@ -34,8 +34,10 @@ spec:
             password: password
           client:
             users:
+              - admin
               - user
             passwords: 
+              - password
               - password
         controller:
           replicaCount: 3
