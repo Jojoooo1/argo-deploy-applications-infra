@@ -9,7 +9,6 @@ resources:
   - ../../../base/applications-infra/ingress-apisix-helm.yaml
   - ../../../base/applications-infra/ingress-nginx-helm.yaml
   - ../../../base/applications-infra/kafka-helm.yaml
-  - ../../../base/applications-infra/kafka-conduktor-helm.yaml
   # - ../../../base/applications-infra/kafka-console-helm.yaml
   - ../../../base/applications-infra/keycloak-helm.yaml
   - ../../../base/applications-infra/rabbitmq-helm.yaml
