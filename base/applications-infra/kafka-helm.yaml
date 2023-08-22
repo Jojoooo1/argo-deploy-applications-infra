@@ -54,13 +54,15 @@ spec:
         metrics:
           kafka:
             enabled: true
+            extraFlags
             resources:
               requests:
-                memory: "2.5Gi"
-                cpu: "1"
+                memory: "250Mi"
+                cpu: "0.1"
               limits:
-                memory: "2.5Gi"
-                cpu: "1"
+                memory: "250Mi"
+                cpu: "0.1"
+
           # serviceMonitor:
           #   enabled: true
           #   labels:
