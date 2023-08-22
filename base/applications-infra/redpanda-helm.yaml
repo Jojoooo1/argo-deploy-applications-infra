@@ -71,11 +71,11 @@ spec:
                   enabled: true
                   mechanism: SCRAM-SHA-256
                   username: admin
-                  password: ""
+                  password: password
                 schemaRegistry:
                   enabled: true
                   username: admin
-                  password: ""
+                  password: password
                   tls:
                     enabled: false
                   urls:
