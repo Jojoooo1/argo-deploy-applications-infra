@@ -34,9 +34,11 @@ spec:
               protocol: SASL_PLAINTEXT
             external: 
               protocol: SASL_PLAINTEXT
+          
+          # NOTE: KRaft <= 3.4 does not yet support SCRAM mechanisms, so this list will be automatically reduced to only PLAIN SASL mechanism.
           sasl:
-            interBrokerMechanism: SCRAM-SHA-256
-            controllerMechanism: SCRAM-SHA-256
+            interBrokerMechanism: PLAIN # SCRAM-SHA-256
+            controllerMechanism: PLAIN # SCRAM-SHA-256
             interbroker:
               user: inter_broker_user
               password: e6QGw1R6si
