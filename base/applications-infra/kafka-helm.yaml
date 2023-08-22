@@ -54,7 +54,7 @@ spec:
         metrics:
           kafka:
             enabled: true
-            extraFlags
+            # extraFlags:
             resources:
               requests:
                 memory: "150Mi"
