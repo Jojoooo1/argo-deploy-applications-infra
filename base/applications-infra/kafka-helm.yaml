@@ -82,7 +82,7 @@ spec:
               email: admin@conduktor.io
               password: password
             database:
-              host: postgres
+              host: conduktor-postgres
               name: conduktor
               username: admin
               password: password
