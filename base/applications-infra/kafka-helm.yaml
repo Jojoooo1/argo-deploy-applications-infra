@@ -25,7 +25,18 @@ spec:
           kraft:
             enabled: true
             clusterId: GTxB5josEfsini5mBw33W7
+          listeners:
+            client: 
+              protocol: SASL_SSL
+            controller: 
+              protocol: SASL_SSL
+            interbroker: 
+              protocol: SASL_SSL
+            external: 
+              protocol: SASL_SSL
           sasl:
+            interBrokerMechanism: SCRAM-SHA-256
+            controllerMechanism: SCRAM-SHA-256
             interbroker:
               user: inter_broker_user
               password: password
