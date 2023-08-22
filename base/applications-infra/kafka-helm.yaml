@@ -27,13 +27,13 @@ spec:
             clusterId: GTxB5josEfsini5mBw33W7
           listeners:
             client: 
-              protocol: SASL_SSL
+              protocol: SASL_PLAINTEXT
             controller: 
-              protocol: SASL_SSL
+              protocol: SASL_PLAINTEXT
             interbroker: 
-              protocol: SASL_SSL
+              protocol: SASL_PLAINTEXT
             external: 
-              protocol: SASL_SSL
+              protocol: SASL_PLAINTEXT
           sasl:
             interBrokerMechanism: SCRAM-SHA-256
             controllerMechanism: SCRAM-SHA-256
