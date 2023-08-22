@@ -19,7 +19,7 @@ spec:
     - chart: kafka
       repoURL: registry-1.docker.io/bitnamicharts
       targetRevision: 24.0.14
-      # https://github.com/bitnami/charts/tree/main/bitnami/clickhouse
+      # https://github.com/bitnami/charts/tree/main/bitnami/kafka
       helm:
         values: |
           kraft:
@@ -27,13 +27,13 @@ spec:
             clusterId: GTxB5josEfsini5mBw33W7
           listeners:
             client: 
-              protocol: SASL_PLAINTEXT
+              protocol: SASL_SSL
             controller: 
-              protocol: SASL_PLAINTEXT
+              protocol: SASL_SSL
             interbroker: 
-              protocol: SASL_PLAINTEXT
+              protocol: SASL_SSL
             external: 
-              protocol: SASL_PLAINTEXT
+              protocol: SASL_SSL
           
           # NOTE: KRaft <= 3.4 does not yet support SCRAM mechanisms, so this list will be automatically reduced to only PLAIN SASL mechanism.
           sasl:
