@@ -61,7 +61,7 @@ spec:
         - name: metrics.enabled
           value: "true"
         - name: metrics.serviceMonitor.enabled
-          value: "false"
+          value: "true"
         - name: metrics.serviceMonitor.namespace
           value: "keycloak"
         - name: metrics.serviceMonitor.labels.release # in new version it is called labels

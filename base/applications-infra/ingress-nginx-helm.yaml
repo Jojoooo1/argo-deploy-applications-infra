@@ -25,11 +25,11 @@ spec:
         # Warning: does not change resources order list. Resources are being updated in overlays. It will break kustomize patch.
         ## Resources ##
         - name: controller.resources.requests.memory
-          value: "650Mi"
+          value: "400Mi"
         - name: controller.resources.limits.memory
-          value: "650Mi"
+          value: "400Mi"
         - name: controller.resources.requests.cpu
-          value: "250m"
+          value: "300m"
         ## Replica ##
         - name: controller.autoscaling.enabled
           value: "true"
@@ -43,7 +43,7 @@ spec:
         - name: controller.metrics.enabled
           value: "true"
         - name: controller.metrics.serviceMonitor.enabled
-          value: "false"
+          value: "true"
         - name: controller.metrics.serviceMonitor.namespace
           value: "ingress-nginx"
         - name: controller.metrics.serviceMonitor.namespaceSelector.matchNames[0]
@@ -53,7 +53,7 @@ spec:
 
         ## Alerting ##
         - name: controller.metrics.prometheusRule.enabled
-          value: "false"
+          value: "true"
         - name: controller.metrics.prometheusRule.namespace
           value: "ingress-nginx"
         - name: controller.metrics.prometheusRule.additionalLabels.release

@@ -76,9 +76,9 @@ spec:
           metrics:
             enabled: false
             serviceMonitor:
+              enabled: false
               additionalLabels:
                 release: observability-kube-prometheus
-              enabled: true
               namespace: argocd
       
         ## DEX ##
@@ -86,9 +86,9 @@ spec:
           metrics:
             enabled: false
             serviceMonitor:
+              enabled: false
               additionalLabels:
                 release: observability-kube-prometheus
-              enabled: true
               namespace: argocd
 
         ## RepoServer ##
@@ -146,9 +146,9 @@ spec:
           metrics:
             enabled: false
             serviceMonitor:
+              enabled: false
               additionalLabels:
                 release: observability-kube-prometheus
-              enabled: true
               namespace: argocd
 
         ## Server ##
@@ -163,9 +163,9 @@ spec:
           metrics:
             enabled: false
             serviceMonitor:
+              enabled: false
               additionalLabels:
                 release: observability-kube-prometheus
-              enabled: true
               namespace: argocd
 
         ## Redis ##
@@ -180,9 +180,9 @@ spec:
           metrics:
             enabled: false
             serviceMonitor:
+              enabled: false
               additionalLabels:
                 release: observability-kube-prometheus
-              enabled: true
               namespace: argocd
 
         # Ingress

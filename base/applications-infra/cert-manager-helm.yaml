@@ -37,7 +37,7 @@ spec:
           value: "75m"
 
         - name: prometheus.servicemonitor.enabled
-          value: "false"
+          value: "true"
         - name: prometheus.servicemonitor.labels.release
           value: "observability-kube-prometheus"
 
