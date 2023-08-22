@@ -178,9 +178,9 @@ spec:
               cpu: 120m
               memory: 256Mi
           metrics:
-            enabled: false
+            enabled: true
             serviceMonitor:
-              enabled: false
+              enabled: true
               additionalLabels:
                 release: observability-kube-prometheus
               namespace: argocd
