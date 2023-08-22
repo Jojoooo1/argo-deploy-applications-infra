@@ -12,8 +12,10 @@ Available Applications:
 | RabbitMQ  | <http://rabbitmq.local.com.br>  | admin  | password | <https://www.rabbitmq.com>  |
 | CertManager | | | | <https://cert-manager.io/> |
 | External Secret Operator | | | | <https://external-secrets.io/latest> |
+| Redpanda |redpanda-0.redpanda.redpanda.svc.cluster.local.:9093 | admin | password | <https://redpanda.com> |
 | Redpanda/console | <http://redpanda.local.com.br> | admin | password | <https://redpanda.com> |
-| Kafka/console | <http://kafka.local.com.br> | admin | password | <https://kafka.apache.org/> |
+| Kafka | kafka-controller-0.kafka-controller-headless.kafka.svc.cluster.local.:9092 | admin | password | <https://kafka.apache.org/> |
+| Kafka/console | <http://kafka.local.com.br> | <admin@conduktor.io> | password | <https://www.conduktor.io/console/> |
 
 ## ArgoCD Folders organization
 
