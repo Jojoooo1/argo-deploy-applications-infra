@@ -74,9 +74,9 @@ spec:
               cpu: 500m
               memory: 1024Mi
           metrics:
-            enabled: false
+            enabled: true
             serviceMonitor:
-              enabled: false
+              enabled: true
               additionalLabels:
                 release: observability-kube-prometheus
               namespace: argocd
@@ -84,9 +84,9 @@ spec:
         ## DEX ##
         dex:
           metrics:
-            enabled: false
+            enabled: true
             serviceMonitor:
-              enabled: false
+              enabled: true
               additionalLabels:
                 release: observability-kube-prometheus
               namespace: argocd
@@ -144,9 +144,9 @@ spec:
                   mountPath: /usr/local/bin/envsubst
 
           metrics:
-            enabled: false
+            enabled: true
             serviceMonitor:
-              enabled: false
+              enabled: true
               additionalLabels:
                 release: observability-kube-prometheus
               namespace: argocd
@@ -161,9 +161,9 @@ spec:
               cpu: 400m
               memory: 512Mi
           metrics:
-            enabled: false
+            enabled: true
             serviceMonitor:
-              enabled: false
+              enabled: true
               additionalLabels:
                 release: observability-kube-prometheus
               namespace: argocd
