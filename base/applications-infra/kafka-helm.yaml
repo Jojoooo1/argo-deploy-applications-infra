@@ -39,10 +39,10 @@ spec:
             controllerMechanism: SCRAM-SHA-256
             interbroker:
               user: inter_broker_user
-              password: ""
+              password: e6QGw1R6si
             controller:
               user: controller_user
-              password: ""
+              password: 9YbCuBKtk6
             client:
               users:
                 - admin
