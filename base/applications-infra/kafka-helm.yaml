@@ -29,16 +29,16 @@ spec:
           listeners:
             client:
               containerPort: 9092
-              protocol: SASL_PLAIN
+              protocol: SASL_PLAINTEXT
             controller:
               containerPort: 9093
-              protocol: SASL_PLAIN
+              protocol: SASL_PLAINTEXT
             interbroker:
               containerPort: 9094
-              protocol: SASL_PLAIN
+              protocol: SASL_PLAINTEXT
             external:
               containerPort: 9095
-              protocol: SASL_PLAIN
+              protocol: SASL_PLAINTEXT
           
           # https://github.com/bitnami/charts/tree/main/bitnami/kafka#enable-security-for-kafka-and-zookeeper
           # https://docs.bitnami.com/kubernetes/infrastructure/kafka/administration/enable-tls/
