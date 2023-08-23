@@ -27,8 +27,6 @@ spec:
           enabled: false
         notifications:
           enabled: false
-        dex:
-          enabled: false
         configs:
           secret:
             createSecret: false
@@ -85,6 +83,7 @@ spec:
       
         ## DEX ##
         dex:
+          enabled: false
           metrics:
             enabled: true
             serviceMonitor:
