@@ -60,7 +60,7 @@ spec:
               # keystore-password: IiI=
               # truststore-password: IiI=
               data:
-                client-passwords: cGFzc3dvcmQscGFzc3dvcmQ=
+                client-passwords: cGFzc3dvcmQscGFzc3dvcmQscGFzc3dvcmQscGFzc3dvcmQ=
                 inter-broker-password: cGFzc3dvcmQ= 
                 controller-password: cGFzc3dvcmQ=
               type: Opaque
