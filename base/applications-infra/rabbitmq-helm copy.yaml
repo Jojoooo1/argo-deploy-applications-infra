@@ -1,0 +1,124 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rabbitmq
+  namespace: argocd
+
+  # Add this finalizer ONLY if you want these to cascade delete (A cascade delete, deletes both the app and its resources, rather than only the app.)
+  # finalizers:
+  #   - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+
+  source:
+    chart: rabbitmq
+    repoURL: https://charts.bitnami.com/bitnami
+    targetRevision: 12.1.0
+
+    # https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq
+    helm:
+      valuesObject:
+
+        resources:
+          requests: 
+            memory: 1Gi
+            cpu: 650m
+          limits:
+            memory: 1Gi
+
+        replicaCount: 3
+
+        pdb:
+          create: true
+          minAvailable: 1
+
+        clustering:
+          rebalance: true
+
+        persistence:
+          # storageClass: 
+          size: 1Gi
+        
+        auth:
+          existingPasswordSecret: rabbitmq-secrets # rabbitmq-password
+          existingErlangSecret: rabbitmq-secrets # rabbitmq-erlang-cookie
+
+        communityPlugins: https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases/download/v3.12.0/rabbitmq_delayed_message_exchange-3.12.0.ez
+        extraPlugins: rabbitmq_delayed_message_exchange
+        loadDefinition: 
+          enabled: true
+          existingSecret: rabbitmq-load-definition
+        
+        extraConfiguration: |
+          # Warning: recommended th at the RabbitMQ node is allocated AT LEAST 3 times the memory of the default WAL file size limit.
+          raft.wal_max_size_bytes = 64000000 # Flush current WAL file to a segment file on disk once it reaches 64 MiB in size
+          load_definitions = /app/load_definition.json
+
+        metrics:
+          enabled: true
+          serviceMonitor:
+            enabled: true
+            namespace: rabbitmq
+            labels: 
+              release: observability-kube-prometheus
+          prometheusRule:
+            enabled: true
+            namespace: rabbitmq
+              release: observability-kube-prometheus
+        
+        extraDeploy:
+         - apiVersion: v1
+            kind: Secret
+            metadata:
+              name: rabbitmq-load-definition
+              namespace: rabbitmq
+            data:
+              load_definition.json: ewogICAgInJhYmJpdF92ZXJzaW9uIjogIjMuMTIuMyIsCiAgICAicmFiYml0bXFfdmVyc2lvbiI6ICIzLjEyLjMiLAogICAgInByb2R1Y3RfbmFtZSI6ICJSYWJiaXRNUSIsCiAgICAicHJvZHVjdF92ZXJzaW9uIjogIjMuMTIuMyIsCiAgICAidXNlcnMiOiBbCiAgICAgICAgewogICAgICAgICAgICAibmFtZSI6ICJhZG1pbiIsCiAgICAgICAgICAgICJwYXNzd29yZF9oYXNoIjogIlhrK3lnQzVWTDlrU0UyVjdMaFFRRGdVYmhmNHllUHNDRmNlWUtLQnZBT1F0ZE14YyIsCiAgICAgICAgICAgICJoYXNoaW5nX2FsZ29yaXRobSI6ICJyYWJiaXRfcGFzc3dvcmRfaGFzaGluZ19zaGEyNTYiLAogICAgICAgICAgICAidGFncyI6IFsKICAgICAgICAgICAgICAgICJhZG1pbmlzdHJhdG9yIgogICAgICAgICAgICBdLAogICAgICAgICAgICAibGltaXRzIjoge30KICAgICAgICB9CiAgICBdLAogICAgInZob3N0cyI6IFsKICAgICAgICB7CiAgICAgICAgICAgICJuYW1lIjogIi8iCiAgICAgICAgfQogICAgXSwKICAgICJwZXJtaXNzaW9ucyI6IFsKICAgICAgICB7CiAgICAgICAgICAgICJ1c2VyIjogImFkbWluIiwKICAgICAgICAgICAgInZob3N0IjogIi8iLAogICAgICAgICAgICAiY29uZmlndXJlIjogIi4qIiwKICAgICAgICAgICAgIndyaXRlIjogIi4qIiwKICAgICAgICAgICAgInJlYWQiOiAiLioiCiAgICAgICAgfQogICAgXSwKICAgICJ0b3BpY19wZXJtaXNzaW9ucyI6IFsKICAgICAgICB7CiAgICAgICAgICAgICJ1c2VyIjogImFkbWluIiwKICAgICAgICAgICAgInZob3N0IjogIi8iLAogICAgICAgICAgICAiZXhjaGFuZ2UiOiAiIiwKICAgICAgICAgICAgIndyaXRlIjogIi4qIiwKICAgICAgICAgICAgInJlYWQiOiAiLioiCiAgICAgICAgfQogICAgXSwKICAgICJwYXJhbWV0ZXJzIjogW10sCiAgICAiZ2xvYmFsX3BhcmFtZXRlcnMiOiBbCiAgICAgICAgewogICAgICAgICAgICAibmFtZSI6ICJpbnRlcm5hbF9jbHVzdGVyX2lkIiwKICAgICAgICAgICAgInZhbHVlIjogInJhYmJpdG1xLWNsdXN0ZXItaWQtN1JLNEFRbTI2YTJ0REUyTkZoMnpkdyIKICAgICAgICB9CiAgICBdLAogICAgInBvbGljaWVzIjogW10sCiAgICAicXVldWVzIjogWwogICAgICAgIHsKICAgICAgICAgICAgIm5hbWUiOiAid2ViaG9va19xdWV1ZSIsCiAgICAgICAgICAgICJ2aG9zdCI6ICIvIiwKICAgICAgICAgICAgImR1cmFibGUiOiB0cnVlLAogICAgICAgICAgICAiYXV0b19kZWxldGUiOiBmYWxzZSwKICAgICAgICAgICAgImFyZ3VtZW50cyI6IHsKICAgICAgICAgICAgICAgICJ4LW1heC1sZW5ndGgiOiAxMDAwMDAsCiAgICAgICAgICAgICAgICAieC1vdmVyZmxvdyI6ICJyZWplY3QtcHVibGlzaCIsCiAgICAgICAgICAgICAgICAieC1xdWV1ZS10eXBlIjogInF1b3J1bSIKICAgICAgICAgICAgfQogICAgICAgIH0KICAgIF0sCiAgICAiZXhjaGFuZ2VzIjogWwogICAgICAgIHsKICAgICAgICAgICAgIm5hbWUiOiAid2ViaG9vayIsCiAgICAgICAgICAgICJ2aG9zdCI6ICIvIiwKICAgICAgICAgICAgInR5cGUiOiAieC1kZWxheWVkLW1lc3NhZ2UiLAogICAgICAgICAgICAiZHVyYWJsZSI6IHRydWUsCiAgICAgICAgICAgICJhdXRvX2RlbGV0ZSI6IGZhbHNlLAogICAgICAgICAgICAiaW50ZXJuYWwiOiBmYWxzZSwKICAgICAgICAgICAgImFyZ3VtZW50cyI6IHsKICAgICAgICAgICAgICAgICJ4LWRlbGF5ZWQtdHlwZSI6ICJkaXJlY3QiCiAgICAgICAgICAgIH0KICAgICAgICB9CiAgICBdLAogICAgImJpbmRpbmdzIjogWwogICAgICAgIHsKICAgICAgICAgICAgInNvdXJjZSI6ICJ3ZWJob29rIiwKICAgICAgICAgICAgInZob3N0IjogIi8iLAogICAgICAgICAgICAiZGVzdGluYXRpb24iOiAid2ViaG9va19xdWV1ZSIsCiAgICAgICAgICAgICJkZXN0aW5hdGlvbl90eXBlIjogInF1ZXVlIiwKICAgICAgICAgICAgInJvdXRpbmdfa2V5IjogIndlYmhvb2tfZXh0ZXJuYWxfYXBpIiwKICAgICAgICAgICAgImFyZ3VtZW50cyI6IHt9CiAgICAgICAgfQogICAgXQp9
+
+          - apiVersion: v1
+            kind: Secret
+            metadata:
+              name: rabbitmq-secrets
+              namespace: rabbitmq
+            data:
+              rabbitmq-password: Yml0bmFtaQ==
+              rabbitmq-erlang-cookie: SUhCVlhUSUZKSklBWFBJRVVCVkQ=
+
+        ingress:
+          enabled: true
+          ingressClassName: nginx
+          hostname: rabbitmq.local.com.br
+          tls: true
+
+        customLivenessProbe:
+          exec:
+            command:
+              - sh
+              - -ec
+              - curl -f --user admin:password 127.0.0.1:15672/api/health/checks/virtual-hosts
+          failureThreshold: 6
+          initialDelaySeconds: 120
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 20
+
+        customReadinessProbe:
+          exec:
+            command:
+              - sh
+              - -ec
+              - curl -f --user admin:password 127.0.0.1:15672/api/health/checks/local-alarms
+          failureThreshold: 3
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 20
+  
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: rabbitmq
