@@ -83,7 +83,7 @@ spec:
       
         ## DEX ##
         dex:
-          enabled: false
+          enabled: true
           metrics:
             enabled: true
             serviceMonitor:
