@@ -48,6 +48,7 @@ spec:
           ## Monitoring ##
           metrics:
             enabled: true
+            
             serviceMonitor:
               enabled: true
               namespace: ingress-nginx
@@ -57,9 +58,6 @@ spec:
                 matchNames: 
                 - ingress-nginx
         
-          ## Alerting ##
-          metrics:
-            enabled: true
             prometheusRule:
               enabled: true
               namespace: ingress-nginx
