@@ -111,7 +111,7 @@ spec:
           metrics:
             kafka:
               enabled: true
-              # extraFlags:
+              certificatesSecret: kfka-tls
               resources:
                 requests:
                   memory: "150Mi"
