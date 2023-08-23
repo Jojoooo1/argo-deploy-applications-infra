@@ -82,7 +82,11 @@ spec:
               users:
                 - admin
                 - user
+                - inter_broker_user
+                - controller_user
               passwords: 
+                - password
+                - password
                 - password
                 - password
             existingSecret: kafka-passwords
