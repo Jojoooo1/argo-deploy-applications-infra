@@ -54,12 +54,16 @@ spec:
             - apiVersion: v1
               kind: Secret
               metadata:
-                name: kafka-tls-passwords
+                name: kafka-passwords
                 namespace: kafka
               data:
                 key-password: IiI=
                 keystore-password: IiI=
                 truststore-password: IiI=
+
+                client-passwords: cGFzc3dvcmQ=,cGFzc3dvcmQ=
+                inter-broker-password: cGFzc3dvcmQ= 
+                controller-password: cGFzc3dvcmQ=
               type: Opaque
 
           # NOTE: KRaft <= 3.4 does not yet support SCRAM mechanisms, so this list will be automatically reduced to only PLAIN SASL mechanism.
@@ -68,10 +72,10 @@ spec:
             controllerMechanism: PLAIN # SCRAM-SHA-256
             interbroker:
               user: inter_broker_user
-              password: e6QGw1R6si
+              password: ""
             controller:
               user: controller_user
-              password: 9YbCuBKtk6
+              password: ""
             client:
               users:
                 - admin
@@ -79,6 +83,8 @@ spec:
               passwords: 
                 - password
                 - password
+            existingSecret: kafka-passwords
+          
           controller:
             replicaCount: 3
             # resources:
