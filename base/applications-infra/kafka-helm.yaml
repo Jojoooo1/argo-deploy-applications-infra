@@ -19,8 +19,9 @@ spec:
     - chart: kafka
       repoURL: registry-1.docker.io/bitnamicharts
       targetRevision: 24.0.14
-      # https://github.com/bitnami/charts/tree/main/bitnami/kafka
 
+      # https://docs.confluent.io/platform/current/kafka/deployment.html
+      # https://github.com/bitnami/charts/tree/main/bitnami/kafka
       helm:
         values: |
           kraft:
@@ -60,9 +61,6 @@ spec:
                 - password
             existingSecret: kfk-passwords
 
-
-          # https://github.com/bitnami/charts/tree/main/bitnami/kafka#enable-security-for-kafka-and-zookeeper
-          # https://docs.bitnami.com/kubernetes/infrastructure/kafka/administration/enable-tls/
           tls:
             type: PEM
             pemChainIncluded: false
@@ -77,11 +75,12 @@ spec:
                 name: kfk-passwords
                 namespace: kafka
                 # system-user-password  is used for kafka exporter
+                # client-passwords is used for sasl
               data:
                 client-passwords: cGFzc3dvcmQscGFzc3dvcmQscGFzc3dvcmQscGFzc3dvcmQ=
+                system-user-password: cGFzc3dvcmQ=
                 inter-broker-password: ZDk1dTVOcGtCeA==
                 controller-password: WUgxTEJkakRmeA==
-                system-user-password: cGFzc3dvcmQ=
               type: Opaque
 
             - apiVersion: v1
@@ -122,7 +121,6 @@ spec:
                 limits:
                   memory: "150Mi"
                   cpu: "0.1"
-
             serviceMonitor:
               enabled: true
               labels:
