@@ -20,7 +20,7 @@ spec:
       
       # https://github.com/redpanda-data/helm-charts/tree/main/charts/redpanda
       helm:
-        values: |
+        valuesObject:
           console:
             enabled: false
           statefulset:
@@ -43,7 +43,7 @@ spec:
 
       # https://github.com/redpanda-data/helm-charts/tree/main/charts/console
       helm:
-        values: |
+        valuesObject:
           ingress:
             enabled: true
             className: "nginx"

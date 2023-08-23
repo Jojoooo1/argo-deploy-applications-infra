@@ -23,7 +23,7 @@ spec:
       # https://docs.confluent.io/platform/current/kafka/deployment.html
       # https://github.com/bitnami/charts/tree/main/bitnami/kafka
       helm:
-        values: |
+        valuesObject:
           kraft:
             enabled: true
             clusterId: GTxB5josEfsini5mBw33W7
