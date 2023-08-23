@@ -50,21 +50,21 @@ spec:
             # existingSecret: kafka-passwords
             # passwordsSecret: password
 
-          extraDeploy:
-            - apiVersion: v1
-              kind: Secret
-              metadata:
-                name: kafka-passwords
-                namespace: kafka
+          # extraDeploy:
+          #   - apiVersion: v1
+          #     kind: Secret
+          #     metadata:
+          #       name: kafka-passwords
+          #       namespace: kafka
 
-              data:
-                key-password: cGFzc3dvcmQ=
-                keystore-password: cGFzc3dvcmQ=
-                truststore-password: cGFzc3dvcmQ=
-                client-passwords: cGFzc3dvcmQscGFzc3dvcmQscGFzc3dvcmQscGFzc3dvcmQ=
-                inter-broker-password: cGFzc3dvcmQ= 
-                controller-password: cGFzc3dvcmQ=
-              type: Opaque
+          #     data:
+          #       key-password: cGFzc3dvcmQ=
+          #       keystore-password: cGFzc3dvcmQ=
+          #       truststore-password: cGFzc3dvcmQ=
+          #       client-passwords: cGFzc3dvcmQscGFzc3dvcmQscGFzc3dvcmQscGFzc3dvcmQ=
+          #       inter-broker-password: cGFzc3dvcmQ= 
+          #       controller-password: cGFzc3dvcmQ=
+          #     type: Opaque
 
           # https://github.com/bitnami/charts/issues/17497#issuecomment-1625089275
           # At the moment, our Kafka chart does not support SCRAM mechanism yet.
@@ -83,11 +83,7 @@ spec:
               users:
                 - admin
                 - user
-                - inter_broker_user
-                - controller_user
               passwords: 
-                - password
-                - password
                 - password
                 - password
             existingSecret: kafka-passwords
