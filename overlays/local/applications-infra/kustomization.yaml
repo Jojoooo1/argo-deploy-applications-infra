@@ -12,3 +12,15 @@ resources:
   - ../../../base/applications-infra/keycloak-helm.yaml
   - ../../../base/applications-infra/rabbitmq-helm.yaml
   - ../../../base/applications-infra/redpanda-helm.yaml
+
+# patches:
+#   - target:
+#       group: argoproj.io
+#       version: v1alpha1
+#       kind: Application
+#       name: rabbitmq
+#       namespace: argocd
+#     patch: |-
+#       - op: replace
+#         path: "/spec/source/helm/valuesObject/resources/requests/memory"
+#         value: "500Mi"
