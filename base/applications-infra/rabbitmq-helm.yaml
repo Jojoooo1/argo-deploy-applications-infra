@@ -30,7 +30,7 @@ spec:
             cpu: 650m
           limits:
             memory: 1Gi
-            
+
         replicaCount: 3
         pdb:
           create: true
@@ -68,6 +68,7 @@ spec:
           prometheusRule:
             enabled: true
             namespace: rabbitmq
+            labels:
               release: observability-kube-prometheus
         
         extraDeploy:
