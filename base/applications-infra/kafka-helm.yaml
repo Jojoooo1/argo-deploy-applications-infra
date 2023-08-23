@@ -112,6 +112,9 @@ spec:
             kafka:
               enabled: true
               certificatesSecret: kfka-tls
+              tlsCaCert: kafka-ca.crt
+              tlsCert: kafka.crt
+              tlsKey: kafka.key
               resources:
                 requests:
                   memory: "150Mi"
