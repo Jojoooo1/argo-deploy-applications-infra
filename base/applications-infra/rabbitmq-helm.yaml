@@ -41,7 +41,7 @@ spec:
 
         persistence:
           # storageClass: 
-          size: 1Gi
+          size: 10Gi
         
         auth:
           existingPasswordSecret: rabbitmq-secrets # rabbitmq-password
