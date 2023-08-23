@@ -76,10 +76,12 @@ spec:
               metadata:
                 name: kfk-passwords
                 namespace: kafka
+                # system-user-password  is used for kafka exporter
               data:
                 client-passwords: cGFzc3dvcmQscGFzc3dvcmQscGFzc3dvcmQscGFzc3dvcmQ=
                 inter-broker-password: ZDk1dTVOcGtCeA==
                 controller-password: WUgxTEJkakRmeA==
+                system-user-password: cGFzc3dvcmQ=
               type: Opaque
 
             - apiVersion: v1
