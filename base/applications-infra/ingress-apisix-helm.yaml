@@ -27,7 +27,7 @@ spec:
     
     # https://github.com/bitnami/charts/tree/main/bitnami/apisix
     helm:
-      values: |
+      valuesObject:
         # We use traditional mode. #https://github.com/bitnami/charts/tree/main/bitnami/apisix#deployment-modes
         dataPlane:
           enabled: false

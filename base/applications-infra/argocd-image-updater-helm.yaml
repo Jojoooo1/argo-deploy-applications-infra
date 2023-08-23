@@ -22,7 +22,7 @@ spec:
 
     # https://github.com/argoproj/argo-helm/tree/main/charts/argocd-image-updater
     helm:
-      values: |
+      valuesObject:
         resources:
           requests:
             cpu: 175m

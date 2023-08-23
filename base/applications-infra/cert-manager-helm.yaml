@@ -25,34 +25,31 @@ spec:
 
     # https://github.com/cert-manager/cert-manager/tree/master/deploy/charts/cert-manager
     helm:
-      parameters:
-        - name: installCRDs
-          value: "true"
+      valuesObject:
+        installCRDs: true
+        resources:
+          requests:
+            cpu: 75m
+            memory: 200Mi
+          limits:
+            cpu: 75m
+            memory: 200Mi
+        prometheus:
+          servicemonitor:
+            enabled: true
+            labels:
+              release: observability-kube-prometheus
+        extraArgs:
+          - --logging-format=json
+        webhook:
+          extraArgs:
+            - --logging-format=json
+        cainjector:
+          extraArgs:
+            - --logging-format=json
 
-        - name: resources.requests.memory
-          value: "200Mi"
-        - name: resources.limits.memory
-          value: "200Mi"
-        - name: resources.requests.cpu
-          value: "75m"
-        - name: resources.limits.cpu
-          value: "75m"
-
-        - name: prometheus.servicemonitor.enabled
-          value: "true"
-        - name: prometheus.servicemonitor.labels.release
-          value: "observability-kube-prometheus"
-
-        - name: extraArgs[0]
-          value: "--logging-format=json"
-        - name: webhook.extraArgs[0]
-          value: "--logging-format=json"
-        - name: cainjector.extraArgs[0]
-          value: "--logging-format=json"
-
-        - name: podDisruptionBudget.enabled
-          value: "true"
-
+        podDisruptionBudget:
+          enabled: true
 
   destination:
     server: "https://kubernetes.default.svc"
