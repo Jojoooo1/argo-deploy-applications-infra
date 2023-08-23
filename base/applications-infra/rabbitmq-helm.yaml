@@ -75,15 +75,15 @@ spec:
             load_definitions = /app/load_definition.json
 
         ## Metrics ##
-        - name: metrics.enabled
-          value: "true"
+        # - name: metrics.enabled
+        #   value: "true"
 
-        - name: metrics.serviceMonitor.enabled
-          value: "true"
-        - name: metrics.serviceMonitor.namespace
-          value: "rabbitmq"
-        - name: metrics.serviceMonitor.labels.release
-          value: "observability-kube-prometheus"
+        # - name: metrics.serviceMonitor.enabled
+        #   value: "true"
+        # - name: metrics.serviceMonitor.namespace
+        #   value: "rabbitmq"
+        # - name: metrics.serviceMonitor.labels.release
+        #   value: "observability-kube-prometheus"
 
         - name: metrics.prometheusRule.enabled
           value: "true"

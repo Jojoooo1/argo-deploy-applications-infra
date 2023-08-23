@@ -60,18 +60,18 @@ spec:
           value: "true"
 
         # Monitoring
-        # - name: metrics.enabled
-        #   value: "true"
-        # - name: metrics.serviceMonitor.enabled
-        #   value: "true"
-        # - name: metrics.serviceMonitor.namespace
-        #   value: "keycloak"
-        # - name: metrics.serviceMonitor.labels.release # in new version it is called labels
-        #   value: "observability-kube-prometheus"
-        # - name: metrics.serviceMonitor.endpoints[0].path
-        #   value: "/metrics"
-        # - name: metrics.serviceMonitor.endpoints[1].path
-        #   value: "/realms/master/metrics"
+        - name: metrics.enabled
+          value: "true"
+        - name: metrics.serviceMonitor.enabled
+          value: "true"
+        - name: metrics.serviceMonitor.namespace
+          value: "keycloak"
+        - name: metrics.serviceMonitor.labels.release # in new version it is called labels
+          value: "observability-kube-prometheus"
+        - name: metrics.serviceMonitor.endpoints[0].path
+          value: "/metrics"
+        - name: metrics.serviceMonitor.endpoints[1].path
+          value: "/realms/master/metrics"
 
         ## Credentials ##
         - name: auth.adminUser
