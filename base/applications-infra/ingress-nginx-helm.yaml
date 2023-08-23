@@ -41,14 +41,14 @@ spec:
 
           ## Replica ##
           autoscaling:
-            exec.enabled: true
+            enabled: true
             minReplicas: 2
             maxReplicas: 6
           
           ## Monitoring ##
           metrics:
             enabled: true
-            
+
             serviceMonitor:
               enabled: true
               namespace: ingress-nginx
