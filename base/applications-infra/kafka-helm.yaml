@@ -123,10 +123,10 @@ spec:
                   memory: "150Mi"
                   cpu: "0.1"
 
-            # serviceMonitor:
-            #   enabled: true
-            #   labels:
-            #     release: observability-kube-prometheus
+            serviceMonitor:
+              enabled: true
+              labels:
+                release: observability-kube-prometheus
 
     - chart: console
       repoURL: https://helm.conduktor.io
