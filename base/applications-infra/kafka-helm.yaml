@@ -33,10 +33,10 @@ spec:
               protocol: SASL_SSL
             controller:
               containerPort: 9093
-              protocol: SASL_SSL
+              protocol: SASL_PLAINTEXT
             interbroker:
               containerPort: 9094
-              protocol: SASL_SSL
+              protocol: SASL_PLAINTEXT
             external:
               containerPort: 9095
               protocol: SASL_SSL
