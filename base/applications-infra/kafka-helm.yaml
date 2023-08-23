@@ -51,16 +51,16 @@ spec:
                 passwordsSecret: kafka-passwords
 
           extraDeploy:
-           - apiVersion: v1
-            kind: Secret
-            metadata:
-              name: kafka-tls-passwords
-              namespace: kafka
-            data:
-              key-password: IiI=
-              keystore-password: IiI=
-              truststore-password: IiI=
-            type: Opaque
+            - apiVersion: v1
+              kind: Secret
+              metadata:
+                name: kafka-tls-passwords
+                namespace: kafka
+              data:
+                key-password: IiI=
+                keystore-password: IiI=
+                truststore-password: IiI=
+              type: Opaque
 
           # NOTE: KRaft <= 3.4 does not yet support SCRAM mechanisms, so this list will be automatically reduced to only PLAIN SASL mechanism.
           sasl:
