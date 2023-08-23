@@ -161,7 +161,15 @@ spec:
             database: conduktor
             username: admin
             password: password
-  
+
+  ignoreDifferences:
+    - kind: Secret
+      namespace: kafka-tls-passwords
+      name: kafka
+      jsonPointers:
+        - /data/keystore-password
+        - /data/truststore-password
+
   destination:
     server: "https://kubernetes.default.svc"
     namespace: kafka
