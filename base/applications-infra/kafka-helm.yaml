@@ -55,11 +55,11 @@ spec:
               metadata:
                 name: kafka-passwords
                 namespace: kafka
+                
+              # key-password: IiI=
+              # keystore-password: IiI=
+              # truststore-password: IiI=
               data:
-                # key-password: IiI=
-                # keystore-password: IiI=
-                # truststore-password: IiI=
-
                 client-passwords: cGFzc3dvcmQ=,cGFzc3dvcmQ=
                 inter-broker-password: cGFzc3dvcmQ= 
                 controller-password: cGFzc3dvcmQ=
