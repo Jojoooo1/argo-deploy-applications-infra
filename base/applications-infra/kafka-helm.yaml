@@ -79,9 +79,15 @@ spec:
             #     name: kafka-passwords
             #     namespace: kafka
 
+            #     key-password: cGFzc3dvcmQ=
             #   data:
-            #     keystore-password: cGFzc3dvcmQ=
+            #     keystore-password: cGFzc3dvcmQ= GGVxVE2DwB
+            #     truststore-password: cGFzc3dvcmQ= TrPacoFX7A
             #     truststore-password: cGFzc3dvcmQ=
+
+            #     client-passwords: cGFzc3dvcmQscGFzc3dvcmQscGFzc3dvcmQscGFzc3dvcmQ=
+            #     inter-broker-password: cGFzc3dvcmQ=  pWHdIELJnN
+            #     controller-password: cGFzc3dvcmQ= v4mXx7Evy3
             #   type: Opaque
 
             - apiVersion: v1
