@@ -87,7 +87,8 @@ spec:
 
         ## Database ##
         postgresql:
-          image: 15.4.0-debian-11-r5
+          image: 
+            tag: 15.4.0-debian-11-r5
           auth:
             database: keycloak
             postgresPassword: password
