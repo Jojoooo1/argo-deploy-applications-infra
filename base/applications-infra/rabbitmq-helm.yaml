@@ -63,12 +63,12 @@ spec:
           serviceMonitor:
             enabled: true
             namespace: rabbitmq
-            labels: |
+            labels:
               release: observability-kube-prometheus
           prometheusRule:
             enabled: true
             namespace: rabbitmq
-            labels: |
+            labels:
               release: observability-kube-prometheus
         
         extraDeploy:
