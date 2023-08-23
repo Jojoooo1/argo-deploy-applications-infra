@@ -82,15 +82,15 @@ spec:
                 release: observability-kube-prometheus
       
         ## DEX ##
-        # dex:
-        #   enabled: true
-        #   metrics:
-        #     enabled: true
-        #     serviceMonitor:
-        #       enabled: true
-        #       additionalLabels:
-        #         release: observability-kube-prometheus
-        #       namespace: argocd
+        dex:
+          enabled: true
+          metrics:
+            enabled: true
+            serviceMonitor:
+              enabled: true
+              additionalLabels:
+                release: observability-kube-prometheus
+              namespace: argocd
 
         ## RepoServer ##
         repoServer:
