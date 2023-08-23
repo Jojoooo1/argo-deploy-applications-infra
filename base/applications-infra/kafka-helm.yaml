@@ -164,8 +164,8 @@ spec:
 
   ignoreDifferences:
     - kind: Secret
-      namespace: kafka-tls-passwords
-      name: kafka
+      name: kafka-tls-passwords 
+      namespace: kafka
       jsonPointers:
         - /data/keystore-password
         - /data/truststore-password
