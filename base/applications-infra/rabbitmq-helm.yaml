@@ -96,7 +96,11 @@ spec:
           ingressClassName: nginx
           hostname: rabbitmq.local.com.br
           tls: true
-
+          extraTls:
+            - secretName: rabbitmq-tls
+              hosts:
+               - rabbitmq.local.com.br
+               
         customLivenessProbe:
           exec:
             command:
