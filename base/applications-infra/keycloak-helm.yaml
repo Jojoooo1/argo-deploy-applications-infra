@@ -60,14 +60,14 @@ spec:
             namespace: keycloak
             labels:
               release: observability-kube-prometheus
-          endpoints:
-          - path: /metrics
-          - path: /realms/master/metrics
-
             # used for keycloak grafana dashboard.
             relabelings:
               - sourceLabels: [__meta_kubernetes_pod_container_name]
                 targetLabel: job
+          endpoints:
+          - path: /metrics
+          - path: /realms/master/metrics
+
 
         ## Auth ##
         auth:
