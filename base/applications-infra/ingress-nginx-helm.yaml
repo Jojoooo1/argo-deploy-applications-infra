@@ -39,6 +39,10 @@ spec:
         - name: controller.autoscaling.maxReplicas
           value: "6"
         # Warning: does not change resources order list. Resources are being updated in overlays. It will break kustomize patch.
+
+        # Should be set in overlay
+        # name: 'controller.service.loadBalancerIP',
+        # value: '34.74.253.xx'
         
         ## Monitoring ##
         - name: controller.metrics.enabled
