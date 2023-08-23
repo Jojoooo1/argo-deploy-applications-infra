@@ -19,8 +19,9 @@ spec:
     chart: ingress-nginx
     repoURL: "https://kubernetes.github.io/ingress-nginx"
     targetRevision: 4.7.1
+
+    # https://github.com/kubernetes/ingress-nginx/tree/main/charts/ingress-nginx
     helm:
-      # https://github.com/kubernetes/ingress-nginx/blob/main/charts/ingress-nginx/values.yaml
       parameters:
         # Warning: does not change resources order list. Resources are being updated in overlays. It will break kustomize patch.
         ## Resources ##
