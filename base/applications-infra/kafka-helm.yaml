@@ -67,14 +67,14 @@ spec:
 
           # NOTE: KRaft <= 3.4 does not yet support SCRAM mechanisms, so this list will be automatically reduced to only PLAIN SASL mechanism.
           sasl:
-            interBrokerMechanism: SCRAM-SHA-256 # SCRAM-SHA-256
-            controllerMechanism: SCRAM-SHA-256 # SCRAM-SHA-256
+            interBrokerMechanism: PLAIN # SCRAM-SHA-256
+            controllerMechanism: PLAIN # SCRAM-SHA-256
             interbroker:
               user: inter_broker_user
-              password: "password"
+              password: ""
             controller:
               user: controller_user
-              password: "password"
+              password: ""
             client:
               users:
                 - admin
