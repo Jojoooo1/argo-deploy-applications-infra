@@ -21,74 +21,74 @@ spec:
     targetRevision: 4.7.1
 
     # https://github.com/kubernetes/ingress-nginx/tree/main/charts/ingress-nginx
-    helm:
-      valuesObject:
-        controller:
-          # Should be set in overlay
-          service:
-            # loadBalancerIP: '34.74.253.xx'
-            # Preserve source IP -> allow to whitelist
-            externalTrafficPolicy: Local
+    # helm:
+      # valuesObject:
+        # controller:
+        #   # Should be set in overlay
+        #   service:
+        #     # loadBalancerIP: '34.74.253.xx'
+        #     # Preserve source IP -> allow to whitelist
+        #     externalTrafficPolicy: Local
 
-          ## Resources ##
-          resources:
-            requests:
-              cpu: 300m
-              memory: 400Mi
-            limits:
-              # cpu: without limit
-              memory: 400Mi
+        #   ## Resources ##
+        #   resources:
+        #     requests:
+        #       cpu: 300m
+        #       memory: 400Mi
+        #     limits:
+        #       # cpu: without limit
+        #       memory: 400Mi
 
-          ## Replica ##
-          autoscaling:
-            enabled: true
-            minReplicas: 2
-            maxReplicas: 6
+        #   ## Replica ##
+        #   autoscaling:
+        #     enabled: true
+        #     minReplicas: 2
+        #     maxReplicas: 6
           
-          ## Monitoring ##
-          metrics:
-            enabled: true
+        #   ## Monitoring ##
+        #   metrics:
+        #     enabled: true
 
-            serviceMonitor:
-              enabled: true
-              namespace: ingress-nginx
-              additionalLabels:
-                release: observability-kube-prometheus
-              namespaceSelector:
-                matchNames: 
-                - ingress-nginx
+        #     serviceMonitor:
+        #       enabled: true
+        #       namespace: ingress-nginx
+        #       additionalLabels:
+        #         release: observability-kube-prometheus
+        #       namespaceSelector:
+        #         matchNames: 
+        #         - ingress-nginx
         
-            prometheusRule:
-              enabled: true
-              namespace: ingress-nginx
-              additionalLabels:
-                release: observability-kube-prometheus
-              rules: 
-                - alert: NginxHighHttp5xxErrorRate
-                  expr: sum by(ingress, exported_service) (rate(nginx_ingress_controller_requests{status=~"^5.."}[5m])) / sum by(ingress, exported_service) (rate(nginx_ingress_controller_requests[5m])) * 100 > 5
-                  for: 1m
-                  labels:
-                    severity: critical
-                  annotations:
-                    summary: "Nginx high HTTP 5xx error rate"
-                    description: "Too many HTTP requests with status 5xx (> 5%) for ingress '{{ $labels.ingress }}'"
+        #     prometheusRule:
+        #       enabled: true
+        #       namespace: ingress-nginx
+        #       additionalLabels:
+        #         release: observability-kube-prometheus
+        #       rules: 
+        #         - alert: NginxHighHttp5xxErrorRate
+        #           expr: sum by(ingress, exported_service) (rate(nginx_ingress_controller_requests{status=~"^5.."}[5m])) / sum by(ingress, exported_service) (rate(nginx_ingress_controller_requests[5m])) * 100 > 5
+        #           for: 1m
+        #           labels:
+        #             severity: critical
+        #           annotations:
+        #             summary: "Nginx high HTTP 5xx error rate"
+        #             description: "Too many HTTP requests with status 5xx (> 5%) for ingress '{{ $labels.ingress }}'"
 
-                - alert: NginxLatencyHigh
-                  expr: histogram_quantile(0.99, sum(rate(nginx_ingress_controller_request_duration_seconds_bucket[2m])) by (host, instance)) > 3
-                  for: 2m
-                  labels:
-                    severity: warning
-                  annotations:
-                    summary: "Nginx latency high"
-                    description: "Nginx p99 latency is higher than 3 seconds"
+        #         - alert: NginxLatencyHigh
+        #           expr: histogram_quantile(0.99, sum(rate(nginx_ingress_controller_request_duration_seconds_bucket[2m])) by (host, instance)) > 3
+        #           for: 2m
+        #           labels:
+        #             severity: warning
+        #           annotations:
+        #             summary: "Nginx latency high"
+        #             description: "Nginx p99 latency is higher than 3 seconds"
  
-          extraEnvs:
-            - name: TZ
-              value: America/Sao_Paulo
-          config:
-            # https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/log-format/
-            log-format-escape-json: "true"
-            log-format-upstream: '{"@timestamp":"$time_iso8601","request_id":"$req_id","service_name":"$service_name","status":"$status","duration":"$request_time","method":"$request_method","host":"$host","path":"$uri","request_query":"$args","request_length":"$request_length","bytes_sent":"$bytes_sent","http_version":"$server_protocol","http_referrer":"$http_referer","http_user_agent":"$http_user_agent","remote_addr":"$proxy_protocol_addr","remote_user":"$remote_user","x_forwarded_for":"$proxy_add_x_forwarded_for"}'            
+        #   extraEnvs:
+        #     - name: TZ
+        #       value: America/Sao_Paulo
+        #   config:
+        #     # https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/log-format/
+        #     log-format-escape-json: "true"
+        #     log-format-upstream: '{"@timestamp":"$time_iso8601","request_id":"$req_id","service_name":"$service_name","status":"$status","duration":"$request_time","method":"$request_method","host":"$host","path":"$uri","request_query":"$args","request_length":"$request_length","bytes_sent":"$bytes_sent","http_version":"$server_protocol","http_referrer":"$http_referer","http_user_agent":"$http_user_agent","remote_addr":"$proxy_protocol_addr","remote_user":"$remote_user","x_forwarded_for":"$proxy_add_x_forwarded_for"}'            
               
 
   destination:
