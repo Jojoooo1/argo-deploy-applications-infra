@@ -77,9 +77,9 @@ spec:
             enabled: true
             serviceMonitor:
               enabled: true
+              namespace: argocd
               additionalLabels:
                 release: observability-kube-prometheus
-              namespace: argocd
       
         ## DEX ##
         dex:

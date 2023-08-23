@@ -22,63 +22,49 @@ spec:
 
     # https://github.com/kubernetes/ingress-nginx/tree/main/charts/ingress-nginx
     helm:
-      parameters:
-        # Warning: does not change resources order list. Resources are being updated in overlays. It will break kustomize patch.
-        ## Resources ##
-        - name: controller.resources.requests.memory
-          value: "400Mi"
-        - name: controller.resources.limits.memory
-          value: "400Mi"
-        - name: controller.resources.requests.cpu
-          value: "300m"
-        ## Replica ##
-        - name: controller.autoscaling.enabled
-          value: "true"
-        - name: controller.autoscaling.minReplicas
-          value: "2"
-        - name: controller.autoscaling.maxReplicas
-          value: "6"
-        # Warning: does not change resources order list. Resources are being updated in overlays. It will break kustomize patch.
-
-        # Should be set in overlay
-        # name: 'controller.service.loadBalancerIP',
-        # value: '34.74.253.xx'
-        
-        ## Monitoring ##
-        - name: controller.metrics.enabled
-          value: "true"
-        - name: controller.metrics.serviceMonitor.enabled
-          value: "true"
-        - name: controller.metrics.serviceMonitor.namespace
-          value: "ingress-nginx"
-        - name: controller.metrics.serviceMonitor.namespaceSelector.matchNames[0]
-          value: "ingress-nginx"
-        - name: controller.metrics.serviceMonitor.additionalLabels.release
-          value: "observability-kube-prometheus"
-
-        ## Alerting ##
-        - name: controller.metrics.prometheusRule.enabled
-          value: "true"
-        - name: controller.metrics.prometheusRule.namespace
-          value: "ingress-nginx"
-        - name: controller.metrics.prometheusRule.additionalLabels.release
-          value: "observability-kube-prometheus"
-
-        # Preserve source IP -> allow to whitelist
-        - name: controller.service.externalTrafficPolicy
-          value: "Local"
-
-      values: |
+      valuesObject:
         controller:
-          extraEnvs:
-            - name: TZ
-              value: America/Sao_Paulo
-          config:
-            # https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/log-format/
-            log-format-escape-json: "true"
-            log-format-upstream: '{"@timestamp":"$time_iso8601","request_id":"$req_id","service_name":"$service_name","status":"$status","duration":"$request_time","method":"$request_method","host":"$host","path":"$uri","request_query":"$args","request_length":"$request_length","bytes_sent":"$bytes_sent","http_version":"$server_protocol","http_referrer":"$http_referer","http_user_agent":"$http_user_agent","remote_addr":"$proxy_protocol_addr","remote_user":"$remote_user","x_forwarded_for":"$proxy_add_x_forwarded_for"}'            
+          # Should be set in overlay
+          service:
+            # loadBalancerIP: '34.74.253.xx'
+            # Preserve source IP -> allow to whitelist
+            externalTrafficPolicy: Local
+
+          ## Resources ##
+          resources:
+            requests:
+              cpu: 300m
+              memory: 400Mi
+            limits:
+              # cpu: without limit
+              memory: 400Mi
+
+          ## Replica ##
+          autoscaling:
+            exec.enabled: true
+            minReplicas: 2
+            maxReplicas: 6
+          
+          ## Monitoring ##
           metrics:
+            enabled: true
+            serviceMonitor:
+              enabled: true
+              namespace: ingress-nginx
+              additionalLabels:
+                release: observability-kube-prometheus
+              namespaceSelector:
+                matchNames: 
+                - ingress-nginx
+        
+          ## Alerting ##
+          metrics:
+            enabled: true
             prometheusRule:
+              enabled: true
+              namespace: ingress-nginx
+              additionalLabels:
+                release: observability-kube-prometheus
               rules: 
                 - alert: NginxHighHttp5xxErrorRate
                   expr: sum by(ingress, exported_service) (rate(nginx_ingress_controller_requests{status=~"^5.."}[5m])) / sum by(ingress, exported_service) (rate(nginx_ingress_controller_requests[5m])) * 100 > 5
@@ -97,6 +83,15 @@ spec:
                   annotations:
                     summary: "Nginx latency high"
                     description: "Nginx p99 latency is higher than 3 seconds"
+ 
+          extraEnvs:
+            - name: TZ
+              value: America/Sao_Paulo
+          config:
+            # https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/log-format/
+            log-format-escape-json: "true"
+            log-format-upstream: '{"@timestamp":"$time_iso8601","request_id":"$req_id","service_name":"$service_name","status":"$status","duration":"$request_time","method":"$request_method","host":"$host","path":"$uri","request_query":"$args","request_length":"$request_length","bytes_sent":"$bytes_sent","http_version":"$server_protocol","http_referrer":"$http_referer","http_user_agent":"$http_user_agent","remote_addr":"$proxy_protocol_addr","remote_user":"$remote_user","x_forwarded_for":"$proxy_add_x_forwarded_for"}'            
+              
 
   destination:
     server: "https://kubernetes.default.svc"
