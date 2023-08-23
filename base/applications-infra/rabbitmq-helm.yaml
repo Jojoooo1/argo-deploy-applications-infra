@@ -72,7 +72,7 @@ spec:
               release: observability-kube-prometheus
         
         extraDeploy:
-         -  |
+          - |
             apiVersion: v1
             kind: Secret
             metadata:
