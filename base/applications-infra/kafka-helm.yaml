@@ -76,7 +76,7 @@ spec:
             - apiVersion: v1
               kind: Secret
               metadata:
-                name: kafka-passwords
+                name: kafka-pwd
                 namespace: kafka
               data:
                 client-passwords: cGFzc3dvcmQscGFzc3dvcmQscGFzc3dvcmQscGFzc3dvcmQ=
