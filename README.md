@@ -5,7 +5,7 @@
 Available Applications:
 
 | Applications  | DNS | Username  | Password | Links | Comments |
-| ------------- | ------------- | ------------- | ------------- | ------------- | | ------------- |
+| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
 | Ingress-nginx | | | | <https://kubernetes.github.io/ingress-nginx> | |
 | ArgoCD |  <http://argo.local.com.br> | admin  | get password at k3s start script | <https://argo-cd.readthedocs.io/en/stable>  | |
 | Keycloak | <http://identity.local.com.br/admin/master/console>  | admin  | password |  <https://www.keycloak.org>  | To activate metrics realmsSettings/events/metrics-listener |
