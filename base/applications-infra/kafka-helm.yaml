@@ -56,10 +56,10 @@ spec:
                 name: kafka-passwords
                 namespace: kafka
 
-              # key-password: IiI=
-              # keystore-password: IiI=
-              # truststore-password: IiI=
               data:
+                key-password: cGFzc3dvcmQ=
+                keystore-password: cGFzc3dvcmQ=
+                truststore-password: cGFzc3dvcmQ=
                 client-passwords: cGFzc3dvcmQscGFzc3dvcmQscGFzc3dvcmQscGFzc3dvcmQ=
                 inter-broker-password: cGFzc3dvcmQ= 
                 controller-password: cGFzc3dvcmQ=
