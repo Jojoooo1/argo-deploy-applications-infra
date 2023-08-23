@@ -168,6 +168,11 @@ spec:
               additionalLabels:
                 release: observability-kube-prometheus
               namespace: argocd
+          ingress:
+            enabled: true
+            ingressClassName: "nginx"
+            hosts:
+              - argo.local.com.br
 
         ## Redis ##
         redis:
@@ -185,14 +190,6 @@ spec:
               additionalLabels:
                 release: observability-kube-prometheus
               namespace: argocd
-
-        # Ingress
-        server:
-          ingress:
-            enabled: true
-            ingressClassName: "nginx"
-            hosts:
-              - argo.local.com.br
 
   destination:
     server: "https://kubernetes.default.svc"
