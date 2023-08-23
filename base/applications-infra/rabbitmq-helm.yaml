@@ -22,14 +22,17 @@ spec:
 
     # https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq
     helm:
-      valuesObject:
-        resources:
-          requests: 
-            memory: 1Gi
-            cpu: 650m
-          limits:
-            memory: 1Gi
       parameters:
+        # Warning: does not change resources order list. Resources are being updated in overlays. It will break kustomize patch.
+        ## Resources ##
+        - name: resources.requests.memory
+          value: "1Gi"
+        - name: resources.limits.memory
+          value: "1Gi"
+        - name: resources.requests.cpu
+          value: "650m"
+        # Warning: does not change resources order list. Resources are being updated in overlays. It will break kustomize patch.
+
         ## Replica ##
         - name: replicaCount
           value: "3"
