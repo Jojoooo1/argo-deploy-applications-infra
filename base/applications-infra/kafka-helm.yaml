@@ -124,7 +124,7 @@ spec:
             serviceMonitor:
               enabled: true
               labels:
-                release: observability-kube-prometheus
+                scrapWith: kube-prometheus-stack
 
     - chart: console
       repoURL: https://helm.conduktor.io

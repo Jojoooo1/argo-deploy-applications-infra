@@ -83,7 +83,6 @@ spec:
               enabled: true
               namespace: argocd
               additionalLabels:
-                # release: observability-kube-prometheus
                 scrapWith: kube-prometheus-stack
       
         ## DEX ##
@@ -93,9 +92,9 @@ spec:
             enabled: true
             serviceMonitor:
               enabled: true
-              additionalLabels:
-                release: observability-kube-prometheus
               namespace: argocd
+              additionalLabels:
+                scrapWith: kube-prometheus-stack
 
         ## RepoServer ##
         repoServer:
@@ -155,7 +154,6 @@ spec:
               enabled: true
               namespace: argocd
               additionalLabels:
-                # release: observability-kube-prometheus
                 scrapWith: kube-prometheus-stack
 
         ## Server ##

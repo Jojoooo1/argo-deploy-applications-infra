@@ -38,7 +38,7 @@ spec:
           serviceMonitor:
             enabled: true
             labels:
-              release: observability-kube-prometheus
+              scrapWith: kube-prometheus-stack
         extraArgs:
           - --logging-format=json
         webhook:
