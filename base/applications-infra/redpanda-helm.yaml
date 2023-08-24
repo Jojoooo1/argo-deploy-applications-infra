@@ -31,7 +31,7 @@ spec:
             enabled: false
           auth:
             sasl:
-              enabled: true
+              enabled: "true"
               users:
                 - name: admin
                   password: password
@@ -45,7 +45,7 @@ spec:
       helm:
         valuesObject:
           ingress:
-            enabled: true
+            enabled: "true"
             className: "nginx"
             hosts:
             - host: redpanda.local.com.br
@@ -70,12 +70,12 @@ spec:
                 tls:
                   enabled: false
                 sasl:
-                  enabled: true
+                  enabled: "true"
                   mechanism: SCRAM-SHA-256
                   username: admin
                   password: password
                 schemaRegistry:
-                  enabled: true
+                  enabled: "true"
                   username: admin
                   password: password
                   tls:

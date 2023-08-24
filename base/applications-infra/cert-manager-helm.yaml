@@ -36,7 +36,7 @@ spec:
             memory: 200Mi
         prometheus:
           servicemonitor:
-            enabled: true
+            enabled: "true"
             labels:
               release: observability-kube-prometheus
         extraArgs:
@@ -49,7 +49,7 @@ spec:
             - --logging-format=json
 
         podDisruptionBudget:
-          enabled: true
+          enabled: "true"
 
   destination:
     server: "https://kubernetes.default.svc"
