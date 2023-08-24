@@ -47,10 +47,10 @@ spec:
           
           ## Monitoring ##
           metrics:
-            enabled: false
+            enabled: true
 
             serviceMonitor:
-              enabled: false
+              enabled: false # disabled in order to setup the installation quicker
               namespace: ingress-nginx
               additionalLabels:
                 release: observability-kube-prometheus
@@ -58,7 +58,7 @@ spec:
                 matchNames: 
                 - ingress-nginx
         
-            prometheusRule:
+            prometheusRule: # disabled in order to setup the installation quicker
               enabled: false
               namespace: ingress-nginx
               additionalLabels:
