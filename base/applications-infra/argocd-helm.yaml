@@ -170,7 +170,7 @@ spec:
             serviceMonitor:
               enabled: true
               additionalLabels:
-                release: observability-kube-prometheu
+                scrapWith: kube-prometheus-stack
               namespace: argocd
           ingress:
             enabled: true
@@ -192,7 +192,7 @@ spec:
             serviceMonitor:
               enabled: true
               additionalLabels:
-                release: observability-kube-prometheu
+                scrapWith: kube-prometheus-stack
               namespace: argocd
 
   destination:
