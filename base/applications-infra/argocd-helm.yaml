@@ -83,7 +83,7 @@ spec:
               enabled: true
               namespace: argocd
               additionalLabels:
-                scrapWith: observability-kube-prometheus
+                scrapWith: kube-prometheus-stack
       
         ## DEX ##
         dex:
