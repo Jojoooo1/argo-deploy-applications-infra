@@ -59,7 +59,8 @@ spec:
             enabled: true
             namespace: keycloak
             labels:
-              release: observability-kube-prometheus
+              scrapWith: kube-prometheus-stack
+              # release: observability-kube-prometheus
             # used for keycloak grafana dashboard.
             relabelings:
               - sourceLabels: [__meta_kubernetes_pod_container_name]
