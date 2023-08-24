@@ -25,7 +25,7 @@ spec:
       helm:
         valuesObject:
           kraft:
-            enabled: "true"
+            enabled: true
             clusterId: GTxB5josEfsini5mBw33W7
           listeners:
             client:
@@ -109,7 +109,7 @@ spec:
             size: 8Gi
           metrics:
             kafka:
-              enabled: "true"
+              enabled: true
               certificatesSecret: kfka-tls
               tlsCaCert: kafka-ca.crt
               tlsCert: kafka.crt
@@ -122,7 +122,7 @@ spec:
                   memory: "150Mi"
                   cpu: "0.1"
             serviceMonitor:
-              enabled: "true"
+              enabled: true
               labels:
                 release: observability-kube-prometheus
 
@@ -145,7 +145,7 @@ spec:
               username: admin
               password: password
           ingress:
-            enabled: "true"
+            enabled: true
             ingressClassName: nginx
             hostname: kafka.local.com.br
 

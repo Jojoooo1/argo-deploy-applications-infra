@@ -15,10 +15,6 @@ spec:
       - CreateNamespace=true
       - PrunePropagationPolicy=foreground
 
-    automated:
-      prune: true
-      selfHeal: true
-
   source:
     chart: argo-cd
     repoURL: https://argoproj.github.io/argo-helm
@@ -28,9 +24,9 @@ spec:
     helm:
       valuesObject:
         applicationSet:
-          enabled: "false"
+          enabled: false
         notifications:
-          enabled: "false"
+          enabled: false
         configs:
           secret:
             createSecret: false

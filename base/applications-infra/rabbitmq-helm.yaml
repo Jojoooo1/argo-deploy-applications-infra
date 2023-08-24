@@ -59,14 +59,14 @@ spec:
           load_definitions = /app/load_definition.json
 
         metrics:
-          enabled: "true"
+          enabled: true
           serviceMonitor:
             enabled: true
             namespace: rabbitmq
             labels:
               scrapWith: kube-prometheus-stack
           prometheusRule:
-            enabled: "true"
+            enabled: true
             namespace: rabbitmq
             labels:
               scrapWith: kube-prometheus-stack

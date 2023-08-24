@@ -41,16 +41,16 @@ spec:
 
           ## Replica ##
           autoscaling:
-            enabled: "true"
+            enabled: true
             minReplicas: 2
             maxReplicas: 6
           
           ## Monitoring ##
           metrics:
-            enabled: "true"
+            enabled: true
 
             serviceMonitor:
-              enabled: "true"
+              enabled: true
               namespace: ingress-nginx
               additionalLabels:
                 release: observability-kube-prometheus
@@ -59,7 +59,7 @@ spec:
                 - ingress-nginx
         
             prometheusRule:
-              enabled: "true"
+              enabled: true
               namespace: ingress-nginx
               additionalLabels:
                 release: observability-kube-prometheus
