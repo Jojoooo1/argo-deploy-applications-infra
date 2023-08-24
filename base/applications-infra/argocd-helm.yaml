@@ -83,7 +83,7 @@ spec:
               enabled: true
               namespace: argocd
               additionalLabels:
-                release: observability-kube-prometheu
+                release: observability-kube-prometheus
       
         ## DEX ##
         dex:
