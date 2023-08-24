@@ -35,7 +35,7 @@ spec:
             cpu: 75m
             memory: 200Mi
         prometheus:
-          serviceMonitor:
+          servicemonitor:
             enabled: true
             labels:
               scrapWith: kube-prometheus-stack
