@@ -60,7 +60,6 @@ spec:
             namespace: keycloak
             labels:
               scrapWith: kube-prometheus-stack
-              # scrapWith: kube-prometheus-stack
             # used for keycloak grafana dashboard.
             relabelings:
               - sourceLabels: [__meta_kubernetes_pod_container_name]
