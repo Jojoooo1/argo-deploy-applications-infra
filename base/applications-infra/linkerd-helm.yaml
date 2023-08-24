@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: linkerd
+  namespace: argocd
+  # Add this finalizer ONLY if you want these to cascade delete (A cascade delete, deletes both the app and its resources, rather than only the app.)
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+
+  sources:
+    - chart: linkerd-crds
+      repoURL: https://helm.linkerd.io/edge
+      targetRevision: 1.7.4-edge
+      # https://github.com/linkerd/linkerd2/tree/main/charts/linkerd-crds
+      helm:
+
+      
+    - chart: linkerd-viz
+      repoURL: https://helm.linkerd.io/edge
+      targetRevision: 30.10.9-edge
+      # https://github.com/linkerd/linkerd2/tree/a4bec904cc19d30441fb4ab591cff0a1edc66c20/viz/charts/linkerd-viz
+      helm:
+
+    - chart: linkerd-control-plane
+      repoURL: https://helm.linkerd.io/edge
+      targetRevision: 1.14.3-edge
+      helm:
+        # todo: https://www.cncf.io/blog/2023/06/21/deploying-linkerd-in-the-cloud-azure-aws-or-gcp/
+        parameters:
+          # -f linkerd-control-plane/values-ha.yaml
+          # --set-file identityTrustAnchorsPEM=ca.crt \
+          # --set-file identity.issuer.tls.crtPEM=issuer.crt \
+          # --set-file identity.issuer.tls.keyPEM=issuer.key \
+
+
+       
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: linkerds
