@@ -73,31 +73,31 @@ spec:
                   -----END EC PRIVATE KEY-----
 
   ignoreDifferences:
-  - group: ""
+  - group: v1
     kind: Secret
     name:  linkerd-proxy-injector-k8s-tls
     jsonPointers:
     - /data/tls.crt
     - /data/tls.key
-  - group: ""
+  - group: v1
     kind: Secret
     name:  linkerd-policy-validator-k8s-tls
     jsonPointers:
     - /data/tls.crt
     - /data/tls.key
-  - group: ""
+  - group: v1
     kind: Secret
     name:  tap-injector-k8s-tls
     jsonPointers:
     - /data/tls.crt
     - /data/tls.key
-  - group: ""
+  - group: v1
     kind: Secret
     name:  linkerd-sp-validator-k8s-tls
     jsonPointers:
     - /data/tls.crt
     - /data/tls.key
-  - group: ""
+  - group: v1
     kind: Secret
     name:  tap-k8s-tls
     jsonPointers:
