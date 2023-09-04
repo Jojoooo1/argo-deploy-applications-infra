@@ -23,7 +23,7 @@ spec:
   source:
     chart: apisix
     repoURL: registry-1.docker.io/bitnamicharts
-    targetRevision: 2.0.10
+    targetRevision: 2.1.1
     
     # https://github.com/bitnami/charts/tree/main/bitnami/apisix
     helm:
