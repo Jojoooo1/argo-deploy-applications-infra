@@ -81,7 +81,7 @@ spec:
     - /data/tls.key
   - group: ""
     kind: Secret
-    name:  linkerd-sp-validator-k8s-tls
+    name:  linkerd-policy-validator-k8s-tls
     jsonPointers:
     - /data/tls.crt
     - /data/tls.key
