@@ -73,64 +73,60 @@ spec:
                   -----END EC PRIVATE KEY-----
 
   ignoreDifferences:
-  - group: v1
-    kind: Secret
-    name:  linkerd-proxy-injector-k8s-tls
-    jsonPointers:
-    - /data/tls.crt
-    - /data/tls.key
-  - group: v1
-    kind: Secret
-    name:  linkerd-policy-validator-k8s-tls
-    jsonPointers:
-    - /data/tls.crt
-    - /data/tls.key
-  - group: v1
-    kind: Secret
-    name:  tap-injector-k8s-tls
-    jsonPointers:
-    - /data/tls.crt
-    - /data/tls.key
-  - group: v1
-    kind: Secret
-    name:  linkerd-sp-validator-k8s-tls
-    jsonPointers:
-    - /data/tls.crt
-    - /data/tls.key
-  - group: v1
-    kind: Secret
-    name:  tap-k8s-tls
-    jsonPointers:
-    - /data/tls.crt
-    - /data/tls.key
+    - group: v1
+      kind: Secret
+      name:  linkerd-proxy-injector-k8s-tls
+      jsonPointers:
+      - /data/tls.crt
+      - /data/tls.key
+    - kind: Secret
+      name:  linkerd-policy-validator-k8s-tls
+      jsonPointers:
+      - /data/tls.crt
+      - /data/tls.key
+    - kind: Secret
+      name:  tap-injector-k8s-tls
+      jsonPointers:
+      - /data/tls.crt
+      - /data/tls.key
+    - kind: Secret
+      name:  linkerd-sp-validator-k8s-tls
+      jsonPointers:
+      - /data/tls.crt
+      - /data/tls.key
+    - kind: Secret
+      name:  tap-k8s-tls
+      jsonPointers:
+      - /data/tls.crt
+      - /data/tls.key
 
-  - group: admissionregistration.k8s.io/v1
-    kind: MutatingWebhookConfiguration
-    name: linkerd-proxy-injector-webhook-config
-    jsonPointers:
-    - /webhooks/0/clientConfig/caBundle
-  - group: admissionregistration.k8s.io/v1
-    kind: ValidatingWebhookConfiguration
-    name: linkerd-sp-validator-webhook-config
-    jsonPointers:
-    - /webhooks/0/clientConfig/caBundle
-  - group: admissionregistration.k8s.io/v1
-    kind: ValidatingWebhookConfiguration
-    name: linkerd-policy-validator-webhook-config
-    jsonPointers:
-    - /webhooks/0/clientConfig/caBundle
+    - group: admissionregistration.k8s.io/v1
+      kind: MutatingWebhookConfiguration
+      name: linkerd-proxy-injector-webhook-config
+      jsonPointers:
+      - /webhooks/0/clientConfig/caBundle
+    - group: admissionregistration.k8s.io/v1
+      kind: ValidatingWebhookConfiguration
+      name: linkerd-sp-validator-webhook-config
+      jsonPointers:
+      - /webhooks/0/clientConfig/caBundle
+    - group: admissionregistration.k8s.io/v1
+      kind: ValidatingWebhookConfiguration
+      name: linkerd-policy-validator-webhook-config
+      jsonPointers:
+      - /webhooks/0/clientConfig/caBundle
 
-  - group: batch/v1
-    kind: CronJob
-    name: linkerd-heartbeat
-    jsonPointers:
-    - /spec/schedule
+    - group: batch/v1
+      kind: CronJob
+      name: linkerd-heartbeat
+      jsonPointers:
+      - /spec/schedule
 
-  - group: apiregistration.k8s.io/v1
-    kind: APIService
-    name: v1alpha1.tap.linkerd.io
-    jsonPointers:
-    - /spec/caBundle
+    - group: apiregistration.k8s.io/v1
+      kind: APIService
+      name: v1alpha1.tap.linkerd.io
+      jsonPointers:
+      - /spec/caBundle
        
   destination:
     server: "https://kubernetes.default.svc"
