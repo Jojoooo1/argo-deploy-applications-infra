@@ -32,7 +32,7 @@ spec:
       targetRevision: 1.15.0
       helm:
         # todo: https://www.cncf.io/blog/2023/06/21/deploying-linkerd-in-the-cloud-azure-aws-or-gcp/
-        parameters:
+        valuesObject:
           # -f linkerd-control-plane/values-ha.yaml
           # --set-file identityTrustAnchorsPEM=ca.crt \
           # --set-file identity.issuer.tls.crtPEM=issuer.crt \
