@@ -104,7 +104,11 @@ spec:
       name: linkerd-proxy-injector-webhook-config
       jsonPointers:
       - /webhooks/0/clientConfig/caBundle
-
+    - group: admissionregistration.k8s.io
+      kind: MutatingWebhookConfiguration
+      name: linkerd-tap-injector-webhook-config
+      jsonPointers:
+      - /webhooks/0/clientConfig/caBundle
     - group: admissionregistration.k8s.io
       kind: ValidatingWebhookConfiguration
       name: linkerd-sp-validator-webhook-config
