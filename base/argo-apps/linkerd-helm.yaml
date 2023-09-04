@@ -24,25 +24,19 @@ spec:
     - chart: linkerd-viz
       repoURL: https://helm.linkerd.io/stable
       targetRevision: 30.11.0
-      # https://github.com/linkerd/linkerd2/tree/a4bec904cc19d30441fb4ab591cff0a1edc66c20/viz/charts/linkerd-viz*
+      # https://github.com/linkerd/linkerd2/tree/main/viz/charts/linkerd-viz
       helm:
         valuesObject:
           grafana:
             url: grafana.observability.svc.cluster.local
-          prometheus: 
-            enabled: false
-
+          prometheusUrl: "prometheus-operated.observability.svc.cluster.local"
 
     - chart: linkerd-control-plane
       repoURL: https://helm.linkerd.io/stable
       targetRevision: 1.15.0
+      # https://github.com/linkerd/linkerd2/tree/main/charts/linkerd-control-plane
       helm:
-        # todo: https://www.cncf.io/blog/2023/06/21/deploying-linkerd-in-the-cloud-azure-aws-or-gcp/
         valuesObject:
-          # -f linkerd-control-plane/values-ha.yaml
-          # --set-file identityTrustAnchorsPEM=ca.crt \
-          # --set-file identity.issuer.tls.crtPEM=issuer.crt \
-          # --set-file identity.issuer.tls.keyPEM=issuer.key \
           identityTrustAnchorsPEM: |
             -----BEGIN CERTIFICATE-----
             MIIBjjCCATSgAwIBAgIRAJARUgE6tWEVEEq183+hXDkwCgYIKoZIzj0EAwIwJTEj
