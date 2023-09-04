@@ -25,7 +25,12 @@ spec:
       repoURL: https://helm.linkerd.io/stable
       targetRevision: 30.11.0
       # https://github.com/linkerd/linkerd2/tree/a4bec904cc19d30441fb4ab591cff0a1edc66c20/viz/charts/linkerd-viz
-      helm:
+      valuesObject:
+        grafana:
+          url: grafana.observability.svc.cluster.local
+        prometheus: 
+          enabled: false
+
 
     - chart: linkerd-control-plane
       repoURL: https://helm.linkerd.io/stable
