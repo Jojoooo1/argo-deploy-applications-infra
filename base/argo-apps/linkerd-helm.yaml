@@ -73,8 +73,7 @@ spec:
                   -----END EC PRIVATE KEY-----
 
   ignoreDifferences:
-    - group: v1
-      kind: Secret
+    - kind: Secret
       name:  linkerd-proxy-injector-k8s-tls
       jsonPointers:
       - /data/tls.crt
