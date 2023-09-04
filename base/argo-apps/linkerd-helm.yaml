@@ -75,6 +75,18 @@ spec:
   ignoreDifferences:
   - group: ""
     kind: Secret
+    name:  linkerd-proxy-injector-k8s-tls
+    jsonPointers:
+    - /data/tls.crt
+    - /data/tls.key
+  - group: ""
+    kind: Secret
+    name:  linkerd-sp-validator-k8s-tls
+    jsonPointers:
+    - /data/tls.crt
+    - /data/tls.key
+  - group: ""
+    kind: Secret
     name:  tap-injector-k8s-tls
     jsonPointers:
     - /data/tls.crt
