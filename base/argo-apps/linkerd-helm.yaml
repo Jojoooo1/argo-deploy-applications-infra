@@ -29,7 +29,7 @@ spec:
         valuesObject:
           grafana:
             url: grafana.observability.svc.cluster.local
-          prometheusUrl: "prometheus-operated.observability.svc.cluster.local"
+          # prometheusUrl: "prometheus-operated.observability.svc.cluster.local"
 
     - chart: linkerd-control-plane
       repoURL: https://helm.linkerd.io/stable
