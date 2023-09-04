@@ -64,12 +64,12 @@ spec:
             enabled: true
             namespace: rabbitmq
             labels:
-              scrapWith: kube-prometheus-stack
+              prometheus.io/scrap-with: kube-prometheus-stack
           prometheusRule:
             enabled: true
             namespace: rabbitmq
             labels:
-              scrapWith: kube-prometheus-stack
+              prometheus.io/scrap-with: kube-prometheus-stack
         
         extraDeploy:
           - |

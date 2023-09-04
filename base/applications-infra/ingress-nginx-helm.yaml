@@ -53,7 +53,7 @@ spec:
               enabled: false # disabled in order to setup the installation quicker
               namespace: ingress-nginx
               additionalLabels:
-                scrapWith: kube-prometheus-stack
+                prometheus.io/scrap-with: kube-prometheus-stack
               namespaceSelector:
                 matchNames: 
                 - ingress-nginx
@@ -62,7 +62,7 @@ spec:
               enabled: false
               namespace: ingress-nginx
               additionalLabels:
-                scrapWith: kube-prometheus-stack
+                prometheus.io/scrap-with: kube-prometheus-stack
               rules: 
                 - alert: NginxHighHttp5xxErrorRate
                   expr: sum by(ingress, exported_service) (rate(nginx_ingress_controller_requests{status=~"^5.."}[5m])) / sum by(ingress, exported_service) (rate(nginx_ingress_controller_requests[5m])) * 100 > 5
