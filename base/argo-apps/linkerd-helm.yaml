@@ -116,7 +116,7 @@ spec:
       jsonPointers:
       - /webhooks/0/clientConfig/caBundle
 
-    - group: batch/v1
+    - group: batch
       kind: CronJob
       name: linkerd-heartbeat
       jsonPointers:
