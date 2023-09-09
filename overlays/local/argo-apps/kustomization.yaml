@@ -8,13 +8,9 @@ resources:
   - ../../../base/argo-apps/argocd-image-updater-helm.yaml
   - ../../../base/argo-apps/cert-manager-helm.yaml
   - ../../../base/argo-apps/external-secrets-op-helm.yaml
-  - ../../../base/argo-apps/ingress-apisix-helm.yaml
   - ../../../base/argo-apps/ingress-nginx-helm.yaml
-  - ../../../base/argo-apps/kafka-helm.yaml
   - ../../../base/argo-apps/keycloak-helm.yaml
-  - ../../../base/argo-apps/linkerd-helm.yaml
   - ../../../base/argo-apps/rabbitmq-helm.yaml
-  - ../../../base/argo-apps/redpanda-helm.yaml
 
 # patches:
 #   - target:
