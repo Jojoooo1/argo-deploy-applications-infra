@@ -14,7 +14,11 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - PrunePropagationPolicy=foreground
-      
+
+    automated:
+      prune: true
+      selfHeal: true
+
   source:
     chart: ingress-nginx
     repoURL: "https://kubernetes.github.io/ingress-nginx"
