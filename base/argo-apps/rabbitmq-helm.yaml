@@ -88,7 +88,7 @@ spec:
               name: rabbitmq-secrets
               namespace: rabbitmq
             data:
-              rabbitmq-password: Yml0bmFtaQ==
+              rabbitmq-password: cGFzc3dvcmQ=
               rabbitmq-erlang-cookie: SUhCVlhUSUZKSklBWFBJRVVCVkQ=
 
         ingress:
