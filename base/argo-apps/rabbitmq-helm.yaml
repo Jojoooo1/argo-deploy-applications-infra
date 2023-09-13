@@ -106,7 +106,7 @@ spec:
             command:
               - sh
               - -ec
-              - curl -f --user admin:password 127.0.0.1:15672/api/health/checks/virtual-hosts
+              - curl -f --user user:password 127.0.0.1:15672/api/health/checks/virtual-hosts
           failureThreshold: 6
           initialDelaySeconds: 120
           periodSeconds: 30
@@ -118,7 +118,7 @@ spec:
             command:
               - sh
               - -ec
-              - curl -f --user admin:password 127.0.0.1:15672/api/health/checks/local-alarms
+              - curl -f --user user:password 127.0.0.1:15672/api/health/checks/local-alarms
           failureThreshold: 3
           initialDelaySeconds: 10
           periodSeconds: 30
