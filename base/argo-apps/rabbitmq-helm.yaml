@@ -61,7 +61,7 @@ spec:
         metrics:
           enabled: "true"
           serviceMonitor:
-            enabled: "true"
+            enabled: true
             namespace: rabbitmq
             labels:
               prometheus.io/scrap-with: kube-prometheus-stack
