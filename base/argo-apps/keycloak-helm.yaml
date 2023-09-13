@@ -147,7 +147,7 @@ spec:
           - name: providers
             mountPath: /opt/bitnami/keycloak/providers
 
-        extraVolumes: |
+        extraVolumes:
           - name: providers
             emptyDir: {}
 
