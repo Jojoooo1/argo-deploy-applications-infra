@@ -21,109 +21,109 @@ spec:
     targetRevision: 12.1.4
 
     # https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq
-    helm:
-      valuesObject:
+    # helm:
+    #   valuesObject:
 
-        resources:
-          requests: 
-            memory: 1Gi
-            cpu: 650m
-          limits:
-            memory: 1Gi
+    #     resources:
+    #       requests: 
+    #         memory: 1Gi
+    #         cpu: 650m
+    #       limits:
+    #         memory: 1Gi
 
-        replicaCount: 3
-        pdb:
-          create: true
-          minAvailable: 1
+    #     replicaCount: 3
+    #     pdb:
+    #       create: true
+    #       minAvailable: 1
 
-        clustering:
-          rebalance: true
+    #     clustering:
+    #       rebalance: true
 
-        persistence:
-          # storageClass: 
-          size: 10Gi
+    #     persistence:
+    #       # storageClass: 
+    #       size: 10Gi
         
-        auth:
-          existingPasswordSecret: rabbitmq-secrets # rabbitmq-password
-          existingErlangSecret: rabbitmq-secrets # rabbitmq-erlang-cookie
+    #     auth:
+    #       existingPasswordSecret: rabbitmq-secrets # rabbitmq-password
+    #       existingErlangSecret: rabbitmq-secrets # rabbitmq-erlang-cookie
 
-        communityPlugins: https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases/download/v3.12.0/rabbitmq_delayed_message_exchange-3.12.0.ez
-        extraPlugins: rabbitmq_delayed_message_exchange rabbitmq_shovel rabbitmq_shovel_management
-        loadDefinition: 
-          enabled: true
-          existingSecret: rabbitmq-load-definition
+    #     communityPlugins: https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases/download/v3.12.0/rabbitmq_delayed_message_exchange-3.12.0.ez
+    #     extraPlugins: rabbitmq_delayed_message_exchange rabbitmq_shovel rabbitmq_shovel_management
+    #     loadDefinition: 
+    #       enabled: true
+    #       existingSecret: rabbitmq-load-definition
         
-        extraConfiguration: |
-          # Warning: recommended th at the RabbitMQ node is allocated AT LEAST 3 times the memory of the default WAL file size limit.
-          raft.wal_max_size_bytes = 64000000 # Flush current WAL file to a segment file on disk once it reaches 64 MiB in size
-          load_definitions = /app/load_definition.json
+    #     extraConfiguration: |
+    #       # Warning: recommended th at the RabbitMQ node is allocated AT LEAST 3 times the memory of the default WAL file size limit.
+    #       raft.wal_max_size_bytes = 64000000 # Flush current WAL file to a segment file on disk once it reaches 64 MiB in size
+    #       load_definitions = /app/load_definition.json
 
-        metrics:
-          enabled: true
-          serviceMonitor:
-            enabled: true
-            namespace: rabbitmq
-            labels:
-              prometheus.io/scrap-with: kube-prometheus-stack
-          prometheusRule:
-            enabled: true
-            namespace: rabbitmq
-            labels:
-              prometheus.io/scrap-with: kube-prometheus-stack
+    #     metrics:
+    #       enabled: true
+    #       serviceMonitor:
+    #         enabled: true
+    #         namespace: rabbitmq
+    #         labels:
+    #           prometheus.io/scrap-with: kube-prometheus-stack
+    #       prometheusRule:
+    #         enabled: true
+    #         namespace: rabbitmq
+    #         labels:
+    #           prometheus.io/scrap-with: kube-prometheus-stack
         
-        extraDeploy:
-          - |
-            apiVersion: v1
-            kind: Secret
-            metadata:
-              name: rabbitmq-load-definition
-              namespace: rabbitmq
-            data:
-              load_definition.json: ewogICAgInJhYmJpdF92ZXJzaW9uIjogIjMuMTIuNCIsCiAgICAicmFiYml0bXFfdmVyc2lvbiI6ICIzLjEyLjQiLAogICAgInByb2R1Y3RfbmFtZSI6ICJSYWJiaXRNUSIsCiAgICAicHJvZHVjdF92ZXJzaW9uIjogIjMuMTIuNCIsCiAgICAidXNlcnMiOiBbCiAgICAgICAgewogICAgICAgICAgICAibmFtZSI6ICJ1c2VyIiwKICAgICAgICAgICAgInBhc3N3b3JkX2hhc2giOiAidVJwVy9PbzhJd1ZZOXovVjJpNDhUZnNSWGxya3JETTh5aStnZHRlNG00OVNubStBIiwKICAgICAgICAgICAgImhhc2hpbmdfYWxnb3JpdGhtIjogInJhYmJpdF9wYXNzd29yZF9oYXNoaW5nX3NoYTI1NiIsCiAgICAgICAgICAgICJ0YWdzIjogWwogICAgICAgICAgICAgICAgImFkbWluaXN0cmF0b3IiCiAgICAgICAgICAgIF0sCiAgICAgICAgICAgICJsaW1pdHMiOiB7fQogICAgICAgIH0KICAgIF0sCiAgICAidmhvc3RzIjogWwogICAgICAgIHsKICAgICAgICAgICAgIm5hbWUiOiAiLyIKICAgICAgICB9CiAgICBdLAogICAgInBlcm1pc3Npb25zIjogWwogICAgICAgIHsKICAgICAgICAgICAgInVzZXIiOiAidXNlciIsCiAgICAgICAgICAgICJ2aG9zdCI6ICIvIiwKICAgICAgICAgICAgImNvbmZpZ3VyZSI6ICIuKiIsCiAgICAgICAgICAgICJ3cml0ZSI6ICIuKiIsCiAgICAgICAgICAgICJyZWFkIjogIi4qIgogICAgICAgIH0KICAgIF0sCiAgICAidG9waWNfcGVybWlzc2lvbnMiOiBbXSwKICAgICJwYXJhbWV0ZXJzIjogW10sCiAgICAiZ2xvYmFsX3BhcmFtZXRlcnMiOiBbCiAgICAgICAgewogICAgICAgICAgICAibmFtZSI6ICJpbnRlcm5hbF9jbHVzdGVyX2lkIiwKICAgICAgICAgICAgInZhbHVlIjogInJhYmJpdG1xLWNsdXN0ZXItaWQtN1JLNEFRbTI2YTJ0REUyTkZoMnpkdyIKICAgICAgICB9CiAgICBdLAogICAgInBvbGljaWVzIjogW10sCiAgICAicXVldWVzIjogWwogICAgICAgIHsKICAgICAgICAgICAgIm5hbWUiOiAiZXZlbnQiLAogICAgICAgICAgICAidmhvc3QiOiAiLyIsCiAgICAgICAgICAgICJkdXJhYmxlIjogdHJ1ZSwKICAgICAgICAgICAgImF1dG9fZGVsZXRlIjogZmFsc2UsCiAgICAgICAgICAgICJhcmd1bWVudHMiOiB7CiAgICAgICAgICAgICAgICAieC1tYXgtbGVuZ3RoIjogMTAwMDAwLAogICAgICAgICAgICAgICAgIngtb3ZlcmZsb3ciOiAicmVqZWN0LXB1Ymxpc2giLAogICAgICAgICAgICAgICAgIngtcXVldWUtdHlwZSI6ICJxdW9ydW0iCiAgICAgICAgICAgIH0KICAgICAgICB9LAogICAgICAgIHsKICAgICAgICAgICAgIm5hbWUiOiAid2ViaG9vayIsCiAgICAgICAgICAgICJ2aG9zdCI6ICIvIiwKICAgICAgICAgICAgImR1cmFibGUiOiB0cnVlLAogICAgICAgICAgICAiYXV0b19kZWxldGUiOiBmYWxzZSwKICAgICAgICAgICAgImFyZ3VtZW50cyI6IHsKICAgICAgICAgICAgICAgICJ4LW1heC1sZW5ndGgiOiAxMDAwMDAsCiAgICAgICAgICAgICAgICAieC1vdmVyZmxvdyI6ICJyZWplY3QtcHVibGlzaCIsCiAgICAgICAgICAgICAgICAieC1xdWV1ZS10eXBlIjogInF1b3J1bSIKICAgICAgICAgICAgfQogICAgICAgIH0KICAgIF0sCiAgICAiZXhjaGFuZ2VzIjogWwogICAgICAgIHsKICAgICAgICAgICAgIm5hbWUiOiAib3V0Ym91bmQiLAogICAgICAgICAgICAidmhvc3QiOiAiLyIsCiAgICAgICAgICAgICJ0eXBlIjogIngtZGVsYXllZC1tZXNzYWdlIiwKICAgICAgICAgICAgImR1cmFibGUiOiB0cnVlLAogICAgICAgICAgICAiYXV0b19kZWxldGUiOiBmYWxzZSwKICAgICAgICAgICAgImludGVybmFsIjogZmFsc2UsCiAgICAgICAgICAgICJhcmd1bWVudHMiOiB7CiAgICAgICAgICAgICAgICAieC1kZWxheWVkLXR5cGUiOiAiZGlyZWN0IgogICAgICAgICAgICB9CiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAgICJuYW1lIjogImluYm91bmQiLAogICAgICAgICAgICAidmhvc3QiOiAiLyIsCiAgICAgICAgICAgICJ0eXBlIjogImRpcmVjdCIsCiAgICAgICAgICAgICJkdXJhYmxlIjogdHJ1ZSwKICAgICAgICAgICAgImF1dG9fZGVsZXRlIjogZmFsc2UsCiAgICAgICAgICAgICJpbnRlcm5hbCI6IGZhbHNlLAogICAgICAgICAgICAiYXJndW1lbnRzIjoge30KICAgICAgICB9CiAgICBdLAogICAgImJpbmRpbmdzIjogWwogICAgICAgIHsKICAgICAgICAgICAgInNvdXJjZSI6ICJpbmJvdW5kIiwKICAgICAgICAgICAgInZob3N0IjogIi8iLAogICAgICAgICAgICAiZGVzdGluYXRpb24iOiAiZXZlbnQiLAogICAgICAgICAgICAiZGVzdGluYXRpb25fdHlwZSI6ICJxdWV1ZSIsCiAgICAgICAgICAgICJyb3V0aW5nX2tleSI6ICJ0b19pbmJvdW5kX2V2ZW50IiwKICAgICAgICAgICAgImFyZ3VtZW50cyI6IHt9CiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAgICJzb3VyY2UiOiAib3V0Ym91bmQiLAogICAgICAgICAgICAidmhvc3QiOiAiLyIsCiAgICAgICAgICAgICJkZXN0aW5hdGlvbiI6ICJ3ZWJob29rIiwKICAgICAgICAgICAgImRlc3RpbmF0aW9uX3R5cGUiOiAicXVldWUiLAogICAgICAgICAgICAicm91dGluZ19rZXkiOiAidG9fb3V0Ym91bmRfd2ViaG9vayIsCiAgICAgICAgICAgICJhcmd1bWVudHMiOiB7fQogICAgICAgIH0KICAgIF0KfQ==
+    #     extraDeploy:
+    #       - |
+    #         apiVersion: v1
+    #         kind: Secret
+    #         metadata:
+    #           name: rabbitmq-load-definition
+    #           namespace: rabbitmq
+    #         data:
+    #           load_definition.json: ewogICAgInJhYmJpdF92ZXJzaW9uIjogIjMuMTIuNCIsCiAgICAicmFiYml0bXFfdmVyc2lvbiI6ICIzLjEyLjQiLAogICAgInByb2R1Y3RfbmFtZSI6ICJSYWJiaXRNUSIsCiAgICAicHJvZHVjdF92ZXJzaW9uIjogIjMuMTIuNCIsCiAgICAidXNlcnMiOiBbCiAgICAgICAgewogICAgICAgICAgICAibmFtZSI6ICJ1c2VyIiwKICAgICAgICAgICAgInBhc3N3b3JkX2hhc2giOiAidVJwVy9PbzhJd1ZZOXovVjJpNDhUZnNSWGxya3JETTh5aStnZHRlNG00OVNubStBIiwKICAgICAgICAgICAgImhhc2hpbmdfYWxnb3JpdGhtIjogInJhYmJpdF9wYXNzd29yZF9oYXNoaW5nX3NoYTI1NiIsCiAgICAgICAgICAgICJ0YWdzIjogWwogICAgICAgICAgICAgICAgImFkbWluaXN0cmF0b3IiCiAgICAgICAgICAgIF0sCiAgICAgICAgICAgICJsaW1pdHMiOiB7fQogICAgICAgIH0KICAgIF0sCiAgICAidmhvc3RzIjogWwogICAgICAgIHsKICAgICAgICAgICAgIm5hbWUiOiAiLyIKICAgICAgICB9CiAgICBdLAogICAgInBlcm1pc3Npb25zIjogWwogICAgICAgIHsKICAgICAgICAgICAgInVzZXIiOiAidXNlciIsCiAgICAgICAgICAgICJ2aG9zdCI6ICIvIiwKICAgICAgICAgICAgImNvbmZpZ3VyZSI6ICIuKiIsCiAgICAgICAgICAgICJ3cml0ZSI6ICIuKiIsCiAgICAgICAgICAgICJyZWFkIjogIi4qIgogICAgICAgIH0KICAgIF0sCiAgICAidG9waWNfcGVybWlzc2lvbnMiOiBbXSwKICAgICJwYXJhbWV0ZXJzIjogW10sCiAgICAiZ2xvYmFsX3BhcmFtZXRlcnMiOiBbCiAgICAgICAgewogICAgICAgICAgICAibmFtZSI6ICJpbnRlcm5hbF9jbHVzdGVyX2lkIiwKICAgICAgICAgICAgInZhbHVlIjogInJhYmJpdG1xLWNsdXN0ZXItaWQtN1JLNEFRbTI2YTJ0REUyTkZoMnpkdyIKICAgICAgICB9CiAgICBdLAogICAgInBvbGljaWVzIjogW10sCiAgICAicXVldWVzIjogWwogICAgICAgIHsKICAgICAgICAgICAgIm5hbWUiOiAiZXZlbnQiLAogICAgICAgICAgICAidmhvc3QiOiAiLyIsCiAgICAgICAgICAgICJkdXJhYmxlIjogdHJ1ZSwKICAgICAgICAgICAgImF1dG9fZGVsZXRlIjogZmFsc2UsCiAgICAgICAgICAgICJhcmd1bWVudHMiOiB7CiAgICAgICAgICAgICAgICAieC1tYXgtbGVuZ3RoIjogMTAwMDAwLAogICAgICAgICAgICAgICAgIngtb3ZlcmZsb3ciOiAicmVqZWN0LXB1Ymxpc2giLAogICAgICAgICAgICAgICAgIngtcXVldWUtdHlwZSI6ICJxdW9ydW0iCiAgICAgICAgICAgIH0KICAgICAgICB9LAogICAgICAgIHsKICAgICAgICAgICAgIm5hbWUiOiAid2ViaG9vayIsCiAgICAgICAgICAgICJ2aG9zdCI6ICIvIiwKICAgICAgICAgICAgImR1cmFibGUiOiB0cnVlLAogICAgICAgICAgICAiYXV0b19kZWxldGUiOiBmYWxzZSwKICAgICAgICAgICAgImFyZ3VtZW50cyI6IHsKICAgICAgICAgICAgICAgICJ4LW1heC1sZW5ndGgiOiAxMDAwMDAsCiAgICAgICAgICAgICAgICAieC1vdmVyZmxvdyI6ICJyZWplY3QtcHVibGlzaCIsCiAgICAgICAgICAgICAgICAieC1xdWV1ZS10eXBlIjogInF1b3J1bSIKICAgICAgICAgICAgfQogICAgICAgIH0KICAgIF0sCiAgICAiZXhjaGFuZ2VzIjogWwogICAgICAgIHsKICAgICAgICAgICAgIm5hbWUiOiAib3V0Ym91bmQiLAogICAgICAgICAgICAidmhvc3QiOiAiLyIsCiAgICAgICAgICAgICJ0eXBlIjogIngtZGVsYXllZC1tZXNzYWdlIiwKICAgICAgICAgICAgImR1cmFibGUiOiB0cnVlLAogICAgICAgICAgICAiYXV0b19kZWxldGUiOiBmYWxzZSwKICAgICAgICAgICAgImludGVybmFsIjogZmFsc2UsCiAgICAgICAgICAgICJhcmd1bWVudHMiOiB7CiAgICAgICAgICAgICAgICAieC1kZWxheWVkLXR5cGUiOiAiZGlyZWN0IgogICAgICAgICAgICB9CiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAgICJuYW1lIjogImluYm91bmQiLAogICAgICAgICAgICAidmhvc3QiOiAiLyIsCiAgICAgICAgICAgICJ0eXBlIjogImRpcmVjdCIsCiAgICAgICAgICAgICJkdXJhYmxlIjogdHJ1ZSwKICAgICAgICAgICAgImF1dG9fZGVsZXRlIjogZmFsc2UsCiAgICAgICAgICAgICJpbnRlcm5hbCI6IGZhbHNlLAogICAgICAgICAgICAiYXJndW1lbnRzIjoge30KICAgICAgICB9CiAgICBdLAogICAgImJpbmRpbmdzIjogWwogICAgICAgIHsKICAgICAgICAgICAgInNvdXJjZSI6ICJpbmJvdW5kIiwKICAgICAgICAgICAgInZob3N0IjogIi8iLAogICAgICAgICAgICAiZGVzdGluYXRpb24iOiAiZXZlbnQiLAogICAgICAgICAgICAiZGVzdGluYXRpb25fdHlwZSI6ICJxdWV1ZSIsCiAgICAgICAgICAgICJyb3V0aW5nX2tleSI6ICJ0b19pbmJvdW5kX2V2ZW50IiwKICAgICAgICAgICAgImFyZ3VtZW50cyI6IHt9CiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAgICJzb3VyY2UiOiAib3V0Ym91bmQiLAogICAgICAgICAgICAidmhvc3QiOiAiLyIsCiAgICAgICAgICAgICJkZXN0aW5hdGlvbiI6ICJ3ZWJob29rIiwKICAgICAgICAgICAgImRlc3RpbmF0aW9uX3R5cGUiOiAicXVldWUiLAogICAgICAgICAgICAicm91dGluZ19rZXkiOiAidG9fb3V0Ym91bmRfd2ViaG9vayIsCiAgICAgICAgICAgICJhcmd1bWVudHMiOiB7fQogICAgICAgIH0KICAgIF0KfQ==
 
-          - |
-            apiVersion: v1
-            kind: Secret
-            metadata:
-              name: rabbitmq-secrets
-              namespace: rabbitmq
-            data:
-              rabbitmq-password: Yml0bmFtaQ==
-              rabbitmq-erlang-cookie: SUhCVlhUSUZKSklBWFBJRVVCVkQ=
+    #       - |
+    #         apiVersion: v1
+    #         kind: Secret
+    #         metadata:
+    #           name: rabbitmq-secrets
+    #           namespace: rabbitmq
+    #         data:
+    #           rabbitmq-password: Yml0bmFtaQ==
+    #           rabbitmq-erlang-cookie: SUhCVlhUSUZKSklBWFBJRVVCVkQ=
 
-        ingress:
-          enabled: true
-          ingressClassName: nginx
-          hostname: rabbitmq.local.com.br
-          tls: true
-          extraTls:
-            - secretName: rabbitmq-tls
-              hosts:
-               - rabbitmq.local.com.br
+    #     ingress:
+    #       enabled: true
+    #       ingressClassName: nginx
+    #       hostname: rabbitmq.local.com.br
+    #       tls: true
+    #       extraTls:
+    #         - secretName: rabbitmq-tls
+    #           hosts:
+    #            - rabbitmq.local.com.br
                
-        customLivenessProbe:
-          exec:
-            command:
-              - sh
-              - -ec
-              - curl -f --user user:password 127.0.0.1:15672/api/health/checks/virtual-hosts
-          failureThreshold: 6
-          initialDelaySeconds: 120
-          periodSeconds: 30
-          successThreshold: 1
-          timeoutSeconds: 20
+    #     customLivenessProbe:
+    #       exec:
+    #         command:
+    #           - sh
+    #           - -ec
+    #           - curl -f --user user:password 127.0.0.1:15672/api/health/checks/virtual-hosts
+    #       failureThreshold: 6
+    #       initialDelaySeconds: 120
+    #       periodSeconds: 30
+    #       successThreshold: 1
+    #       timeoutSeconds: 20
 
-        customReadinessProbe:
-          exec:
-            command:
-              - sh
-              - -ec
-              - curl -f --user user:password 127.0.0.1:15672/api/health/checks/local-alarms
-          failureThreshold: 3
-          initialDelaySeconds: 10
-          periodSeconds: 30
-          successThreshold: 1
-          timeoutSeconds: 20
+    #     customReadinessProbe:
+    #       exec:
+    #         command:
+    #           - sh
+    #           - -ec
+    #           - curl -f --user user:password 127.0.0.1:15672/api/health/checks/local-alarms
+    #       failureThreshold: 3
+    #       initialDelaySeconds: 10
+    #       periodSeconds: 30
+    #       successThreshold: 1
+    #       timeoutSeconds: 20
   
   destination:
     server: "https://kubernetes.default.svc"
