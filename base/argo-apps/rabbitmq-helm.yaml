@@ -33,11 +33,11 @@ spec:
 
         replicaCount: 3
         pdb:
-          create: true
+          create: "true"
           minAvailable: 1
 
         clustering:
-          rebalance: true
+          rebalance: "true"
 
         persistence:
           # storageClass: 
@@ -59,14 +59,14 @@ spec:
           load_definitions = /app/load_definition.json
 
         metrics:
-          enabled: true
+          enabled: "true"
           serviceMonitor:
-            enabled: true
+            enabled: "true"
             namespace: rabbitmq
             labels:
               prometheus.io/scrap-with: kube-prometheus-stack
           prometheusRule:
-            enabled: true
+            enabled: "true"
             namespace: rabbitmq
             labels:
               prometheus.io/scrap-with: kube-prometheus-stack
@@ -92,10 +92,10 @@ spec:
               rabbitmq-erlang-cookie: SUhCVlhUSUZKSklBWFBJRVVCVkQ=
 
         ingress:
-          enabled: true
+          enabled: "true"
           ingressClassName: nginx
           hostname: rabbitmq.local.com.br
-          tls: true
+          tls: "true"
           extraTls:
             - secretName: rabbitmq-tls
               hosts:
