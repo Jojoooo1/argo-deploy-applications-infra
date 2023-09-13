@@ -127,7 +127,7 @@ spec:
               # }
 
         ## Plugins ##
-        initContainers: |
+        initContainers:
           - name: download-kc-plugins
             image: alpine:3.18.3
             command:
