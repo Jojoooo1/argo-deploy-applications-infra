@@ -1,0 +1,49 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: shared-app
+  namespace: argocd
+
+  # Add this finalizer ONLY if you want these to cascade delete (A cascade delete, deletes both the app and its resources, rather than only the app.)
+  # finalizers:
+  #   - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+
+    automated:
+      prune: true
+      selfHeal: true
+
+  source: 
+    repoURL: https://github.com/Jojoooo1/argo-deploy-applications-infra.git
+    targetRevision: main
+    path: overlays/${ARGOCD_ENV_ENV}/applications/shared
+    plugin:
+      name: envsubst
+      env:
+        - name: ENV
+          value: "${ARGOCD_ENV_ENV}"
+
+        - name: DNS_ENV
+          value: "${ARGOCD_ENV_DNS_ENV}"
+
+        - name: DNS_DOMAIN
+          value: "${ARGOCD_ENV_DNS_DOMAIN}"
+
+        - name: PROJECT
+          value: "${ARGOCD_ENV_PROJECT}"
+
+        - name: CLUSTER
+          value: "${ARGOCD_ENV_CLUSTER:default}"
+          
+        - name: CLUSTER_LOCATION
+          value: "${ARGOCD_ENV_CLUSTER_LOCATION:default}"
+      
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: default

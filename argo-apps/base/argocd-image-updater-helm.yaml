@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd-image-updater
+  name: argocd-image-updater-helm
   namespace: argocd
 
   # Add this finalizer ONLY if you want these to cascade delete (A cascade delete, deletes both the app and its resources, rather than only the app.)
@@ -15,9 +15,9 @@ spec:
       - CreateNamespace=true
       - PrunePropagationPolicy=foreground
 
-    automated:
-      prune: true
-      selfHeal: true
+    # automated:
+    #   prune: true
+    #   selfHeal: true
 
   source:
     chart: argocd-image-updater
@@ -27,13 +27,14 @@ spec:
     # https://github.com/argoproj/argo-helm/tree/main/charts/argocd-image-updater
     helm:
       valuesObject:
-        resources:
-          requests:
-            cpu: 175m
-            memory: 128Mi
-          limits:
-            cpu: 175m
-            memory: 128Mi
+        fullnameOverride: argocd-image-updater
+        # resources:
+        #   requests:
+        #     cpu: 175m
+        #     memory: 128Mi
+        #   limits:
+        #     cpu: 175m
+        #     memory: 128Mi
 
         # config:
         #   registries:

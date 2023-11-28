@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd
+  name: argocd-helm
   namespace: argocd
 
   # Add this finalizer ONLY if you want these to cascade delete (A cascade delete, deletes both the app and its resources, rather than only the app.)
@@ -22,11 +22,12 @@ spec:
   source:
     chart: argo-cd
     repoURL: https://argoproj.github.io/argo-helm
-    targetRevision: 5.46.1
+    targetRevision: 5.51.4
 
     # https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
     helm:
       valuesObject:
+        fullnameOverride: argocd
         applicationSet:
           enabled: false
         notifications:
@@ -35,7 +36,7 @@ spec:
           secret:
             createSecret: false
           cm:
-            url: http://argo.local.com.br
+            url:  argo${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN}
             exec.enabled: "true"
             kustomize.buildOptions: "--load-restrictor LoadRestrictionsNone"
 
@@ -70,13 +71,13 @@ spec:
 
         ## Controller ##
         controller:
-          resources:
-            limits:
-              cpu: 1
-              memory: 1024Mi
-            requests:
-              cpu: 500m
-              memory: 1024Mi
+          # resources:
+          #   limits:
+          #     cpu: 1
+          #     memory: 1024Mi
+          #   requests:
+          #     cpu: 500m
+          #     memory: 1024Mi
           metrics:
             enabled: true
             serviceMonitor:
@@ -91,20 +92,20 @@ spec:
           metrics:
             enabled: true
             serviceMonitor:
-              enabled: true
+              enabled: false # enable for production
               namespace: argocd
               additionalLabels:
                 prometheus.io/scrap-with: kube-prometheus-stack
 
         ## RepoServer ##
         repoServer:
-          resources:
-            limits:
-              cpu: 500m
-              memory: 1.5Gi
-            requests:
-              cpu: 250m
-              memory: 512Mi
+          # resources:
+          #   limits:
+          #     cpu: 500m
+          #     memory: 1.5Gi
+          #   requests:
+          #     cpu: 250m
+          #     memory: 512Mi
 
           volumes:
             - name: custom-tools
@@ -115,7 +116,7 @@ spec:
 
           initContainers:
             - name: download-tools
-              image: golang:1.21-alpine
+              image: golang:1.21-alpine3.17
               command: [sh, -c]
               args:
                 - apk add git && go install github.com/drone/envsubst/cmd/envsubst@v1.0.3 && mv $GOPATH/bin/envsubst /custom-tools/
@@ -126,7 +127,7 @@ spec:
           extraContainers:        
             - name: envsubst
               command: [/var/run/argocd/argocd-cmp-server]
-              image: quay.io/argoproj/argocd:v2.8.0
+              image: quay.io/argoproj/argocd:v2.9.2
               securityContext:
                 runAsNonRoot: true
                 runAsUser: 999
@@ -151,24 +152,24 @@ spec:
           metrics:
             enabled: true
             serviceMonitor:
-              enabled: true
+              enabled: false # true
               namespace: argocd
               additionalLabels:
                 prometheus.io/scrap-with: kube-prometheus-stack
 
         ## Server ##
         server:
-          resources:
-            limits:
-              cpu: 400m
-              memory: 512Mi
-            requests:
-              cpu: 400m
-              memory: 512Mi
+          # resources:
+          #   limits:
+          #     cpu: 400m
+          #     memory: 512Mi
+          #   requests:
+          #     cpu: 400m
+          #     memory: 512Mi
           metrics:
             enabled: true
             serviceMonitor:
-              enabled: true
+              enabled: false # true
               additionalLabels:
                 prometheus.io/scrap-with: kube-prometheus-stack
               namespace: argocd
@@ -176,7 +177,7 @@ spec:
             enabled: true
             ingressClassName: "nginx"
             hosts:
-              - argo.local.com.br
+              - argo${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN}
 
         ## Redis ##
         redis:
@@ -198,5 +199,3 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: argocd
-
-

@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: rabbitmq
+  name: rabbitmq-helm
   namespace: argocd
 
   # Add this finalizer ONLY if you want these to cascade delete (A cascade delete, deletes both the app and its resources, rather than only the app.)
@@ -18,35 +18,40 @@ spec:
   source:
     chart: rabbitmq
     repoURL: https://charts.bitnami.com/bitnami
-    targetRevision: 12.2.3
+    targetRevision: 12.5.4
 
     # https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq
     helm:
       valuesObject:
+        fullnameOverride: rabbitmq
 
-        resources:
-          requests: 
-            memory: 1Gi
-            cpu: 650m
-          limits:
-            memory: 1Gi
+        ## Resources ##
+        # resources:
+        #   requests: 
+        #     memory: 1Gi
+        #     cpu: 650m
+        #   limits:
+        #     memory: 1Gi
 
-        replicaCount: 3
-        pdb:
-          create: "true"
-          minAvailable: 1
-
+        ## Replica ##
+        # replicaCount: 3
+        # pdb:
+        #   create: "true"
+        #   minAvailable: 1
         clustering:
           rebalance: "true"
 
+        ## Persistence ##
         persistence:
           # storageClass: 
           size: 10Gi
         
+        ## Auth ##
         auth:
           existingPasswordSecret: rabbitmq-secrets # rabbitmq-password
           existingErlangSecret: rabbitmq-secrets # rabbitmq-erlang-cookie
 
+         ## Configurations ##
         communityPlugins: https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases/download/v3.12.0/rabbitmq_delayed_message_exchange-3.12.0.ez
         extraPlugins: rabbitmq_delayed_message_exchange rabbitmq_shovel rabbitmq_shovel_management
         loadDefinition: 
@@ -54,23 +59,10 @@ spec:
           existingSecret: rabbitmq-load-definition
         
         extraConfiguration: |
-          # Warning: recommended th at the RabbitMQ node is allocated AT LEAST 3 times the memory of the default WAL file size limit.
+          # Recommend that the RabbitMQ node is allocated at least 3 times the memory of the default WAL file size limit
           raft.wal_max_size_bytes = 64000000 # Flush current WAL file to a segment file on disk once it reaches 64 MiB in size
           load_definitions = /app/load_definition.json
 
-        metrics:
-          enabled: true
-          serviceMonitor:
-            enabled: true
-            namespace: rabbitmq
-            labels:
-              prometheus.io/scrap-with: kube-prometheus-stack
-          prometheusRule:
-            enabled: "true"
-            namespace: rabbitmq
-            labels:
-              prometheus.io/scrap-with: kube-prometheus-stack
-        
         extraDeploy:
           - |
             apiVersion: v1
@@ -91,15 +83,25 @@ spec:
               rabbitmq-password: cGFzc3dvcmQ=
               rabbitmq-erlang-cookie: SUhCVlhUSUZKSklBWFBJRVVCVkQ=
 
+        metrics:
+          enabled: true
+          serviceMonitor:
+            enabled: false # true
+            namespace: rabbitmq
+            labels:
+              prometheus.io/scrap-with: kube-prometheus-stack
+          prometheusRule:
+            enabled: false # true
+            namespace: rabbitmq
+            labels:
+              prometheus.io/scrap-with: kube-prometheus-stack
+        
+        ## Monitoring ##
         ingress:
-          enabled: "true"
+          enabled: true
           ingressClassName: nginx
-          hostname: rabbitmq.local.com.br
-          tls: "true"
-          extraTls:
-            - secretName: rabbitmq-tls
-              hosts:
-               - rabbitmq.local.com.br
+          hostname: rabbitmq${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN}
+          tls: true
                
         customLivenessProbe:
           exec:
@@ -128,3 +130,11 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: rabbitmq
+
+  ignoreDifferences:
+    - kind: Secret
+      name: rabbitmq-cert
+      namespace: rabbitmq
+      jsonPointers:
+        - /data/tls.crt
+        - /data/tls.key

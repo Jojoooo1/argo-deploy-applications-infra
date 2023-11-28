@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ingress-nginx
+  name: ingress-nginx-helm
   namespace: argocd
 
   # Add this finalizer ONLY if you want these to cascade delete (A cascade delete, deletes both the app and its resources, rather than only the app.)
@@ -22,41 +22,40 @@ spec:
   source:
     chart: ingress-nginx
     repoURL: "https://kubernetes.github.io/ingress-nginx"
-    targetRevision: 4.7.3
+    targetRevision: 4.8.3
 
     # https://github.com/kubernetes/ingress-nginx/tree/main/charts/ingress-nginx
     helm:
       valuesObject:
+        fullnameOverride: ingress-nginx
         controller:
+          allowSnippetAnnotations: true
           service:
-            # Should be set in overlay
-            # loadBalancerIP: '34.74.253.xx'
-            # Preserve source IP -> allow to whitelist
-            externalTrafficPolicy: Local
+            externalTrafficPolicy: Local # Used to allow whitelist by IP
 
           ## Resources ##
-          resources:
-            requests:
-              cpu: 300m
-              memory: 400Mi
-            limits:
-              # cpu: without limit
-              memory: 400Mi
+          # resources:
+          #   requests:
+          #     cpu: 300m
+          #     memory: 400Mi
+          #   limits:
+          #     # cpu: without limit
+          #     memory: 400Mi
 
           ## Replica ##
-          autoscaling:
-            enabled: true
-            minReplicas: 2
-            maxReplicas: 6
-            targetCPUUtilizationPercentage: 80
-            targetMemoryUtilizationPercentage: 80
+          # autoscaling:
+          #   enabled: true
+          #   minReplicas: 2
+          #   maxReplicas: 6
+          #   targetCPUUtilizationPercentage: 80
+          #   targetMemoryUtilizationPercentage: 80
           
           ## Monitoring ##
           metrics:
             enabled: true
 
             serviceMonitor:
-              enabled: false # only disabled for faster setup
+              enabled: false # true
               namespace: ingress-nginx
               additionalLabels:
                 prometheus.io/scrap-with: kube-prometheus-stack
@@ -64,8 +63,8 @@ spec:
                 matchNames: 
                 - ingress-nginx
         
-            prometheusRule: # only disabled for faster setup
-              enabled: false
+            prometheusRule:
+              enabled: false # true
               namespace: ingress-nginx
               additionalLabels:
                 prometheus.io/scrap-with: kube-prometheus-stack

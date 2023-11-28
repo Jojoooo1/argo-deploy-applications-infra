@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cert-manager
+  name: cert-manager-helm
   namespace: argocd
 
   # Add this finalizer ONLY if you want these to cascade delete (A cascade delete, deletes both the app and its resources, rather than only the app.)
@@ -22,22 +22,27 @@ spec:
   source:
     chart: cert-manager
     repoURL: https://charts.jetstack.io
-    targetRevision: v1.13.1
+    targetRevision: v1.13.2
 
     # https://github.com/cert-manager/cert-manager/tree/master/deploy/charts/cert-manager
     helm:
       valuesObject:
         installCRDs: true
-        resources:
-          requests:
-            cpu: 75m
-            memory: 200Mi
-          limits:
-            cpu: 75m
-            memory: 200Mi
+        
+        # resources:
+        #   requests:
+        #     cpu: 75m
+        #     memory: 200Mi
+        #   limits:
+        #     cpu: 75m
+        #     memory: 200Mi
+
+        # podDisruptionBudget:
+        #   enabled: true
+
         prometheus:
           servicemonitor:
-            enabled: true
+            enabled: false # true
             labels:
               prometheus.io/scrap-with: kube-prometheus-stack
         extraArgs:
@@ -48,9 +53,6 @@ spec:
         cainjector:
           extraArgs:
             - --logging-format=json
-
-        podDisruptionBudget:
-          enabled: true
 
   destination:
     server: "https://kubernetes.default.svc"

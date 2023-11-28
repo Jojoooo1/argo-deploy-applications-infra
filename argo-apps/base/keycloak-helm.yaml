@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: keycloak
+  name: keycloak-helm
   namespace: argocd
 
   # Add this finalizer ONLY if you want these to cascade delete (A cascade delete, deletes both the app and its resources, rather than only the app.)
@@ -18,45 +18,48 @@ spec:
   source:
     chart: keycloak
     repoURL: https://charts.bitnami.com/bitnami
-    targetRevision: 17.0.4
+    targetRevision: 17.3.4
 
     # https://github.com/bitnami/charts/tree/main/bitnami/keycloak
     helm:
       valuesObject:
+        fullnameOverride: keycloak
+
         ## Resources ##
-        resources:
-          requests:
-            cpu: 512m
-            memory: 3Gi
-          limits:
-            # cpu: without limit
-            memory: 3Gi
+        # resources:
+        #   requests:
+        #     cpu: 512m
+        #     memory: 3Gi
+        #   limits:
+        #     # cpu: without limit
+        #     memory: 3Gi
 
         ## Configuration ##
         extraEnvVars:
           - name: JAVA_OPTS
-            # Update default JAVA_OPTS from 22.0.3: https://github.com/keycloak/keycloak/blob/b99eb52cee6b0da081b7a1ba9c562deae55b5da0/quarkus/dist/src/main/content/bin/kc.sh#L90
+            # Update default JAVA_OPTS from 22.0.5: https://github.com/keycloak/keycloak/blob/b99eb52cee6b0da081b7a1ba9c562deae55b5da0/quarkus/dist/src/main/content/bin/kc.sh#L90
             # to use MinRAMPercentage/MaxRAMPercentage instead of Xms/Xmx
             value: "-XX:MinRAMPercentage=60.0 -XX:MaxRAMPercentage=75.0 -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m -Dfile.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -Dsun.err.encoding=UTF-8 -Dstdout.encoding=UTF-8 -Dstderr.encoding=UTF-8 -XX:+ExitOnOutOfMemoryError -Djava.security.egd=file:/dev/urandom -XX:+UseParallelGC -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90"
-        
+      
         ## Mode ##
         production: true
         proxy: edge
 
         ## Replica ##
-        autoscaling:
-          enabled: true
-          minReplicas: 1
-          maxReplicas: 2
-          targetMemory: "85"
-        pdb:
-          create: true
+        # autoscaling:
+        #   enabled: true
+        #   minReplicas: 1
+        #   maxReplicas: 2
+        #   targetMemory: "85"
+
+        # pdb:
+        #   create: true
 
         ## Monitoring ##
         metrics:
           enabled: true
           serviceMonitor:
-            enabled: true
+            enabled: false # true
             namespace: keycloak
             labels:
               prometheus.io/scrap-with: kube-prometheus-stack
@@ -87,6 +90,8 @@ spec:
 
         ## Database ##
         postgresql:
+          commonAnnotations:
+            argocd.argoproj.io/sync-wave: "-1"
           auth:
             database: keycloak
             postgresPassword: password
@@ -96,40 +101,44 @@ spec:
         ## Network ##
         service: 
           type: ClusterIP
+
         ingress:
           enabled: true
           ingressClassName: nginx
-          hostname: identity.local.com.br
+          hostname: identity${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN}
           tls: true
-          extraTls:
-          - secretName: keycloak-tls
-            hosts:
-            - identity.local.com.br
           annotations:
             nginx.ingress.kubernetes.io/proxy-buffer-size: "128k" # A common issue with Keycloak and nginx is that the proxy buffer may be too small for what Keycloak is trying to send. This will result in a Bad Gateway (502) error.
             nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-            nginx.ingress.kubernetes.io/server-snippet: |
-              # Restrict Index
-              location = "/" {
-                deny all;
-                return 404;
-              }
+            # nginx.ingress.kubernetes.io/server-snippet: |
+            #   # Restrict Index
+            #   location = "/" {
+            #     deny all;
+            #     return 404;
+            #   }
 
-              # Restrict Metrics API
-              location /metrics {
-                  return 403;
-              }
+            #   # Restrict Metrics API
+            #   location /metrics {
+            #       deny all;
+            #       return 403;
+            #   }
 
-              # Restrict Admin console
-              # location /admin {
-              #   deny all;
-              #   return 403;
-              # }
+            #   # Restrict Admin console
+            #   location /admin {
+            #     deny all;
+            #     return 403;
+            #   }
+
+            #   # Restrict any master realm access
+            #   location /realms/master {
+            #     deny all;
+            #     return 403;
+            #   }
 
         ## Plugins ##
         initContainers:
           - name: download-kc-plugins
-            image: alpine:3.18.3
+            image: alpine:3.18.4
             command:
               - sh
             args:
@@ -154,3 +163,11 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: keycloak
+
+  ignoreDifferences:
+    - kind: Secret
+      name: keycloak-cert
+      namespace: keycloak
+      jsonPointers:
+        - /data/tls.crt
+        - /data/tls.key
