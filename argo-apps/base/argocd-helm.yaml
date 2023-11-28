@@ -36,7 +36,7 @@ spec:
           secret:
             createSecret: false
           cm:
-            url:  argo${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN}
+            url: http://argo-local.cloud-diplomats.com
             exec.enabled: "true"
             kustomize.buildOptions: "--load-restrictor LoadRestrictionsNone"
 
@@ -177,7 +177,8 @@ spec:
             enabled: true
             ingressClassName: "nginx"
             hosts:
-              - argo${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN}
+              - argo-local.cloud-diplomats.com
+              # - argo${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN}
 
         ## Redis ##
         redis:
