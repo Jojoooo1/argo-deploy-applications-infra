@@ -177,7 +177,7 @@ spec:
             enabled: true
             ingressClassName: "nginx"
             hosts:
-              - argo$-local.cloud-diplomats.com # UPDATE WITH YOUR VALUES
+              - argo-local.cloud-diplomats.com # UPDATE WITH YOUR VALUES
 
         ## Redis ##
         redis:
