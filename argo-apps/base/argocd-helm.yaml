@@ -177,8 +177,7 @@ spec:
             enabled: true
             ingressClassName: "nginx"
             hosts:
-              - argo${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN}
-              # - argo${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN}
+              - argo$-local.cloud-diplomats.com # UPDATE WITH YOUR VALUES
 
         ## Redis ##
         redis:
