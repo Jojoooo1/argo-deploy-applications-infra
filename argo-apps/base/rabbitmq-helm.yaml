@@ -102,7 +102,10 @@ spec:
           ingressClassName: nginx
           hostname: rabbitmq${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN}
           tls: true
-               
+          extraTls:
+            - secretName: rabbitmq-tls
+              hosts:
+               - rabbitmq.local.com.br
         customLivenessProbe:
           exec:
             command:
