@@ -15,9 +15,9 @@ spec:
       - CreateNamespace=true
       - PrunePropagationPolicy=foreground
 
-    automated:
-      prune: true
-      selfHeal: true
+    # automated:
+    #   prune: true
+    #   selfHeal: true
       
   source:
     chart: argo-cd
@@ -177,7 +177,7 @@ spec:
             enabled: true
             ingressClassName: "nginx"
             hosts:
-              - argo-local.cloud-diplomats.com # UPDATE WITH YOUR VALUES
+              - ${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN}
 
         ## Redis ##
         redis:
