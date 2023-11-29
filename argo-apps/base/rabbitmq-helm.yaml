@@ -105,7 +105,7 @@ spec:
           extraTls:
             - secretName: rabbitmq-tls
               hosts:
-               - rabbitmq.local.com.br
+               - rabbitmq${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN}
         customLivenessProbe:
           exec:
             command:
