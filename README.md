@@ -2,8 +2,6 @@
 
 ## Applications
 
-Available Applications:
-
 | Applications  | DNS | Username  | Password | Links | Comments |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
 | Ingress-nginx | | | | <https://kubernetes.github.io/ingress-nginx> | |
