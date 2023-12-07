@@ -51,9 +51,8 @@ spec:
       
         ## Mode ##
         # production: true
-        # proxy: edge
         production: false 
-        proxy: passthrough
+        proxy: edge
 
         ## Replica ##
         # autoscaling:
