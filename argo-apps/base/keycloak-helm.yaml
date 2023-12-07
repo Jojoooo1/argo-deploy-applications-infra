@@ -36,8 +36,8 @@ spec:
 
         ## Configuration ##
         extraEnvVars:
-          - name: KC_HOSTNAME
-            value: "http:///keycloak.keycloak.svc.cluster.local"
+          # - name: KC_HOSTNAME
+          #   value: "http:///keycloak.keycloak.svc.cluster.local"
           - name: JAVA_OPTS
             # Update default JAVA_OPTS from 22.0.5: https://github.com/keycloak/keycloak/blob/b99eb52cee6b0da081b7a1ba9c562deae55b5da0/quarkus/dist/src/main/content/bin/kc.sh#L90
             # to use MinRAMPercentage/MaxRAMPercentage instead of Xms/Xmx
