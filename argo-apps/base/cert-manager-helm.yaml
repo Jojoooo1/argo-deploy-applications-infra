@@ -37,12 +37,12 @@ spec:
         #     cpu: 75m
         #     memory: 200Mi
 
-        # podDisruptionBudget:
-        #   enabled: true
+        podDisruptionBudget:
+          enabled: true
 
         prometheus:
           servicemonitor:
-            enabled: false # true
+            enabled: true
             labels:
               prometheus.io/scrap-with: kube-prometheus-stack
         extraArgs:

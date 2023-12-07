@@ -68,7 +68,7 @@ spec:
         metrics:
           enabled: true
           serviceMonitor:
-            enabled: true # true
+            enabled: true
             namespace: keycloak
             labels:
               prometheus.io/scrap-with: kube-prometheus-stack
