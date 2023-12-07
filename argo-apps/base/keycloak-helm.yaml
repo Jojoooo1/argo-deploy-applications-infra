@@ -90,6 +90,7 @@ spec:
 
         ## Database ##
         postgresql:
+          fullnameOverride: postgres
           commonAnnotations:
             argocd.argoproj.io/sync-wave: "-1"
           auth:
