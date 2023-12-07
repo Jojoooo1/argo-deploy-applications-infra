@@ -47,8 +47,8 @@ spec:
       
         ## Mode ##
         production: false
-        proxy: passthrough
-        # proxy: edge
+        # proxy: passthrough
+        proxy: edge
         # production: true
 
         ## Replica ##
