@@ -47,7 +47,7 @@ spec:
         production: false
         proxy: passthrough
         # proxy: edge
-        production: true
+        # production: true
 
         ## Replica ##
         # autoscaling:
