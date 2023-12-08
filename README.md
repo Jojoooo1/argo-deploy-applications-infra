@@ -1,6 +1,6 @@
 # ArgoCD Infra labs
 
-## Applications
+## Apps
 
 | Applications  | DNS | Username  | Password | Links | Comments |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
