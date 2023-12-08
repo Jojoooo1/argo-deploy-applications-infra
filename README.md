@@ -16,20 +16,20 @@
 
 ### Applications
 
-#### Base
+#### applications/base
 
-- **base/shared-app**: Contains cluster-wide infra configurations.
+- **base/shared-app**: Infra shared configurations.
 
-#### Overlay
+#### applications/overlay
 
 Environments folders that inherit from base folder. It uses [kustomize](https://github.com/kubernetes-sigs/kustomize) to allow environment based customization.
 
 ### ArgoCD Applications
 
-#### Base
+#### argo-app/base
 
-- **base**: Contains ArgoCD Infra Applications
+- **base**: ArgoCD Applications
 
-#### Overlay
+#### argo-app/overlay
 
 Environments folders that inherit from base folder. It uses [kustomize](https://github.com/kubernetes-sigs/kustomize) to allow environment based customization.
