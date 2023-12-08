@@ -152,7 +152,7 @@ spec:
           metrics:
             enabled: true
             serviceMonitor:
-              enabled: false # true
+              enabled: true
               namespace: argocd
               additionalLabels:
                 prometheus.io/scrap-with: kube-prometheus-stack
@@ -169,7 +169,7 @@ spec:
           metrics:
             enabled: true
             serviceMonitor:
-              enabled: false # true
+              enabled: true
               additionalLabels:
                 prometheus.io/scrap-with: kube-prometheus-stack
               namespace: argocd
