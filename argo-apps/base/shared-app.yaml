@@ -20,9 +20,9 @@ spec:
       selfHeal: true
 
   source: 
-    repoURL: https://github.com/Jojoooo1/argo-deploy-applications-infra.git
+    repoURL: ${ARGOCD_ENV_GITHUB_REPO}/argo-deploy-applications-infra.git
     targetRevision: main
-    path: overlays/${ARGOCD_ENV_ENV}/applications/shared
+    path: overlays/local/applications/shared
     plugin:
       name: envsubst
       env:
