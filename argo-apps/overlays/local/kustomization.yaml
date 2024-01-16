@@ -5,6 +5,7 @@ namespace: argocd
 
 resources:
   - ../../../argo-apps/base/argocd-helm.yaml
+  - ../../../argo-apps/base/argocd-rollout-helm.yaml
   # - ../../../argo-apps/base/argocd-image-updater-helm.yaml
   - ../../../argo-apps/base/cert-manager-helm.yaml
   # - ../../../argo-apps/base/external-secrets-op-helm.yaml

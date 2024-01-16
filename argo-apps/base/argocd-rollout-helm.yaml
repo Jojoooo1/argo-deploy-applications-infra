@@ -1,0 +1,78 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: infra-argocd-rollout-helm
+  namespace: argocd
+
+  # Add this finalizer ONLY if you want these to cascade delete (A cascade delete, deletes both the app and its resources, rather than only the app.)
+  # finalizers:
+  #   - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+
+    # automated:
+    #   prune: true
+    #   selfHeal: true
+      
+  source:
+    chart: argo-cd
+    repoURL: https://argoproj.github.io/argo-helm
+    targetRevision: 2.34.1
+
+    # https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
+    helm:
+      valuesObject:
+        fullnameOverride: argocd-rollout
+        
+        ## Controller ##
+        controller:
+          replicas: 1
+          # resources:
+          #   limits:
+          #     cpu: 100m
+          #     memory: 128Mi
+          #   requests:
+          #     cpu: 100m
+          #     memory: 128Mi
+          logging:
+            format: json
+          
+          ## Monitoring ##
+          metrics:
+            enabled: true
+            serviceMonitor:
+              enabled: true
+              namespace: argocd
+              additionalLabels:
+                prometheus.io/scrap-with: kube-prometheus-stack
+
+          pdb:
+            enabled: true
+            minAvailable: 1
+
+        ## dashboard ##
+        dashboard:
+          enabled: true
+          # resources:
+          #   limits:
+          #     cpu: 100m
+          #     memory: 128Mi
+          #   requests:
+          #     cpu: 100m
+          #     memory: 128Mi     
+
+        ingress:
+          enabled: true
+          ingressClassName: "nginx"
+          hosts:
+            - argo-rollout${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN}   
+
+
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: argocd
