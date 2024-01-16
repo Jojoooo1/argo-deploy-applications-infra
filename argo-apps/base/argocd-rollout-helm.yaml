@@ -66,11 +66,11 @@ spec:
           #     cpu: 100m
           #     memory: 128Mi     
 
-        ingress:
-          enabled: true
-          ingressClassName: "nginx"
-          hosts:
-            - argo-rollout${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN}   
+          ingress:
+            enabled: true
+            ingressClassName: "nginx"
+            hosts:
+              - argo-rollout${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN}   
 
 
   destination:
