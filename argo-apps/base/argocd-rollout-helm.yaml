@@ -20,7 +20,7 @@ spec:
     #   selfHeal: true
       
   source:
-    chart: argo-rollout
+    chart: argo-rollouts
     repoURL: https://argoproj.github.io/argo-helm
     targetRevision: 2.34.1
 
