@@ -43,6 +43,9 @@ spec:
             # DO NOT USE in production, this is only used to improve reconciliation in testing env.
             timeout.reconciliation: "10s"
 
+            # Mandatory for extensions to work
+            server.enable.proxy.extension: "true"
+
             # dex.config: |
             #   connectors:
             #     - id: google
@@ -52,10 +55,19 @@ spec:
             #         issuer: https://accounts.google.com
             #         clientID: $dex.client.id # read from argo-secrets
             #         clientSecret: $dex.client.secret # read from argo-secrets
+            extension.config: |-
+              extensions:
+                - name: metrics
+                  backend:
+                    services:
+                      - url: http://prometheus-operated.observability.svc.cluster.local:9090
+
           params:
             server.insecure: true
           rbac:
             policy.default: role:readonly
+            policy.csv: |-
+              p, role:readonly, extensions, invoke, httpbin, allow
           cmp:
             create: true
             plugins:
@@ -116,7 +128,7 @@ spec:
 
           initContainers:
             - name: download-tools
-              image: golang:1.21-alpine3.17
+              image: golang:1.21.6-alpine
               command: [sh, -c]
               args:
                 - apk add git && go install github.com/drone/envsubst/cmd/envsubst@v1.0.3 && mv $GOPATH/bin/envsubst /custom-tools/
@@ -178,6 +190,23 @@ spec:
             ingressClassName: "nginx"
             hosts:
               - argo${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN}
+
+          extensions:
+            enabled: true
+            extensionList:
+              - name: extension-metrics
+                env:
+                  - name: EXTENSION_URL
+                    value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension.tar.gz
+                  - name: EXTENSION_CHECKSUM_URL
+                    value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension_checksums.txt
+            resources: {}
+              # limits:
+              #   cpu: 50m
+              #   memory: 128Mi
+              # requests:
+              #   cpu: 10m
+              #   memory: 64Mi
 
         ## Redis ##
         redis:
