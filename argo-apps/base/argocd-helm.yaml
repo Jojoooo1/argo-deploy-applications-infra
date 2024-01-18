@@ -43,9 +43,6 @@ spec:
             # DO NOT USE in production, this is only used to improve reconciliation in testing env.
             timeout.reconciliation: "10s"
 
-            # Mandatory for extensions to work
-            server.enable.proxy.extension: "true"
-
             # dex.config: |
             #   connectors:
             #     - id: google
@@ -64,6 +61,8 @@ spec:
 
           params:
             server.insecure: true
+            # Mandatory for extensions to work
+            server.enable.proxy.extension: "true"
           rbac:
             policy.default: role:readonly
             policy.csv: |-
