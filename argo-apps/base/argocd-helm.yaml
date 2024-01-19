@@ -20,9 +20,9 @@ spec:
     #   selfHeal: true
       
   sources:
-    - repoURL: https://github.com/argoproj-labs/argocd-extension-metrics.git
-      targetRevision: main
-      path: manifests
+    # - repoURL: https://github.com/argoproj-labs/argocd-extension-metrics.git
+    #   targetRevision: main
+    #   path: manifests
 
     - chart: argo-cd
       repoURL: https://argoproj.github.io/argo-helm
