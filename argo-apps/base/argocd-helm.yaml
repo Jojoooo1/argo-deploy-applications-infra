@@ -21,7 +21,7 @@ spec:
       
   sources:
     - repoURL: https://github.com/argoproj-labs/argocd-extension-metrics.git
-      targetRevision: main
+      targetRevision: v1.0.0
       path: manifests
 
     - chart: argo-cd
