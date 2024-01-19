@@ -71,7 +71,6 @@ spec:
               policy.default: role:readonly
               policy.csv: |-
                 p, role:readonly, extensions, invoke, httpbin, allow
-                p, role:admin, extensions, invoke, httpbin, allow
             cmp:
               create: true
               plugins:
