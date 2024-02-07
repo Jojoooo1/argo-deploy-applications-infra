@@ -71,6 +71,7 @@ spec:
               policy.default: role:readonly
               policy.csv: |-
                 p, role:readonly, extensions, invoke, metrics, allow
+                p, role:readonly, extensions, invoke, httpbin, allow
                 p, role:admin, extensions, invoke, metrics, allow
             cmp:
               create: true
@@ -143,7 +144,7 @@ spec:
             extraContainers:        
               - name: envsubst
                 command: [/var/run/argocd/argocd-cmp-server]
-                image: quay.io/argoproj/argocd:v2.9.2
+                image: quay.io/argoproj/argocd:v2.10.0
                 securityContext:
                   runAsNonRoot: true
                   runAsUser: 999
@@ -201,9 +202,9 @@ spec:
                 - name: extension-metrics
                   env:
                     - name: EXTENSION_URL
-                      value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension.tar.gz
+                      value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.1/extension.tar.gz
                     - name: EXTENSION_CHECKSUM_URL
-                      value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension_checksums.txt
+                      value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.1/extension_checksums.txt
               resources: {}
                 # limits:
                 #   cpu: 50m
