@@ -30,9 +30,9 @@ spec:
               name: argocd-metrics-server-configmap
               namespace: argocd
             patch: |-
-              - op: replace
-                path: /data/config.json/prometheus/provider/address
-                value: "http://prometheus-operated.observability.svc.cluster.local:9090"
+              - op: add
+                path: /data/config.json/test
+                value: "test"
 
     - chart: argo-cd
       repoURL: https://argoproj.github.io/argo-helm
