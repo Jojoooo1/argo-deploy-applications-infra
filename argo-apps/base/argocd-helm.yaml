@@ -61,7 +61,7 @@ spec:
                   - name: metrics
                     backend:
                       services:
-                      - url: http://prometheus-operated.observability.svc.cluster.local:9090
+                      - url: http://prometheus-local.cloud-diplomats.com
                   - name: httpbin
                     backend:
                       connectionTimeout: 2s
