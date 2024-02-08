@@ -27,15 +27,16 @@ spec:
     - chart: argo-cd
       repoURL: https://argoproj.github.io/argo-helm
       targetRevision: 5.55.0
-      patches:
-        - target:
-            kind: ConfigMap
-            name: argocd-metrics-server-configmap
-            namespace: argocd
-          patch: |-
-            - op: replace
-              path: /data/config.json/prometheus/provider/address
-              value: "http://prometheus-operated.observability.svc.cluster.local:9090"
+      kustomize:
+        patches:
+          - target:
+              kind: ConfigMap
+              name: argocd-metrics-server-configmap
+              namespace: argocd
+            patch: |-
+              - op: replace
+                path: /data/config.json/prometheus/provider/address
+                value: "http://prometheus-operated.observability.svc.cluster.local:9090"
 
       # https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
       helm:
