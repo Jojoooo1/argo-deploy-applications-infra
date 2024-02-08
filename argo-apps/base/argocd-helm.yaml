@@ -23,10 +23,6 @@ spec:
     - repoURL: https://github.com/argoproj-labs/argocd-extension-metrics.git
       targetRevision: main # v1.0.0 is not updated
       path: manifests
-
-    - chart: argo-cd
-      repoURL: https://argoproj.github.io/argo-helm
-      targetRevision: 5.55.0
       kustomize:
         patches:
           - target:
@@ -37,6 +33,10 @@ spec:
               - op: replace
                 path: /data/config.json/prometheus/provider/address
                 value: "http://prometheus-operated.observability.svc.cluster.local:9090"
+
+    - chart: argo-cd
+      repoURL: https://argoproj.github.io/argo-helm
+      targetRevision: 5.55.0
 
       # https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
       helm:
