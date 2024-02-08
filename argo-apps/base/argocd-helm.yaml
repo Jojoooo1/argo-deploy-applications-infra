@@ -35,7 +35,7 @@ spec:
           patch: |-
             - op: replace
               path: /data/config.json/prometheus/provider/address
-              value: "http://prometheus-operated.observability.svc.cluster.local:8083"
+              value: "http://prometheus-operated.observability.svc.cluster.local:9090"
 
       # https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
       helm:
