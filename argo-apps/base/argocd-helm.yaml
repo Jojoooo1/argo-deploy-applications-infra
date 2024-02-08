@@ -20,19 +20,9 @@ spec:
     #   selfHeal: true
       
   sources:
-    - repoURL: https://github.com/argoproj-labs/argocd-extension-metrics.git
-      targetRevision: main # v1.0.0 is not updated
-      path: manifests
-      kustomize:
-        patches:
-          - target:
-              kind: ConfigMap
-              name: argocd-metrics-server-configmap
-              namespace: argocd
-            patch: |-
-              - op: add
-                path: /data/config.json/test
-                value: "test"
+      # Do not use official repo has argo do not allow (yet) kustomize patch inside Application # https://github.com/argoproj/argo-cd/issues/16352
+    - repoURL: https://github.com/Jojoooo1/argocd-extensions-metrics.git
+      targetRevision: main
 
     - chart: argo-cd
       repoURL: https://argoproj.github.io/argo-helm
