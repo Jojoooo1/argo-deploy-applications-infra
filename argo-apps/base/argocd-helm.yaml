@@ -61,7 +61,7 @@ spec:
                   - name: metrics
                     backend:
                       services:
-                      - url: http://prometheus-operated.observability.svc.cluster.local:9090
+                      - url: http://argocd-server-metrics.svc.cluster.local:8083
                   - name: httpbin
                     backend:
                       connectionTimeout: 2s
