@@ -71,7 +71,7 @@ spec:
                   - name: metrics
                     backend:
                       services:
-                      - url: http://argocd-server-metrics.argocd.svc.cluster.local:8083
+                      - url: http://argocd-metrics-server.argocd.svc.cluster.local:9003
 
             params:
               server.insecure: true
