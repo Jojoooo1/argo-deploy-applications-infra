@@ -33,6 +33,10 @@ spec:
       helm:
         valuesObject:
           fullnameOverride: argocd
+          global:
+            domain: argo${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN}
+            logging: json
+            
           applicationSet:
             enabled: false
           notifications:
@@ -193,8 +197,6 @@ spec:
             ingress:
               enabled: true
               ingressClassName: "nginx"
-              hosts:
-                - argo${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN}
 
             extensions:
               enabled: true
