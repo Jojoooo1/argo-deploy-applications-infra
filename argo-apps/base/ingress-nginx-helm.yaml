@@ -30,7 +30,7 @@ spec:
         fullnameOverride: ingress-nginx
         controller:
           allowSnippetAnnotations: true
-          service:
+          # service:
             # do not work locally
             # externalTrafficPolicy: Local # Used to allow whitelist by IP
 
