@@ -35,8 +35,9 @@ spec:
           fullnameOverride: argocd
           global:
             domain: argo${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN}
-            logging: json
-            
+            logging: 
+              format: json
+
           applicationSet:
             enabled: false
           notifications:
