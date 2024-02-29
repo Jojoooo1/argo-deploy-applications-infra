@@ -22,7 +22,7 @@ spec:
   source:
     chart: ingress-nginx
     repoURL: "https://kubernetes.github.io/ingress-nginx"
-    targetRevision: 4.10.0
+    targetRevision: 4.10.0 # 4.9.1
 
     # https://github.com/kubernetes/ingress-nginx/tree/main/charts/ingress-nginx
     helm:
@@ -31,7 +31,8 @@ spec:
         controller:
           allowSnippetAnnotations: true
           service:
-            externalTrafficPolicy: Local # Used to allow whitelist by IP
+            # do not work locally
+            # externalTrafficPolicy: Local # Used to allow whitelist by IP
 
           ## Resources ##
           resources:
