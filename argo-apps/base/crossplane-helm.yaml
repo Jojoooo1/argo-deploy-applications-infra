@@ -1,0 +1,78 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: infra-crossplane-helm
+  namespace: argocd
+
+  # Add this finalizer ONLY if you want these to cascade delete (A cascade delete, deletes both the app and its resources, rather than only the app.)
+  # finalizers:
+  #   - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+
+    # automated:
+    #   prune: true
+    #   selfHeal: true
+      
+  source:
+    chart: crossplane-stable
+    repoURL: https://charts.crossplane.io/stable
+    targetRevision: 1.14.5
+
+    # https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
+    helm:
+      valuesObject:
+        fullnameOverride: crossplane
+
+        resourcesCrossplane:
+          limits:
+            cpu: 100m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 256Mi
+        resourcesRBACManager:
+          limits:
+            cpu: 100m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          
+        metrics:
+          enabled: true
+  
+        extraObjects:
+          # https://github.com/upbound/provider-gcp
+          - apiVersion: pkg.crossplane.io/v1
+            kind: Provider
+            metadata:
+              name: crossplane-gcp-provider-gcp
+            spec:
+              package: xpkg.upbound.io/upbound/provider-gcp:v0.41.1
+
+          - apiVersion: pkg.crossplane.io/v1alpha1
+            kind: ControllerConfig
+            metadata:
+              name: crossplane-controller-config
+              annotations:    
+                iam.gke.io/gcp-service-account: crossplane-system@your-project.iam.gserviceaccount.com
+            spec:
+              serviceAccountName: crossplane-system-sa
+
+          # https://github.com/crossplane-contrib/provider-gcp
+          # - apiVersion: pkg.crossplane.io/v1
+          #   kind: Provider
+          #   metadata:
+          #     name: provider-gcp
+          #   spec:
+          #     package: crossplane/provider-gcp:alpha
+
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: crossplane-system
