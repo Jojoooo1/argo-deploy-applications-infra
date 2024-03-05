@@ -44,12 +44,13 @@ spec:
           # - name: KC_HOSTNAME_ADMIN_URL
           #   value: "http://identity-local.cloud-diplomats.com"
 
+
           - name: JAVA_OPTS
-            # Update default JAVA_OPTS from 22.0.5: https://github.com/keycloak/keycloak/blob/b99eb52cee6b0da081b7a1ba9c562deae55b5da0/quarkus/dist/src/main/content/bin/kc.sh#L90
-            # to use MinRAMPercentage/MaxRAMPercentage instead of Xms/Xmx
-            value: "-XX:MinRAMPercentage=60.0 -XX:MaxRAMPercentage=75.0 -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m -Dfile.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -Dsun.err.encoding=UTF-8 -Dstdout.encoding=UTF-8 -Dstderr.encoding=UTF-8 -XX:+ExitOnOutOfMemoryError -Djava.security.egd=file:/dev/urandom -XX:+UseParallelGC -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:FlightRecorderOptions=stackdepth=512"
+            # Update default JAVA_OPTS from 24.0.0: https://github.com/keycloak/keycloak/blob/4fa940a31ef2ee0e5f12c1987bc7c6294b2ad6d5/quarkus/dist/src/main/content/bin/kc.sh#L100
+            value: "-XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m -Dfile.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -Dsun.err.encoding=UTF-8 -Dstdout.encoding=UTF-8 -Dstderr.encoding=UTF-8 -XX:+ExitOnOutOfMemoryError -Djava.security.egd=file:/dev/urandom -XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:FlightRecorderOptions=stackdepth=512"
       
         ## Mode ##
+        # TODO: --proxy deprecated in 24.0
         # production: true
         production: false 
         proxy: edge
@@ -140,13 +141,15 @@ spec:
         ## Plugins ##
         initContainers:
           - name: download-kc-plugins
-            image: alpine:3.18.4
+            image: alpine:3.19.1
             command:
               - sh
             args:
               - -c
               - |
-                wget https://github.com/aerogear/keycloak-metrics-spi/releases/download/4.0.0/keycloak-metrics-spi-4.0.0.jar -O /providers/keycloak-metrics-spi.jar
+                KC_METRICS_VERSION="5.0.0"
+                KC_METRICS_URL="https://github.com/aerogear/keycloak-metrics-spi/releases/download/$KC_METRICS_VERSION/keycloak-metrics-spi-$KC_METRICS_VERSION.jar"
+                wget "$KC_URL" -O /providers/keycloak-metrics-spi.jar
                 chmod +x /providers/keycloak-metrics-spi.jar
                 touch /providers/keycloak-metrics-spi.jar.dodeploy
 
@@ -166,6 +169,7 @@ spec:
     server: "https://kubernetes.default.svc"
     namespace: keycloak
 
+  # Only used for local testing.
   ignoreDifferences:
     - kind: Secret
       name: keycloak-cert
