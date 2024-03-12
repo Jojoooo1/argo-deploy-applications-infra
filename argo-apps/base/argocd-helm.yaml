@@ -27,7 +27,7 @@ spec:
 
     - chart: argo-cd
       repoURL: https://argoproj.github.io/argo-helm
-      targetRevision: 6.6.0
+      targetRevision: 6.7.1
 
       # https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
       helm:
@@ -149,7 +149,7 @@ spec:
             extraContainers:        
               - name: envsubst
                 command: [/var/run/argocd/argocd-cmp-server]
-                image: quay.io/argoproj/argocd:v2.10.1
+                image: quay.io/argoproj/argocd:v2.10.2
                 securityContext:
                   runAsNonRoot: true
                   runAsUser: 999
@@ -208,6 +208,11 @@ spec:
                       value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.1/extension.tar.gz
                     - name: EXTENSION_CHECKSUM_URL
                       value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.1/extension_checksums.txt
+                - name: rollout
+                  env:
+                    - name: EXTENSION_URL
+                      value: https://github.com/argoproj-labs/rollout-extension/releases/download/v0.3.4/extension.tar
+                   
               resources: {}
                 # limits:
                 #   cpu: 50m
