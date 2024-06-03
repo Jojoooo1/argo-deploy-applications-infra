@@ -27,12 +27,16 @@ spec:
 
     - chart: argo-cd
       repoURL: https://argoproj.github.io/argo-helm
-      targetRevision: 6.7.3
+      targetRevision: 7.1.1
 
       # https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
       helm:
         valuesObject:
           fullnameOverride: argocd
+          crds:
+            install: true
+            annotations:
+              argocd.argoproj.io/sync-wave: "-1"
           global:
             domain: argo${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN}
             logging: 

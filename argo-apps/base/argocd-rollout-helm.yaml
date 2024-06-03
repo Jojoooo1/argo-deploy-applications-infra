@@ -22,12 +22,15 @@ spec:
   source:
     chart: argo-rollouts
     repoURL: https://argoproj.github.io/argo-helm
-    targetRevision: 2.34.3
+    targetRevision: 2.35.3
 
     # https://github.com/argoproj/argo-helm/tree/main/charts/argo-rollouts
     helm:
       valuesObject:
         fullnameOverride: argocd-rollout
+
+        crdAnnotations:
+          argocd.argoproj.io/sync-wave: "-1"
         
         ## Controller ##
         controller:
