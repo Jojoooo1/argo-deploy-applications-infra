@@ -144,7 +144,7 @@ spec:
 
             initContainers:
               - name: download-tools
-                image: golang:1.21.6-alpine
+                image: golang:1.22.4-alpine3.20
                 command: [sh, -c]
                 args:
                   - apk add git && go install github.com/drone/envsubst/cmd/envsubst@v1.0.3 && mv $GOPATH/bin/envsubst /custom-tools/
@@ -211,13 +211,13 @@ spec:
                 - name: metrics
                   env:
                     - name: EXTENSION_URL
-                      value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.1/extension.tar.gz
+                      value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.3/extension.tar.gz
                     - name: EXTENSION_CHECKSUM_URL
-                      value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.1/extension_checksums.txt
+                      value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.3/extension_checksums.txt
                 - name: rollout
                   env:
                     - name: EXTENSION_URL
-                      value: https://github.com/argoproj-labs/rollout-extension/releases/download/v0.3.4/extension.tar
+                      value: https://github.com/argoproj-labs/rollout-extension/releases/download/v0.3.5/extension.tar
                    
               resources: {}
                 # limits:
