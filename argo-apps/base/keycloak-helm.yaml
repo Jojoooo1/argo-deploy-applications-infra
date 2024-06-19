@@ -44,10 +44,7 @@ spec:
           # - name: KC_HOSTNAME_ADMIN_URL
           #   value: "http://identity-local.cloud-diplomats.com"
 
-
-          - name: JAVA_OPTS
-            # Update default JAVA_OPTS from 24.0.0: https://github.com/keycloak/keycloak/blob/4fa940a31ef2ee0e5f12c1987bc7c6294b2ad6d5/quarkus/dist/src/main/content/bin/kc.sh#L100
-            value: "-XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m -Dfile.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -Dsun.err.encoding=UTF-8 -Dstdout.encoding=UTF-8 -Dstderr.encoding=UTF-8 -XX:+ExitOnOutOfMemoryError -Djava.security.egd=file:/dev/urandom -XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:FlightRecorderOptions=stackdepth=512"
+          # add --hostname-backchannel-dynamic true
       
         ## Mode ##
         # TODO: --proxy deprecated in 24.0
