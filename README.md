@@ -1,3 +1,7 @@
+# Medium
+
+[Deploy infra stack using self-managed ArgoCD with Cert Manager, ExternalDNS, External Secrets Op, Ingress-Nginx, Keycloak and RabbitMQ (8/17)](https://medium.com/@jojoooo/deploy-infra-stack-using-self-managed-argocd-with-cert-manager-externaldns-external-secrets-op-640fe8c1587b)
+
 # ArgoCD Infra labs
 
 ## Apps

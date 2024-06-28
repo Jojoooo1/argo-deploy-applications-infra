@@ -45,6 +45,7 @@ spec:
           #   value: "http://identity-local.cloud-diplomats.com"
 
           # add --hostname-backchannel-dynamic true
+          # --features="persistent-user-sessions" # If a session is not found in memory, it is loaded from the database (https://www.keycloak.org/2024/06/persistent-user-sessions-in-preview)
       
         ## Mode ##
         # TODO: --proxy deprecated in 24.0
