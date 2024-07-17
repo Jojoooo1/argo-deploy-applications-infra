@@ -22,7 +22,7 @@ spec:
   source:
     chart: ingress-nginx
     repoURL: "https://kubernetes.github.io/ingress-nginx"
-    targetRevision: 4.10.1
+    targetRevision: 4.11.0
 
     # https://github.com/kubernetes/ingress-nginx/tree/main/charts/ingress-nginx
     helm:
@@ -94,8 +94,52 @@ spec:
           config:
             # https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/log-format/
             log-format-escape-json: "true"
-            log-format-upstream: '{"@timestamp":"$time_iso8601","request_id":"$req_id","service_name":"$service_name","status":"$status","duration":"$request_time","method":"$request_method","host":"$host","path":"$uri","request_query":"$args","request_length":"$request_length","bytes_sent":"$bytes_sent","http_version":"$server_protocol","http_referrer":"$http_referer","http_user_agent":"$http_user_agent","remote_addr":"$proxy_protocol_addr","remote_user":"$remote_user","x_forwarded_for":"$proxy_add_x_forwarded_for"}'            
-              
+            log-format-upstream: '{"@timestamp":"$time_iso8601","request_id":"$req_id","service_name":"$service_name","status":"$status","duration":"$request_time","method":"$request_method","host":"$host","path":"$uri","request_query":"$args","request_length":"$request_length","bytes_sent":"$bytes_sent","http_version":"$server_protocol","http_referrer":"$http_referer","http_user_agent":"$http_user_agent","remote_addr":"$proxy_protocol_addr","remote_user":"$remote_user","x_forwarded_for":"$proxy_add_x_forwarded_for"}'    
+
+            # # Enable Modsecurity and the OWASP Core rule set
+            # enable-modsecurity: "true"
+            # # Update ModSecurity config and rules
+            # modsecurity-snippet: |
+            #   # this enables the mod security nextcloud plugin
+            #   Include /etc/nginx/owasp-modsecurity-crs/plugins/nextcloud-rule-exclusions-before.conf
+
+            #   # this enables the default OWASP Core Rule Set
+            #   Include /etc/nginx/owasp-modsecurity-crs/nginx-modsecurity.conf
+
+            #   # Enable prevention mode. Options: DetectionOnly,On,Off (default is DetectionOnly)
+            #   SecRuleEngine On
+
+            #   # Enable scanning of the request body
+            #   SecRequestBodyAccess On
+
+            #   # Enable XML and JSON parsing
+            #   SecRule REQUEST_HEADERS:Content-Type "(?:text|application(?:/soap\+|/)|application/xml)/" \
+            #     "id:200000,phase:1,t:none,t:lowercase,pass,nolog,ctl:requestBodyProcessor=XML"
+
+            #   SecRule REQUEST_HEADERS:Content-Type "application/json" \
+            #     "id:200001,phase:1,t:none,t:lowercase,pass,nolog,ctl:requestBodyProcessor=JSON"
+
+            #   # Reject if larger (we could also let it pass with ProcessPartial)
+            #   SecRequestBodyLimitAction Reject
+
+            #   # Send ModSecurity audit logs to the stdout (only for rejected requests)
+            #   SecAuditLog /dev/stdout
+
+            #   # format the logs in JSON
+            #   SecAuditLogFormat JSON
+
+            #   # could be On/Off/RelevantOnly
+            #   SecAuditEngine RelevantOnly
+
+            # extraVolumes:
+            #   - name: plugins
+            #     configMap:
+            #       name: modsecurity-plugins
+
+            # # override the /etc/nginx/enable-owasp-modsecurity-crs/plugins with the ConfigMap
+            # extraVolumeMounts:
+            #   - name: plugins
+            #     mountPath: /etc/nginx/owasp-modsecurity-crs/plugins
 
   destination:
     server: "https://kubernetes.default.svc"

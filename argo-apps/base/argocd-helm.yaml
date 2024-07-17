@@ -38,8 +38,8 @@ spec:
             annotations:
               argocd.argoproj.io/sync-wave: "-1"
           global:
-            image: 
-              tag: v2.12.0-rc1
+            # image: 
+            #   tag: v2.12.0-rc1
             domain: argo${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN}
             logging: 
               format: json
@@ -109,7 +109,7 @@ spec:
             metrics:
               enabled: true
               serviceMonitor:
-                enabled: true
+                enabled: false
                 namespace: argocd
                 additionalLabels:
                   prometheus.io/scrap-with: kube-prometheus-stack
@@ -180,7 +180,7 @@ spec:
             metrics:
               enabled: true
               serviceMonitor:
-                enabled: true
+                enabled: false
                 namespace: argocd
                 additionalLabels:
                   prometheus.io/scrap-with: kube-prometheus-stack
@@ -197,7 +197,7 @@ spec:
             metrics:
               enabled: true
               serviceMonitor:
-                enabled: true
+                enabled: false
                 additionalLabels:
                   prometheus.io/scrap-with: kube-prometheus-stack
                 namespace: argocd
@@ -239,7 +239,7 @@ spec:
             metrics:
               enabled: true
               serviceMonitor:
-                enabled: true
+                enabled: false
                 additionalLabels:
                   prometheus.io/scrap-with: kube-prometheus-stack
                 namespace: argocd
