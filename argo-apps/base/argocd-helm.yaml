@@ -27,7 +27,7 @@ spec:
 
     - chart: argo-cd
       repoURL: https://argoproj.github.io/argo-helm
-      targetRevision: 7.1.5
+      targetRevision: 7.3.8
 
       # https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
       helm:
@@ -155,7 +155,7 @@ spec:
             extraContainers:        
               - name: envsubst
                 command: [/var/run/argocd/argocd-cmp-server]
-                image: quay.io/argoproj/argocd:v2.10.2
+                image: quay.io/argoproj/argocd:v2.11.5
                 securityContext:
                   runAsNonRoot: true
                   runAsUser: 999
