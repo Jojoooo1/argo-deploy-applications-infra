@@ -55,7 +55,7 @@ spec:
               url: http://argo${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN}
               exec.enabled: "true"
               kustomize.buildOptions: "--load-restrictor LoadRestrictionsNone"
-              application.resourceTrackingMethod: annotation
+              application.resourceTrackingMethod: annotation+labels
 
 
               # DO NOT USE in production, this is only used to improve reconciliation in testing env.
