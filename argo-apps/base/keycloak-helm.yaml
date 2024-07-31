@@ -113,7 +113,7 @@ spec:
         ingress:
           enabled: true
           ingressClassName: nginx
-          hostname: identity${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN}
+          hostname: identity-local.cloud-diplomats.localhost # identity${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN}
           tls: true
           annotations:
             nginx.ingress.kubernetes.io/proxy-buffer-size: "128k" # A common issue with Keycloak and nginx is that the proxy buffer may be too small for what Keycloak is trying to send. This will result in a Bad Gateway (502) error.
