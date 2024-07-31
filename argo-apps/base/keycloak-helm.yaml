@@ -36,11 +36,10 @@ spec:
 
         ## Configuration ##
         extraEnvVars:
-          # Needed for testing locally.
-          - name: KC_HOSTNAME_STRICT
+          - name: KC_HOSTNAME_STRICT # Needed for testing locally.
             value: "false"
           - name: KC_HOSTNAME
-            value: "keycloak.keycloak.svc.cluster.local"
+            value: "http://identity-local.cloud-diplomats.com"
           - name: KC_HOSTNAME_ADMIN_URL
             value: "http://identity-local.cloud-diplomats.com"
 
