@@ -36,14 +36,18 @@ spec:
 
         ## Configuration ##
         extraEnvVars:
-          - name: KC_HOSTNAME_STRICT # Needed for testing locally.
-            value: "false"
+          # - name: KC_HOSTNAME_STRICT # Needed for testing locally.
+          #   value: "false"
           - name: KC_HOSTNAME
-            value: "http://identity-local.cloud-diplomats.com"
+            value: "http://identity-local.cloud-diplomats.localhost"
           - name: KC_HOSTNAME_ADMIN_URL
-            value: "http://identity-local.cloud-diplomats.com"
-          - name: KC_HOSTNAME_DEBUG
-            value: "true"
+            value: "http://identity-local.cloud-diplomats.localhost"
+          # - name: KC_HOSTNAME
+          #   value: "http://identity-local.cloud-diplomats.com"
+          # - name: KC_HOSTNAME_ADMIN_URL
+          #   value: "http://identity-local.cloud-diplomats.com"
+          # - name: KC_HOSTNAME_DEBUG
+          #   value: "true"
 
           # --features="persistent-user-sessions" # If a session is not found in memory, it is loaded from the database (https://www.keycloak.org/2024/06/persistent-user-sessions-in-preview)
       
@@ -54,7 +58,7 @@ spec:
         production: false
         # proxy: edge
         proxyHeaders: xforwarded
-        command: [sslRequired=NONE]
+        # command: [sslRequired=NONE]
 
         ## Replica ##
         # autoscaling:
