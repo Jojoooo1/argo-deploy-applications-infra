@@ -38,14 +38,14 @@ spec:
         extraEnvVars:
           # - name: KC_HOSTNAME_STRICT # Needed for testing locally.
           #   value: "false"
-          - name: KC_HOSTNAME
-            value: "http://identity-local.cloud-diplomats.localhost"
-          - name: KC_HOSTNAME_ADMIN_URL
-            value: "http://identity-local.cloud-diplomats.localhost"
           # - name: KC_HOSTNAME
-          #   value: "http://identity-local.cloud-diplomats.com"
+          #   value: "http://identity-local.cloud-diplomats.localhost"
           # - name: KC_HOSTNAME_ADMIN_URL
-          #   value: "http://identity-local.cloud-diplomats.com"
+          #   value: "http://identity-local.cloud-diplomats.localhost"
+          - name: KC_HOSTNAME
+            value: "http://identity-local.cloud-diplomats.com"
+          - name: KC_HOSTNAME_ADMIN_URL
+            value: "http://identity-local.cloud-diplomats.com"
           - name: KC_HOSTNAME_DEBUG
             value: "true"
 
@@ -113,7 +113,7 @@ spec:
         ingress:
           enabled: true
           ingressClassName: nginx
-          hostname: identity-local.cloud-diplomats.localhost # identity${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN}
+          hostname: identity${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN} # identity-local.cloud-diplomats.localhost
           tls: true
           annotations:
             nginx.ingress.kubernetes.io/proxy-buffer-size: "128k" # A common issue with Keycloak and nginx is that the proxy buffer may be too small for what Keycloak is trying to send. This will result in a Bad Gateway (502) error.
