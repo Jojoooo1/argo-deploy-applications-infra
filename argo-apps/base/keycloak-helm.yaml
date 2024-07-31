@@ -36,29 +36,17 @@ spec:
 
         ## Configuration ##
         extraEnvVars:
-          # - name: KC_HOSTNAME_STRICT # Needed for testing locally.
-          #   value: "false"
-          # - name: KC_HOSTNAME
-          #   value: "http://identity-local.cloud-diplomats.localhost"
-          # - name: KC_HOSTNAME_ADMIN_URL
-          #   value: "http://identity-local.cloud-diplomats.localhost"
+          # Since Keycloak 24 this is necessary to use a secure context cf. https://github.com/keycloak/keycloak/issues/24821#issuecomment-2173244637
           - name: KC_HOSTNAME
-            value: "http://identity-local.cloud-diplomats.com"
+            value: "http://identity-local.cloud-diplomats.localhost"
           - name: KC_HOSTNAME_ADMIN_URL
-            value: "http://identity-local.cloud-diplomats.com"
-          - name: KC_HOSTNAME_DEBUG
-            value: "true"
+            value: "http://identity-local.cloud-diplomats.localhost"
 
           # --features="persistent-user-sessions" # If a session is not found in memory, it is loaded from the database (https://www.keycloak.org/2024/06/persistent-user-sessions-in-preview)
       
         ## Mode ##
-        # --proxy deprecated in 24.0 
-        # -> strict hostname: --hostname="your-domain" --hostname-admin="your-domain" --hostname-strict=true
-        # -> derived from LB headers: --proxy-headers=forwarded|xforwarded --hostname-strict=false
         production: false
-        # proxy: edge
         proxyHeaders: xforwarded
-        # command: [sslRequired=NONE]
 
         ## Replica ##
         # autoscaling:
@@ -113,7 +101,7 @@ spec:
         ingress:
           enabled: true
           ingressClassName: nginx
-          hostname: identity${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN} # identity-local.cloud-diplomats.localhost
+          hostname: identity-local.cloud-diplomats.localhost # identity${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN}
           tls: true
           annotations:
             nginx.ingress.kubernetes.io/proxy-buffer-size: "128k" # A common issue with Keycloak and nginx is that the proxy buffer may be too small for what Keycloak is trying to send. This will result in a Bad Gateway (502) error.
