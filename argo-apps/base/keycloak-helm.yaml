@@ -50,7 +50,8 @@ spec:
         # -> strict hostname: --hostname="your-domain" --hostname-admin="your-domain" --hostname-strict=true
         # -> derived from LB headers: --proxy-headers=forwarded|xforwarded --hostname-strict=false
         production: false
-        proxy: edge
+        # proxy: edge
+        proxyHeaders: xforwarded
 
         ## Replica ##
         # autoscaling:
