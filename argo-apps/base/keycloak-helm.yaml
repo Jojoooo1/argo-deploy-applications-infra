@@ -38,9 +38,9 @@ spec:
         extraEnvVars:
           # Since Keycloak 24 this is necessary to use a secure context cf. https://github.com/keycloak/keycloak/issues/24821#issuecomment-2173244637
           - name: KC_HOSTNAME
-            value: "http://identity-local.cloud-diplomats.com"
+            value: "http://identity-local.cloud-diplomats.localhost"
           - name: KC_HOSTNAME_ADMIN_URL
-            value: "http://identity-local.cloud-diplomats.com"
+            value: "http://identity-local.cloud-diplomats.localhost"
           - name: KC_HTTP_ENABLED
             value: "true"
           - name: KC_FEATURES
@@ -105,7 +105,7 @@ spec:
         ingress:
           enabled: true
           ingressClassName: nginx
-          hostname: identity${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN} # identity-local.cloud-diplomats.localhost # 
+          hostname: identity-local.cloud-diplomats.localhost # identity${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN}
           tls: true
           annotations:
             nginx.ingress.kubernetes.io/proxy-buffer-size: "128k" # A common issue with Keycloak and nginx is that the proxy buffer may be too small for what Keycloak is trying to send. This will result in a Bad Gateway (502) error.
