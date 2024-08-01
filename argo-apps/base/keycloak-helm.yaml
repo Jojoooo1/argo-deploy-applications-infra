@@ -41,13 +41,14 @@ spec:
             value: "http://identity-local.cloud-diplomats.localhost"
           - name: KC_HOSTNAME_ADMIN_URL
             value: "http://identity-local.cloud-diplomats.localhost"
+          - name: KEYCLOAK_EXTRA_ARGS_PREPENDED
+            value: "--features=preview"
 
           # --features="persistent-user-sessions" # If a session is not found in memory, it is loaded from the database (https://www.keycloak.org/2024/06/persistent-user-sessions-in-preview)
       
         ## Mode ##
         production: false
         proxyHeaders: xforwarded
-        args: ["--features=preview"]
 
         ## Replica ##
         # autoscaling:
