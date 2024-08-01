@@ -143,7 +143,7 @@ spec:
               - |
                 KC_METRICS_VERSION="6.0.0"
                 KC_METRICS_URL="https://github.com/aerogear/keycloak-metrics-spi/releases/download/$KC_METRICS_VERSION/keycloak-metrics-spi-$KC_METRICS_VERSION.jar"
-                wget "$KC_URL" -O /providers/keycloak-metrics-spi.jar
+                wget "$KC_METRICS_URL" -O /providers/keycloak-metrics-spi.jar
                 chmod +x /providers/keycloak-metrics-spi.jar
                 touch /providers/keycloak-metrics-spi.jar.dodeploy
 
