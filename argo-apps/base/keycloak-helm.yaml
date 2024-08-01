@@ -41,8 +41,6 @@ spec:
             value: "http://identity-local.cloud-diplomats.localhost"
           - name: KC_HOSTNAME_ADMIN_URL
             value: "http://identity-local.cloud-diplomats.localhost"
-          - name: KC_HTTP_ENABLED
-            value: "true"
           - name: KC_FEATURES
             value: "preview"
 
