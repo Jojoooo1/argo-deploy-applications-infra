@@ -47,7 +47,7 @@ spec:
         ## Mode ##
         production: false
         proxyHeaders: xforwarded
-        command: ["--features=organization"]
+        args: ["--features=preview"]
 
         ## Replica ##
         # autoscaling:
