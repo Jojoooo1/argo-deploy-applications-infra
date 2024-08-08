@@ -56,7 +56,7 @@ spec:
             enabled: true
 
             serviceMonitor:
-              enabled: false # true
+              enabled: true # true
               namespace: ingress-nginx
               additionalLabels:
                 prometheus.io/scrap-with: kube-prometheus-stack
