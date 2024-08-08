@@ -18,7 +18,7 @@ spec:
   source:
     chart: rabbitmq
     repoURL: https://charts.bitnami.com/bitnami
-    targetRevision: 14.6.5
+    targetRevision: 14.6.6
 
     # https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq
     helm:
@@ -52,7 +52,7 @@ spec:
           existingErlangSecret: rabbitmq-secrets # rabbitmq-erlang-cookie
 
          ## Configurations ##
-        communityPlugins: https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases/download/v3.12.0/rabbitmq_delayed_message_exchange-3.12.0.ez
+        communityPlugins: https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases/download/v3.13.0/rabbitmq_delayed_message_exchange-3.13.0.ez
         extraPlugins: rabbitmq_delayed_message_exchange rabbitmq_shovel rabbitmq_shovel_management
         loadDefinition: 
           enabled: true

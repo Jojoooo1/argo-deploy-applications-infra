@@ -42,7 +42,7 @@ spec:
 
         prometheus:
           servicemonitor:
-            enabled: false
+            enabled: true
             labels:
               prometheus.io/scrap-with: kube-prometheus-stack
         extraArgs:
