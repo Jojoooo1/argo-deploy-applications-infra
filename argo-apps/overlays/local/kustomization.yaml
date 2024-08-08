@@ -8,8 +8,8 @@ resources:
   # - ../../../argo-apps/base/argocd-rollout-helm.yaml
   # - ../../../argo-apps/base/argocd-image-updater-helm.yaml
   - ../../../argo-apps/base/cert-manager-helm.yaml
-  # - ../../../argo-apps/base/external-secrets-op-helm.yaml
+  - ../../../argo-apps/base/external-secrets-op-helm.yaml
   - ../../../argo-apps/base/ingress-nginx-helm.yaml
   - ../../../argo-apps/base/keycloak-helm.yaml
-  # - ../../../argo-apps/base/rabbitmq-helm.yaml
+  - ../../../argo-apps/base/rabbitmq-helm.yaml
   # - ../../../argo-apps/base/shared-app.yaml
